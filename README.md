@@ -2,6 +2,7 @@
 
 ## structure 
 
+```
 project/
 │
 ├── envs/                 # (optional) custom wrappers, env configs
@@ -10,8 +11,9 @@ project/
 ├── configs/              # yaml/json hyperparameter configs
 │
 └── runs/                 # ⬅ all experiment output goes here
+```
 
-
+```
 runs/
 │
 ├── humanoid_v5_ppo_seed0/
@@ -22,3 +24,4 @@ runs/
 │   └── results.json      # final metrics summary
 │
 ├── humanoid_v5_ppo_seed1/
+```
