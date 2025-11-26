@@ -1,9 +1,11 @@
+import json
 import os
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO
 from envs.vec_env import make_env
 import yaml
+from scripts.view_vec_env import save_gif
 
 PPO_CONFIG = {
     "env_id": "Humanoid-v5",
@@ -24,14 +26,14 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 50e6,
+    "timesteps": 200_000,
     "seed": 0,
     "n_envs": 8,
 }
 
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
-        "save_freq": 100_000,
+        "save_freq": 50_000,
         "save_vecnormalize": True,
         "name_prefix": "ckpt"
     },
@@ -56,6 +58,18 @@ def main():
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
                 callback=[checkpoint_callback, eval_callback, plot_callback])
+    
+    model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
+    env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
+    results_summary = {
+        "mean_reward_eval": float(eval_callback.last_mean_reward),
+        "n_eval_episodes": eval_callback.n_eval_episodes,
+        "timesteps": PPO_CONFIG["timesteps"]
+    }
+
+    with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
+        json.dump(results_summary, f, indent=4)
+    save_gif(RUN_DIR, display_steps=300)
 
 
 def make_run_dir(cfg):
