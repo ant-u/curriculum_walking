@@ -26,14 +26,14 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 200_000,
+    "timesteps": 50e6,
     "seed": 0,
     "n_envs": 8,
 }
 
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
-        "save_freq": 50_000,
+        "save_freq": 100_000,
         "save_vecnormalize": True,
         "name_prefix": "ckpt"
     },
