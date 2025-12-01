@@ -1,5 +1,5 @@
 import json
-import os
+import os, psutil
 import sys
 import time
 from scripts.util.callbacks import get_all_callbacks
@@ -51,13 +51,24 @@ CALLBACK_CONFIG = {
 }
 
 def main(RUN_DIR):
+    print("==== CPU INFO ====")
+    print("SLURM_CPUS_ON_NODE:", os.environ.get("SLURM_CPUS_ON_NODE"))
+    print("SLURM_CPUS_PER_TASK:", os.environ.get("SLURM_CPUS_PER_TASK"))
+
+    aff = psutil.Process().cpu_affinity()
+    print("CPU affinity:", aff)
+    print("Usable cores:", len(aff))
+
+    print("os.cpu_count():", os.cpu_count())
+    print("===================")
+
     env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR)
     
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
-                callback=[checkpoint_callback, plot_callback])  # eval_callback, 
+                callback=[checkpoint_callback, eval_callback, plot_callback])
     
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
