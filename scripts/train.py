@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO
@@ -26,14 +27,14 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 50e6,
+    "timesteps": 10e6,
     "seed": 0,
     "n_envs": 8,
 }
 
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
-        "save_freq": 100_000,
+        "save_freq": 1_000_000,
         "save_vecnormalize": True,
         "name_prefix": "ckpt"
     },
@@ -49,15 +50,14 @@ CALLBACK_CONFIG = {
     }
 }
 
-def main():
-    RUN_DIR = make_run_dir(PPO_CONFIG)
+def main(RUN_DIR):
     env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR)
     
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
-                callback=[checkpoint_callback, eval_callback, plot_callback])
+                callback=[checkpoint_callback, plot_callback])  # eval_callback, 
     
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
@@ -88,4 +88,8 @@ def make_run_dir(cfg):
 
 
 if __name__ == '__main__':
-    main()
+    if len(sys.argv) > 1:  # run_dir path given in call
+        run_dir = sys.argv[1]
+    else:
+        run_dir = make_run_dir(PPO_CONFIG)
+    main(run_dir)
