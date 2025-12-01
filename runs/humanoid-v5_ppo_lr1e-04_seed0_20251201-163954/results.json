@@ -1,0 +1,5 @@
+{
+    "mean_reward_eval": -Infinity,
+    "n_eval_episodes": 5,
+    "timesteps": 10000000.0
+}

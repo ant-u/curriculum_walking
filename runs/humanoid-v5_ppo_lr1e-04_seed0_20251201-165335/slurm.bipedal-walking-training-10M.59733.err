@@ -1,0 +1,53 @@
+slurmstepd-dacit: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-dacit: error: Setting TMPDIR to /tmp
+/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/vec_monitor.py:44: UserWarning: The environment is already wrapped with a `Monitor` wrapperbut you are wrapping it with a `VecMonitor` wrapper, the `Monitor` statistics will beoverwritten by the `VecMonitor` ones.
+  warnings.warn(
+/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/on_policy_algorithm.py:150: UserWarning: You are trying to run PPO on the GPU, but it is primarily intended to run on the CPU when not using a CNN policy (you are using ActorCriticPolicy which should be a MlpPolicy). See https://github.com/DLR-RM/stable-baselines3/issues/1245 for more info. You can pass `device='cpu'` or `export CUDA_VISIBLE_DEVICES=` to force using the CPU.Note: The model will train, but the GPU utilization will be poor and the training might take longer than on CPU.
+  warnings.warn(
+/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/glfw/__init__.py:917: GLFWError: (65550) b'X11: The DISPLAY environment variable is missing'
+  warnings.warn(message, GLFWError)
+/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/glfw/__init__.py:917: GLFWError: (65537) b'The GLFW library is not initialized'
+  warnings.warn(message, GLFWError)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/u/utz/source/curriculum_walking/scripts/train.py", line 106, in <module>
+    main(run_dir)
+  File "/home/u/utz/source/curriculum_walking/scripts/train.py", line 83, in main
+    save_gif(RUN_DIR, display_steps=300)
+  File "/home/u/utz/source/curriculum_walking/scripts/view_vec_env.py", line 49, in save_gif
+    frames = view_vec_env(run_dir, display_loop=1, display_steps=display_steps, export_gif=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/scripts/view_vec_env.py", line 40, in view_vec_env
+    frame = env.render()
+            ^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/base_vec_env.py", line 405, in render
+    return self.venv.render(mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/dummy_vec_env.py", line 104, in render
+    return super().render(mode=mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/base_vec_env.py", line 271, in render
+    images = self.get_images()
+             ^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/vec_env/dummy_vec_env.py", line 95, in get_images
+    return [env.render() for env in self.envs]  # type: ignore[misc]
+            ^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/core.py", line 337, in render
+    return self.env.render()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/envs/mujoco/mujoco_env.py", line 158, in render
+    return self.mujoco_renderer.render(self.render_mode)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 762, in render
+    viewer = self._get_viewer(render_mode=render_mode)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 786, in _get_viewer
+    self.viewer = OffScreenViewer(
+                  ^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 189, in __init__
+    super().__init__(model, data, width, height, max_geom, visual_options)
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/gymnasium/envs/mujoco/mujoco_rendering.py", line 74, in __init__
+    self.con = mujoco.MjrContext(self.model, mujoco.mjtFontScale.mjFONTSCALE_150)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+mujoco.FatalError: an OpenGL platform library has not been loaded into this process, this most likely means that a valid OpenGL context has not been created before mjr_makeContext was called
