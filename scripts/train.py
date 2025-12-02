@@ -40,7 +40,7 @@ CALLBACK_CONFIG = {
     },
     "eval_env_conf": {
         "env_seed": 0,
-        "eval_freq": 50_000,
+        "eval_freq": 500_000,
         "deterministic": True,
         "render": False,
     },
@@ -64,7 +64,7 @@ def main(RUN_DIR):
 
     env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
 
-    checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR)
+    checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
@@ -80,7 +80,7 @@ def main(RUN_DIR):
 
     with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
         json.dump(results_summary, f, indent=4)
-    save_gif(RUN_DIR, display_steps=300)
+    # save_gif(RUN_DIR, display_steps=300)
 
 
 def make_run_dir(cfg):

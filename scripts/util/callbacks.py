@@ -74,12 +74,12 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(cnfg, run_dir) -> tuple:
+def get_all_callbacks(cnfg, run_dir, n_envs: int=1) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
 
     checkpoint_callback = CheckpointCallback(
-        save_freq=cnfg["checkpoint_cb_conf"]["save_freq"],
+        save_freq=cnfg["checkpoint_cb_conf"]["save_freq"] // n_envs,
         save_path=CHECKPOINT_PATH,
         save_vecnormalize=cnfg["checkpoint_cb_conf"]["save_vecnormalize"],
         name_prefix=cnfg["checkpoint_cb_conf"]["name_prefix"]
@@ -90,7 +90,7 @@ def get_all_callbacks(cnfg, run_dir) -> tuple:
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,
         log_path=LOG_PATH,
-        eval_freq=cnfg["eval_env_conf"]["eval_freq"],
+        eval_freq=cnfg["eval_env_conf"]["eval_freq"] // n_envs,
         deterministic=cnfg["eval_env_conf"]["deterministic"],
         render=cnfg["eval_env_conf"]["render"],
     )
