@@ -5,7 +5,7 @@ from envs.vec_env import make_env, make_env_hmap
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
 
 class LivePlotCallback(BaseCallback):
-    def __init__(self, save_dir: str, window=100, update_freq=1000, verbose=0, log_level=2):
+    def __init__(self, save_dir: str, window=100, update_freq=20000, verbose=0, log_level=2):
         super().__init__(verbose)
         self.save_dir = save_dir  # folder where plot(s) shall be saved to
         self.window = window  # taking average off all {window} episodes
@@ -24,7 +24,7 @@ class LivePlotCallback(BaseCallback):
         self.line_length, = self.ax2.plot([], [], label="Avg episode length", color="tab:blue")
         self.line_reward, = self.ax2.plot([], [], label="Avg total reward", color="tab:red")
         self.ax2.set_title(f"Episode Statistics")
-        self.ax2.set_xlabel("Steps")
+        self.ax2.set_xlabel("Episodes")
         self.ax2.set_ylabel("Value")
         self.ax2.legend()
         self.fig2.tight_layout()
@@ -55,7 +55,7 @@ class LivePlotCallback(BaseCallback):
 
     def _plot(self):
         # --- Episode averages plot ---
-        x2 = np.arange(len(self.avg_episode_rewards['avg']))
+        x2 = np.arange(len(self.avg_episode_rewards['avg'])) * self.window  # converting to episodes
         self.line_reward.set_data(x2, self.avg_episode_rewards['avg'])
         y_q25 = self.avg_episode_rewards['q25']
         y_q75 = self.avg_episode_rewards['q75']
@@ -65,12 +65,15 @@ class LivePlotCallback(BaseCallback):
         self.line_length.set_data(x2, self.avg_episode_lengths)
         self.ax2.relim()
         self.ax2.autoscale_view()
+        self.fig2.canvas.draw()
+        self.fig2.canvas.flush_events()
+        self.save_plot()
         
     def _on_training_end(self):
+        self._plot()
         self.save_plot()
         
     def save_plot(self):
-        self._plot()
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         

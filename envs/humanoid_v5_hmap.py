@@ -26,7 +26,7 @@ class HumanoidEnvHmap(HumanoidEnv):
         height_map_dim = len(self.sample_points_local)
         low = np.concatenate([self.observation_space.low,-np.ones(height_map_dim) * 5.0])
         high = np.concatenate([self.observation_space.high,np.ones(height_map_dim) * 5.0])
-        self.observation_space = Box(low, high, dtype=np.float32)
+        self.observation_space = Box(low, high, dtype=np.float64)
 
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id

@@ -27,7 +27,7 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 1e6,
+    "timesteps": 15e6,
     "seed": 0,
     "n_envs": 8,
 }
@@ -58,8 +58,9 @@ def main(RUN_DIR):
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
-    model.learn(total_timesteps=PPO_CONFIG["timesteps"])  # callback=[checkpoint_callback, eval_callback, plot_callback]
-    
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"],
+                callback=[checkpoint_callback, eval_callback, plot_callback])
+
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
     results_summary = {
