@@ -18,6 +18,21 @@
             "request": "launch",
             "module": "scripts.train",
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "view_vec_env as module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.view_vec_env",
+            "cwd": "${workspaceFolder}",
+            "args": "${command:pickArgs}"
+        },
+        {
+            "name": "humanoid_v5_hmap as module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "envs.humanoid_v5_hmap",
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

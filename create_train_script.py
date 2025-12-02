@@ -13,8 +13,8 @@ def main():
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=Ant.Utz@campus.lmu.de
 #SBATCH -D ./
-#SBATCH -o ./{run_dir}/slurm.%j.%N.out
-#SBATCH -e ./{run_dir}/slurm.%x.%j.err
+#SBATCH -o ./{run_dir}/logs/slurm.%j.%N.out
+#SBATCH -e ./{run_dir}/logs/slurm.%x.%j.err
 #SBATCH --partition=NvidiaAll
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}

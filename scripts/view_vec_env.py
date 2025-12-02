@@ -1,17 +1,15 @@
 import argparse
-import gymnasium as gym
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import VecNormalize, DummyVecEnv
+from stable_baselines3.common.vec_env import VecNormalize
 from stable_baselines3.common.env_util import make_vec_env
 import imageio
 import os
-import torch
 from stable_baselines3 import PPO
-from envs.humanoid_v5 import HumanoidEnv  # your custom wrapper
+from envs.humanoid_v5_hmap import HumanoidEnvHmap
 
 
 def load_render_env(stats_path: str, seed: int = 0, render_mode: str = "human"):
-    env = make_vec_env(HumanoidEnv, n_envs=1, 
+    env = make_vec_env(HumanoidEnvHmap, n_envs=1, 
                        seed=seed, env_kwargs={"render_mode": render_mode})
     env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
 

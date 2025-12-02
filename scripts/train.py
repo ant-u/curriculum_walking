@@ -4,7 +4,7 @@ import sys
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO
-from envs.vec_env import make_env
+from envs.vec_env import make_env, make_env_hmap
 import yaml
 from scripts.view_vec_env import save_gif
 
@@ -27,7 +27,7 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 10e6,
+    "timesteps": 1e6,
     "seed": 0,
     "n_envs": 8,
 }
@@ -51,24 +51,14 @@ CALLBACK_CONFIG = {
 }
 
 def main(RUN_DIR):
-    print("==== CPU INFO ====")
-    print("SLURM_CPUS_ON_NODE:", os.environ.get("SLURM_CPUS_ON_NODE"))
-    print("SLURM_CPUS_PER_TASK:", os.environ.get("SLURM_CPUS_PER_TASK"))
-
-    aff = psutil.Process().cpu_affinity()
-    print("CPU affinity:", aff)
-    print("Usable cores:", len(aff))
-
-    print("os.cpu_count():", os.cpu_count())
-    print("===================")
-
-    env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+    print_cpu_info()
+    # env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+    env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     
     model = get_PPO(PPO_CONFIG, env, RUN_DIR)
-    model.learn(total_timesteps=PPO_CONFIG["timesteps"],
-                callback=[checkpoint_callback, eval_callback, plot_callback])
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"])  # callback=[checkpoint_callback, eval_callback, plot_callback]
     
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
@@ -96,6 +86,20 @@ def make_run_dir(cfg):
     with open(os.path.join(run_dir, "configs", "config_used.yaml"), "w") as f:
         yaml.dump(cfg, f)
     return run_dir
+
+
+def print_cpu_info():
+    """Printing info about cpus available to stdout, mostly important for slurm training."""
+    print("==== CPU INFO ====")
+    print("SLURM_CPUS_ON_NODE:", os.environ.get("SLURM_CPUS_ON_NODE"))
+    print("SLURM_CPUS_PER_TASK:", os.environ.get("SLURM_CPUS_PER_TASK"))
+
+    aff = psutil.Process().cpu_affinity()
+    print("CPU affinity:", aff)
+    print("Usable cores:", len(aff))
+
+    print("os.cpu_count():", os.cpu_count())
+    print("===================")
 
 
 if __name__ == '__main__':
