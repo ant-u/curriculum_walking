@@ -29,7 +29,7 @@ PPO_CONFIG = {
     
     "timesteps": 15e6,
     "seed": 0,
-    "n_envs": 8,
+    "n_envs": 12,
 }
 
 CALLBACK_CONFIG = {
