@@ -43,34 +43,23 @@ class HumanoidEnvHmap(HumanoidEnv):
     def _get_heightmap(self):
         points_world = self._local_to_world(self.sample_points_local)
         heights = []
-        # mask: only consider terrain group (group 1)
-        geomgroup = np.zeros(6, dtype=np.uint8)
-        geomgroup[1] = 1  
-        
+
         for pw in points_world:
-            # Ray starts slightly above point to avoid self-collision
-            ray_start = np.array([pw[0], pw[1], pw[2] + 1.0])
-            ray_dir = np.array([0, 0, -1.0])   # downward ray
-
-            geomid = np.array([-1], dtype=np.int32)
-            dist = mujoco.mj_ray(
-                self.model,
-                self.data,
-                ray_start,
-                ray_dir,
-                geomgroup,
-                1,      # flg_static: include static terrain
-                -1,     # bodyexclude: disable
-                geomid
-            )
-
-            if geomid[0] != -1:
-                hit_z = ray_start[2] - dist
-            else:
-                hit_z = 0.0
-
-            heights.append(hit_z)
-
+            # Get height directly from height field
+            hfield_id = 0
+            x_idx = int((pw[0] + self.model.hfield_size[hfield_id][0]/2) * 
+                    self.model.hfield_ncol[hfield_id] / self.model.hfield_size[hfield_id][0])
+            y_idx = int((pw[1] + self.model.hfield_size[hfield_id][1]/2) * 
+                    self.model.hfield_nrow[hfield_id] / self.model.hfield_size[hfield_id][1])
+            
+            # Ensure indices are within bounds
+            x_idx = max(0, min(x_idx, self.model.hfield_ncol[hfield_id]-1))
+            y_idx = max(0, min(y_idx, self.model.hfield_nrow[hfield_id]-1))
+            
+            # Get height from height field data
+            height = self.model.hfield_data[y_idx * self.model.hfield_ncol[hfield_id] + x_idx]
+            heights.append(height)
+        
         return np.array(heights, dtype=np.float32)
     
     def _get_obs(self):
