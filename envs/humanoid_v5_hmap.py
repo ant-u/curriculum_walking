@@ -1,13 +1,17 @@
 import mujoco
+import os
 from envs.humanoid_v5 import HumanoidEnv
 from gymnasium.spaces import Box
 import numpy as np
+
+from envs.levels import get_step_level
 
 class HumanoidEnvHmap(HumanoidEnv):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        path = os.path.abspath("./models/humanoid.xml")
+        super().__init__(xml_file=path, **kwargs)
         
         self.num_points_x = 7      # sideways sampling
         self.num_points_y = 5      # forward sampling
@@ -74,3 +78,6 @@ class HumanoidEnvHmap(HumanoidEnv):
         heightmap = self._get_heightmap()
 
         return np.concatenate([base_obs, heightmap]).astype(np.float32)
+    
+    def set_env_level_stairs(self, height, x_ratio, y_ratio):
+        self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)

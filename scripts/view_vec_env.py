@@ -23,8 +23,9 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 500,
     - display_steps gives how many steps per episode are rendered.
     """
     render_mode = "human" if not export_gif else "rgb_array"
-    model = PPO.load(os.path.join(run_dir, "checkpoints", "last_model"))
+    model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
     env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), render_mode=render_mode)
+    # env.venv.envs[0].env.set_env_level_stairs(0.5, -0.48, 0)
     
     frames = []
     obs = env.reset()
