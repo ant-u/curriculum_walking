@@ -27,7 +27,7 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 15e6,
+    "timesteps": 30e6,
     "seed": 0,
     "n_envs": 12,
 }
