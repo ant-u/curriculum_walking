@@ -61,7 +61,7 @@ class HumanoidEnvHmap(HumanoidEnv):
             height = self.model.hfield_data[y_idx * self.model.hfield_ncol[hfield_id] + x_idx]
             heights.append(height)
             
-            self.data.site_xpos[i] = [pw[0], pw[1], height]
+            self.data.site_xpos[i] = [pw[0], pw[1], height]  # updating pos of sites
         
         return np.array(heights, dtype=np.float32)
     
