@@ -1,10 +1,9 @@
-import mujoco
 import os
 from envs.humanoid_v5 import HumanoidEnv
 from gymnasium.spaces import Box
 import numpy as np
-
 from envs.levels import get_step_level
+
 
 class HumanoidEnvHmap(HumanoidEnv):
     """Humanoid-v5 environment with heightmap observation added.
@@ -15,12 +14,12 @@ class HumanoidEnvHmap(HumanoidEnv):
         
         self.num_points_x = 7      # sideways sampling
         self.num_points_y = 5      # forward sampling
-        self.x_width = 0.4         # meters left/right of pelvis
-        self.y_forward = 1.2       # meters in front of pelvis
-        self.y_start = 0.1         # skip the immediate area directly below
+        self.y_width = 0.4         # meters left/right of pelvis
+        self.x_forward = 1.2       # meters in front of pelvis
+        self.x_start = 0.1         # skip the immediate area directly below
 
-        xs = np.linspace(-self.x_width, self.x_width, self.num_points_x)
-        ys = np.linspace(self.y_start, self.y_forward, self.num_points_y)
+        xs = np.linspace(self.x_start, self.x_forward, self.num_points_x)
+        ys = np.linspace(-self.y_width, self.y_width, self.num_points_y)
 
         grid = []
         for y in ys:
@@ -28,6 +27,10 @@ class HumanoidEnvHmap(HumanoidEnv):
                 grid.append([x, y, 0])  
         self.sample_points_local = np.array(grid)
         height_map_dim = len(self.sample_points_local)
+        assert height_map_dim == len(self.data.site_xpos), "Number of observation points does NOT match "\
+        "number of site markers in humanoid.xml. Make sure there are exactly as much points in xml than "\
+        "defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
+
         low = np.concatenate([self.observation_space.low,-np.ones(height_map_dim) * 5.0])
         high = np.concatenate([self.observation_space.high,np.ones(height_map_dim) * 5.0])
         self.observation_space = Box(low, high, dtype=np.float64)
@@ -44,13 +47,11 @@ class HumanoidEnvHmap(HumanoidEnv):
         points_world = self._local_to_world(self.sample_points_local)
         heights = []
 
-        for pw in points_world:
+        for i, pw in enumerate(points_world):
             # Get height directly from height field
             hfield_id = 0
-            x_idx = int((pw[0] + self.model.hfield_size[hfield_id][0]/2) * 
-                    self.model.hfield_ncol[hfield_id] / self.model.hfield_size[hfield_id][0])
-            y_idx = int((pw[1] + self.model.hfield_size[hfield_id][1]/2) * 
-                    self.model.hfield_nrow[hfield_id] / self.model.hfield_size[hfield_id][1])
+            x_idx = self._get_hfield_index(pw[0], x=True, y=False)
+            y_idx = self._get_hfield_index(pw[1], x=False, y=True)
             
             # Ensure indices are within bounds
             x_idx = max(0, min(x_idx, self.model.hfield_ncol[hfield_id]-1))
@@ -59,6 +60,8 @@ class HumanoidEnvHmap(HumanoidEnv):
             # Get height from height field data
             height = self.model.hfield_data[y_idx * self.model.hfield_ncol[hfield_id] + x_idx]
             heights.append(height)
+            
+            self.data.site_xpos[i] = [pw[0], pw[1], height]
         
         return np.array(heights, dtype=np.float32)
     
@@ -70,3 +73,23 @@ class HumanoidEnvHmap(HumanoidEnv):
     
     def set_env_level_stairs(self, height, x_ratio, y_ratio):
         self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)
+
+    def _get_hfield_index(self, pos, x: bool, y: bool):
+        """Map coord space  to hfield space.
+        So either one of the two, with the vars as defined in hfield in humanoid.xml:
+        - [-x_size, x_size] --> [0, ncol]
+        - [-y_size, y_size] --> [0, nrow]
+
+        x and y have to be exclusively true
+        """
+        hfield_id = 0
+        if x and not y:
+            coord_upper = self.model.hfield_size[hfield_id][0]
+            hfield_upper = self.model.hfield_ncol[hfield_id]
+        if y and not x:
+            coord_upper = self.model.hfield_size[hfield_id][1]
+            hfield_upper = self.model.hfield_nrow[hfield_id]
+
+        normalized = (pos - (-coord_upper)) / (2 * coord_upper)  # transform into normalized space [0..1]
+        transformed = normalized * (hfield_upper)  # map to hfield space [0..nrow] or [0..ncol]
+        return int(transformed)
