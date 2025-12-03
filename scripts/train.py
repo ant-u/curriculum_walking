@@ -54,6 +54,7 @@ def main(RUN_DIR):
     print_cpu_info()
     # env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
     env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+    env.venv.envs[0].env.set_env_level_stairs(0.2, -0.3, 0)
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     
