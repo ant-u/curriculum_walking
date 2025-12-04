@@ -1,5 +1,6 @@
 {
     "mean_reward_eval": 3554.77734375,
     "n_eval_episodes": 5,
-    "timesteps": 30000000.0
+    "timesteps": 30000000.0,
+    "comment": "added a little step in training first time, like this: env.venv.envs[0].env.set_env_level_stairs(0.2, -0.3, 0)"
 }
