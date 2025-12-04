@@ -17,7 +17,7 @@ def load_render_env(stats_path: str, seed: int = 0, render_mode: str = "human"):
     env.norm_reward = False     # do not normalize rewards during inference
     return env
 
-def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 500, export_gif: bool = False) -> list:
+def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
     - display_loop gives how many resets are done.
     - display_steps gives how many steps per episode are rendered.
@@ -40,7 +40,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 500,
                 frame = env.render()
                 frames.append(frame)
             if done:
-                obs = env.reset()
+                break
         obs = env.reset()
     env.close()
     return frames
