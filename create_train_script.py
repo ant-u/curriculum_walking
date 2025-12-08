@@ -20,7 +20,7 @@ def main():
 #SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}
 
 source ./.venv/bin/activate
-python -u -m scripts.train {run_dir}
+python -u -m scripts.train -p {run_dir}
 """
 
     train_sh_path = os.path.join(".", "train.sh")
