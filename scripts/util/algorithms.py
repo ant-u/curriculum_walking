@@ -23,3 +23,13 @@ def get_PPO(cnfg, env, run_dir):
         seed                = cnfg["seed"]
     )
     return model
+
+
+def load_PPO(cnfg, env, ppo_dir):
+    ppo_path = os.path.join(ppo_dir, 'checkpoints', 'last_model.zip')
+    model = PPO.load(
+        path=ppo_path,
+        env=env,
+        device=cnfg["device"]
+    )
+    return model

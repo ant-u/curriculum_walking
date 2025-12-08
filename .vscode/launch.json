@@ -17,7 +17,8 @@
             "type": "debugpy",
             "request": "launch",
             "module": "scripts.train",
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "args": "${command:pickArgs}"
         },
         {
             "name": "view_vec_env as module",

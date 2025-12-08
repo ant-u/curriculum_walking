@@ -1,12 +1,11 @@
+import argparse
 import json
 import os, psutil
-import sys
 import time
 from scripts.util.callbacks import get_all_callbacks
-from scripts.util.algorithms import get_PPO
-from envs.vec_env import make_env, make_env_hmap
+from scripts.util.algorithms import get_PPO, load_PPO
+from envs.vec_env import make_env_hmap, laod_env_hmap
 import yaml
-from scripts.view_vec_env import save_gif
 
 PPO_CONFIG = {
     "env_id": "Humanoid-v5",
@@ -27,7 +26,7 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 20e6,
+    "timesteps": 800000,
     "seed": 0,
     "n_envs": 14,
 }
@@ -50,15 +49,20 @@ CALLBACK_CONFIG = {
     }
 }
 
-def main(RUN_DIR):
+def main(RUN_DIR, train_on):
+    """main function for training. run_dir is (new) folder for saving the trained model. 
+    train_on is path to already trained model for continuing training"""
     print_cpu_info()
-    # env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
-    env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
-    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
+
+    if train_on == None:
+        env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        model = get_PPO(PPO_CONFIG, env, RUN_DIR)
+    else:
+        env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        model = load_PPO(PPO_CONFIG, env, train_on)
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
-    
-    model = get_PPO(PPO_CONFIG, env, RUN_DIR)
+    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
                 callback=[checkpoint_callback, eval_callback, plot_callback])
 
@@ -69,7 +73,8 @@ def main(RUN_DIR):
         "n_eval_episodes": eval_callback.n_eval_episodes,
         "timesteps": PPO_CONFIG["timesteps"]
     }
-
+    if train_on != None:
+       results_summary.update({"based_on", train_on})
     with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
         json.dump(results_summary, f, indent=4)
     # save_gif(RUN_DIR, display_steps=300)
@@ -105,8 +110,12 @@ def print_cpu_info():
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:  # run_dir path given in call
-        run_dir = sys.argv[1]
+    parser = argparse.ArgumentParser(description='train a policy')
+    parser.add_argument('-p', '--path', type=str, required=False, help='Path for already created run_dir')
+    parser.add_argument('-t', '--train', type=str, required=False, help='Paht for already trained policy for further training')
+    args = parser.parse_args()
+    if args.path != None:  # run_dir path given in call
+        run_dir = args.path
     else:
         run_dir = make_run_dir(PPO_CONFIG)
-    main(run_dir)
+    main(run_dir, args.train)
