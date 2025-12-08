@@ -1,0 +1,5 @@
+{
+    "mean_reward_eval": 3517.139404296875,
+    "n_eval_episodes": 5,
+    "timesteps": 30000000.0
+}
