@@ -12,11 +12,11 @@ class HumanoidEnvHmap(HumanoidEnv):
         path = os.path.abspath("./models/humanoid.xml")
         super().__init__(xml_file=path, **kwargs)
         
-        self.num_points_x = 7      # sideways sampling
-        self.num_points_y = 5      # forward sampling
-        self.y_width = 0.4         # meters left/right of pelvis
-        self.x_forward = 1.2       # meters in front of pelvis
-        self.x_start = 0.1         # skip the immediate area directly below
+        self.num_points_x = 10      # forward sampling
+        self.num_points_y = 6      # sideways sampling
+        self.y_width = 1.5         # meters left/right of pelvis
+        self.x_forward = 4       # meters in front of pelvis
+        self.x_start = -1         # skip the immediate area directly below
 
         xs = np.linspace(self.x_start, self.x_forward, self.num_points_x)
         ys = np.linspace(-self.y_width, self.y_width, self.num_points_y)
@@ -31,8 +31,8 @@ class HumanoidEnvHmap(HumanoidEnv):
         "number of site markers in humanoid.xml. Make sure there are exactly as much points in xml than "\
         "defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
 
-        low = np.concatenate([self.observation_space.low,-np.ones(height_map_dim) * 5.0])
-        high = np.concatenate([self.observation_space.high,np.ones(height_map_dim) * 5.0])
+        low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
+        high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
         self.observation_space = Box(low, high, dtype=np.float64)
 
     def _local_to_world(self, local_points):
@@ -73,6 +73,11 @@ class HumanoidEnvHmap(HumanoidEnv):
     
     def set_env_level_stairs(self, height, x_ratio, y_ratio):
         self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)
+
+    def reset_model(self):
+        ret = super().reset_model()
+        self.init_qpos[0] = -8
+        return ret
 
     def _get_hfield_index(self, pos, x: bool, y: bool):
         """Map coord space  to hfield space.

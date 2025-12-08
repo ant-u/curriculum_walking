@@ -27,9 +27,9 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 30e6,
+    "timesteps": 20e6,
     "seed": 0,
-    "n_envs": 12,
+    "n_envs": 14,
 }
 
 CALLBACK_CONFIG = {
@@ -54,7 +54,7 @@ def main(RUN_DIR):
     print_cpu_info()
     # env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
     env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
-    env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
+    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     
