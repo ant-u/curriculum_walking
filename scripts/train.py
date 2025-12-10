@@ -62,7 +62,7 @@ def main(RUN_DIR, train_on):
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
-    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
+    env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
                 callback=[checkpoint_callback, eval_callback, plot_callback])
 
@@ -71,7 +71,8 @@ def main(RUN_DIR, train_on):
     results_summary = {
         "mean_reward_eval": float(eval_callback.last_mean_reward),
         "n_eval_episodes": eval_callback.n_eval_episodes,
-        "timesteps": PPO_CONFIG["timesteps"]
+        "timesteps": PPO_CONFIG["timesteps"],
+        "obs_shape": model.observation_space.shape
     }
     if train_on != None:
        results_summary.update({"based_on": train_on})

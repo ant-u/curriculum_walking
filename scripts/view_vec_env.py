@@ -48,7 +48,10 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
         
 def save_gif(run_dir: str, display_steps: int = 300):
     frames = view_vec_env(run_dir, display_loop=1, display_steps=display_steps, export_gif=True)
-    OUTPUT_GIF = os.path.join(run_dir, "videos", "cassie_walk.gif")
+    video_dir = os.path.join(run_dir, "videos")
+    os.makedirs(video_dir, exist_ok=True)
+    OUTPUT_GIF = os.path.join(video_dir, "cassie_walk.gif")
+    
     FPS = 30
     imageio.mimsave(OUTPUT_GIF, frames, fps=FPS)
     print("Saved GIF to", OUTPUT_GIF)
@@ -57,5 +60,10 @@ def save_gif(run_dir: str, display_steps: int = 300):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='View vec env')
     parser.add_argument('-p', '--path', type=str, required=True, help='Path to run dir')
+    parser.add_argument('-g', '--gif', action='store_true', help='Export as GIF')
+    
     args = parser.parse_args()
-    view_vec_env(args.path)
+    if not args.gif:
+        view_vec_env(args.path)
+    else:
+        save_gif(args.path)
