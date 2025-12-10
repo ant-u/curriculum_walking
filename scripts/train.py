@@ -26,14 +26,14 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 800000,
+    "timesteps": 20e6,
     "seed": 0,
     "n_envs": 14,
 }
 
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
-        "save_freq": 1_000_000,
+        "save_freq": 4_000_000,
         "save_vecnormalize": True,
         "name_prefix": "ckpt"
     },
@@ -59,7 +59,7 @@ def main(RUN_DIR, train_on):
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
         env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
-        model = load_PPO(PPO_CONFIG, env, train_on)
+        model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
 
     checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
@@ -74,7 +74,7 @@ def main(RUN_DIR, train_on):
         "timesteps": PPO_CONFIG["timesteps"]
     }
     if train_on != None:
-       results_summary.update({"based_on", train_on})
+       results_summary.update({"based_on": train_on})
     with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
         json.dump(results_summary, f, indent=4)
     # save_gif(RUN_DIR, display_steps=300)

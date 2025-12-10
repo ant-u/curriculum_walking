@@ -25,11 +25,13 @@ def get_PPO(cnfg, env, run_dir):
     return model
 
 
-def load_PPO(cnfg, env, ppo_dir):
+def load_PPO(cnfg, env, ppo_dir, run_dir):
+    LOG_PATH = os.path.join(run_dir, "logs")
     ppo_path = os.path.join(ppo_dir, 'checkpoints', 'last_model.zip')
     model = PPO.load(
         path=ppo_path,
         env=env,
-        device=cnfg["device"]
+        device=cnfg["device"],
+        tensorboard_log= (LOG_PATH if cnfg["tensorboard_log"] else None)
     )
     return model
