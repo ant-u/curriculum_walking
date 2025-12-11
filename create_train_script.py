@@ -21,7 +21,7 @@ def main(train_on, message):
 #SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}
 
 source ./.venv/bin/activate
-python -u -m scripts.train -p {run_dir} -t {train_on} -m "{message}"
+python -u -m scripts.train -p {run_dir}{' -t ' + train_on if train_on else ''}{' -m ' + message if message else ''}
 """
 
     train_sh_path = os.path.join(".", "train.sh")
