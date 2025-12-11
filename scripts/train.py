@@ -61,10 +61,11 @@ def main(RUN_DIR, train_on, message):
         env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
 
-    checkpoint_callback, eval_callback, plot_callback = get_all_callbacks(CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
+    checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
+        CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
     # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
-                callback=[checkpoint_callback, eval_callback, plot_callback])
+                callback=[checkpoint_callback, eval_callback, plot_callback, curr_callback])
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))

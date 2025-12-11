@@ -7,3 +7,6 @@ class PerformaneEstimator():
     
     def __init__(self) -> None:
         pass
+    
+    def estimate(self, params):
+        return 0

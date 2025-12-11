@@ -3,6 +3,63 @@ import numpy as np
 import matplotlib.pyplot as plt
 from envs.vec_env import make_env, make_env_hmap
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
+from envs.curriculum.performance_estimator import PerformaneEstimator
+from envs.curriculum.curriculum_manager import CurriculumManager
+from envs.curriculum.level_generator import LevelGenerator
+from stable_baselines3 import PPO
+
+
+class CurriculumCallback(BaseCallback):
+    def __init__(self, save_dir: str, verbose: int = 0):
+        super().__init__(verbose)
+        self.save_dir = save_dir
+        self.performance_est = PerformaneEstimator()
+        self.curriculum_manr = CurriculumManager()
+        self.level_gen = LevelGenerator()
+        self.regrets = []
+        
+        plt.ion()
+        self.fig2, self.ax2 = plt.subplots(figsize=(8, 5))
+        self.line_rollout, = self.ax2.plot([], [], label="Avg rollout regret", color="tab:blue")
+        self.ax2.set_title(f"Regret")
+        self.ax2.set_xlabel("Steps")
+        self.ax2.set_ylabel("Regret")
+        self.ax2.legend()
+        self.fig2.tight_layout()
+        
+    def _on_step(self):
+        return True
+        
+    def _on_rollout_end(self) -> None:
+        super()._on_rollout_end()
+        buffer = self.model.rollout_buffer
+        advantages = buffer.advantages.copy()  # GAE
+        regret = -advantages
+        mean_regret = float(regret.mean())
+        mean_advantage = float(advantages.mean())
+        self.regrets.append(mean_regret)
+        self.update_plot()
+        
+        # self.performance_est.estimate(mean_regret)
+        # print(self)
+        
+    def update_plot(self):
+        x = np.arange(len(self.regrets))
+        self.line_rollout.set_data(x, self.regrets)
+        self.ax2.relim()
+        self.ax2.autoscale_view()
+        self.fig2.canvas.draw()
+        self.fig2.canvas.flush_events()
+        self.save_plot()
+        
+    def _on_training_end(self):
+        self.update_plot()
+        self.save_plot()
+        
+    def save_plot(self):
+        self.fig2.savefig(os.path.join(self.save_dir, "regret.svg"))
+        
+        
 
 class LivePlotCallback(BaseCallback):
     def __init__(self, save_dir: str, window=100, update_freq=20000, verbose=0, log_level=2):
@@ -103,4 +160,5 @@ def get_all_callbacks(cnfg, run_dir, n_envs: int=1) -> tuple:
         window=cnfg["plot_callback"]["window"],
         log_level=cnfg["plot_callback"]["log_level"],
     )
-    return checkpoint_callback, eval_callback, plot_callback
+    curr_callback = CurriculumCallback(save_dir=LOG_PATH)
+    return checkpoint_callback, eval_callback, plot_callback, curr_callback
