@@ -26,14 +26,14 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 20e6,
+    "timesteps": 25e6,
     "seed": 0,
     "n_envs": 14,
 }
 
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
-        "save_freq": 4_000_000,
+        "save_freq": 3_000_000,
         "save_vecnormalize": True,
         "name_prefix": "ckpt"
     },
@@ -49,7 +49,7 @@ CALLBACK_CONFIG = {
     }
 }
 
-def main(RUN_DIR, train_on):
+def main(RUN_DIR, train_on, message):
     """main function for training. run_dir is (new) folder for saving the trained model. 
     train_on is path to already trained model for continuing training"""
     print_cpu_info()
@@ -72,7 +72,8 @@ def main(RUN_DIR, train_on):
         "mean_reward_eval": float(eval_callback.last_mean_reward),
         "n_eval_episodes": eval_callback.n_eval_episodes,
         "timesteps": PPO_CONFIG["timesteps"],
-        "obs_shape": model.observation_space.shape
+        "obs_shape": model.observation_space.shape,
+        "message": message
     }
     if train_on != None:
        results_summary.update({"based_on": train_on})
@@ -113,10 +114,11 @@ def print_cpu_info():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='train a policy')
     parser.add_argument('-p', '--path', type=str, required=False, help='Path for already created run_dir')
-    parser.add_argument('-t', '--train', type=str, required=False, help='Paht for already trained policy for further training')
+    parser.add_argument('-t', '--train', type=str, required=False, help='Path for already trained policy for further training')
+    parser.add_argument('-m', '--message', type=str, required=False, help='Comment on training')
     args = parser.parse_args()
     if args.path != None:  # run_dir path given in call
         run_dir = args.path
     else:
         run_dir = make_run_dir(PPO_CONFIG)
-    main(run_dir, args.train)
+    main(run_dir, args.train, args.message)

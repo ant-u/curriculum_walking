@@ -25,7 +25,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     render_mode = "human" if not export_gif else "rgb_array"
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
     env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), render_mode=render_mode)
-    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
+    env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
     
     frames = []
     obs = env.reset()
@@ -50,7 +50,7 @@ def save_gif(run_dir: str, display_steps: int = 300):
     frames = view_vec_env(run_dir, display_loop=1, display_steps=display_steps, export_gif=True)
     video_dir = os.path.join(run_dir, "videos")
     os.makedirs(video_dir, exist_ok=True)
-    OUTPUT_GIF = os.path.join(video_dir, "cassie_walk.gif")
+    OUTPUT_GIF = os.path.join(video_dir, "cassie_walk_step.gif")
     
     FPS = 30
     imageio.mimsave(OUTPUT_GIF, frames, fps=FPS)

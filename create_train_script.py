@@ -1,8 +1,9 @@
+import argparse
 import os
 from scripts import train
 
 
-def main():
+def main(train_on, message):
     run_dir = train.make_run_dir(train.PPO_CONFIG)
 
     # Content of the SLURM script
@@ -20,7 +21,7 @@ def main():
 #SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}
 
 source ./.venv/bin/activate
-python -u -m scripts.train -p {run_dir}
+python -u -m scripts.train -p {run_dir} -t {train_on} -m "{message}"
 """
 
     train_sh_path = os.path.join(".", "train.sh")
@@ -30,4 +31,8 @@ python -u -m scripts.train -p {run_dir}
     print(f"train.sh written to {train_sh_path}")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='create a script for training')
+    parser.add_argument('-t', '--train', type=str, required=False, help='Path for already trained policy for further training')
+    parser.add_argument('-m', '--message', type=str, required=False, help='Comment on training')
+    args = parser.parse_args()
+    main(args.train, args.message)
