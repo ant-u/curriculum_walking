@@ -5,7 +5,8 @@ from scripts import train
 
 def main(train_on, message):
     run_dir = train.make_run_dir(train.PPO_CONFIG)
-
+    train_argument = ' -t ' + train_on if train_on else ''
+    message_argument = ' -m "' + message + '"' if message else ''
     # Content of the SLURM script
     content = f"""#!/bin/bash
 
@@ -21,7 +22,7 @@ def main(train_on, message):
 #SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}
 
 source ./.venv/bin/activate
-python -u -m scripts.train -p {run_dir}{' -t ' + train_on if train_on else ''}{' -m ' + message if message else ''}
+python -u -m scripts.train -p {run_dir}{train_argument}{message_argument}
 """
 
     train_sh_path = os.path.join(".", "train.sh")
