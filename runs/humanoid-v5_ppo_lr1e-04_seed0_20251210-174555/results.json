@@ -1,0 +1,6 @@
+{
+    "mean_reward_eval": 4407.9619140625,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "based_on": "runs/humanoid-v5_ppo_lr1e-04_seed0_20251208-163300"
+}
