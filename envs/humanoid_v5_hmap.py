@@ -12,8 +12,8 @@ class HumanoidEnvHmap(HumanoidEnv):
         path = os.path.abspath("./models/humanoid.xml")
         super().__init__(xml_file=path, **kwargs)
         
-        self.num_points_x = 10      # forward sampling
-        self.num_points_y = 6      # sideways sampling
+        self.num_points_x = 6      # forward sampling
+        self.num_points_y = 5      # sideways sampling
         self.y_width = 1.5         # meters left/right of pelvis
         self.x_forward = 4       # meters in front of pelvis
         self.x_start = -1         # skip the immediate area directly below
