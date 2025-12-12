@@ -17,15 +17,18 @@ class CurriculumCallback(BaseCallback):
         self.curriculum_manr = CurriculumManager()
         self.level_gen = LevelGenerator()
         self.regrets = []
+        self.regrets_q25 = []
+        self.regrets_q75 = []
         
         plt.ion()
-        self.fig2, self.ax2 = plt.subplots(figsize=(8, 5))
-        self.line_rollout, = self.ax2.plot([], [], label="Avg rollout regret", color="tab:blue")
-        self.ax2.set_title(f"Regret")
-        self.ax2.set_xlabel("Steps")
-        self.ax2.set_ylabel("Regret")
-        self.ax2.legend()
-        self.fig2.tight_layout()
+        self.fig, self.ax = plt.subplots(figsize=(8, 5))
+        self.line_rollout, = self.ax.plot([], [], label="Avg rollout regret", color="tab:blue")
+        self.fill = None
+        self.ax.set_title(f"Regret")
+        self.ax.set_xlabel("Steps")
+        self.ax.set_ylabel("Regret")
+        self.ax.legend()
+        self.fig.tight_layout()
         
     def _on_step(self):
         return True
@@ -34,22 +37,24 @@ class CurriculumCallback(BaseCallback):
         super()._on_rollout_end()
         buffer = self.model.rollout_buffer
         advantages = buffer.advantages.copy()  # GAE
-        regret = -advantages
-        mean_regret = float(regret.mean())
-        mean_advantage = float(advantages.mean())
-        self.regrets.append(mean_regret)
+        regrets = -advantages
+
+        self.regrets.append(float(regrets.mean()))
+        self.regrets_q25.append(np.percentile(regrets, 25))
+        self.regrets_q75.append(np.percentile(regrets, 75))
         self.update_plot()
-        
-        # self.performance_est.estimate(mean_regret)
-        # print(self)
+        print(f"rollout mean regret: {self.regrets[-1]}")
         
     def update_plot(self):
         x = np.arange(len(self.regrets))
         self.line_rollout.set_data(x, self.regrets)
-        self.ax2.relim()
-        self.ax2.autoscale_view()
-        self.fig2.canvas.draw()
-        self.fig2.canvas.flush_events()
+        if self.fill is not None:
+            self.fill.remove()
+        self.fill = self.ax.fill_between(x, self.regrets_q25, self.regrets_q75, color='blue', alpha=0.2, label="IQR")
+        self.ax.relim()
+        self.ax.autoscale_view()
+        self.fig.canvas.draw()
+        self.fig.canvas.flush_events()
         self.save_plot()
         
     def _on_training_end(self):
@@ -57,7 +62,7 @@ class CurriculumCallback(BaseCallback):
         self.save_plot()
         
     def save_plot(self):
-        self.fig2.savefig(os.path.join(self.save_dir, "regret.svg"))
+        self.fig.savefig(os.path.join(self.save_dir, "regret.svg"))
         
         
 
@@ -97,6 +102,7 @@ class LivePlotCallback(BaseCallback):
                     self.avg_episode_rewards['q25'].append(np.percentile(self.episode_rewards, 25))
                     self.avg_episode_rewards['q75'].append(np.percentile(self.episode_rewards, 75))
                     self.episode_rewards = []
+
 
                 self.episode_lengths.append(info["episode"]["l"])
                 if len(self.episode_lengths) >= self.window:

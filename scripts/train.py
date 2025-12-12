@@ -60,6 +60,7 @@ def main(RUN_DIR, train_on, message):
     else:
         env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
+        print(f"using pretrained model from: {train_on}")
 
     checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
         CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
