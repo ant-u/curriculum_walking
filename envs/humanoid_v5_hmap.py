@@ -9,7 +9,7 @@ class HumanoidEnvHmap(HumanoidEnv):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
     def __init__(self, **kwargs):
-        path = os.path.abspath("./models/humanoid.xml")
+        path = os.path.abspath("./models/humanoid_hmap.xml")
         super().__init__(xml_file=path, **kwargs)
         
         # self.num_points_x = 6      # forward sampling
