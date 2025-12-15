@@ -75,10 +75,10 @@ class HumanoidEnvHmap(HumanoidEnv):
     def set_env_level_stairs(self, height, x_ratio, y_ratio):
         self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)
 
-    # def reset_model(self):
-    #     ret = super().reset_model()
-    #     self.init_qpos[0] = -8
-    #     return ret
+    def reset_model(self):
+        ret = super().reset_model()
+        self.init_qpos[0] = -8
+        return ret
 
     def _get_hfield_index(self, pos, x: bool, y: bool):
         """Map coord space  to hfield space.
