@@ -22,7 +22,7 @@
         <hfield name="chaos" ncol="100" nrow="100" size="10 10 1 1"/>  <!-- size: x, y, max height for z, box in -z. Also x direction is ncol and y dir is nrow-->
     </asset>
     <worldbody>
-        <!-- <site name="point_marker0" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker0" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker1" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker2" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker3" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
@@ -51,7 +51,7 @@
         <site name="point_marker26" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker27" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker28" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
-        <site name="point_marker29" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/> -->
+        <site name="point_marker29" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <!-- <site name="point_marker30" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker31" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
         <site name="point_marker32" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
