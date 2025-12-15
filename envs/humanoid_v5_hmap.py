@@ -77,7 +77,7 @@ class HumanoidEnvHmap(HumanoidEnv):
 
     def reset_model(self):
         ret = super().reset_model()
-        self.init_qpos[0] = -8
+        # self.init_qpos[0] = -8
         return ret
 
     def _get_hfield_index(self, pos, x: bool, y: bool):

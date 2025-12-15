@@ -87,7 +87,7 @@
         <geom name="floor" pos="0 0 0" size="0 0 .125" type="hfield" hfield="chaos" material="MatPlane" conaffinity="15" condim="3" rgba="0.8 0.9 0.8 1"/>
         
         <!-- <geom condim="3" material="MatPlane" name="floor" pos="0 0 0" size="10 10 0.125" type="plane"/>-->
-        <body name="torso" pos="0 0 1.4">
+        <body name="torso" pos="-8 0 1.4">
             <camera name="track" mode="trackcom" pos="0 -4 0" xyaxes="1 0 0 0 0 1"/>
             <joint armature="0" damping="0" limited="false" name="root" pos="0 0 0" stiffness="0" type="free"/>
             <geom fromto="0 -.07 0 0 .07 0" name="torso1" size="0.07" type="capsule"/>
