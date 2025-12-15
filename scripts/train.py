@@ -4,11 +4,11 @@ import os, psutil
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import make_env_hmap, laod_env_hmap
+from envs.vec_env import make_env, make_env_hmap, laod_env_hmap
 import yaml
 
 PPO_CONFIG = {
-    "env_id": "Humanoid-v5",
+    "env_id": "Humanoid-v5-basic",
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
@@ -22,13 +22,13 @@ PPO_CONFIG = {
     "gae_lambda": 0.90,
     "max_grad_norm": 0.3,
     "n_epochs": 15,
-    "normalize_advantage": False,
+    "normalize_advantage": True,  # TODO: CHANGE TO FALSE FOR CURRICULUM
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 17e6,
+    "timesteps": 20e6,
     "seed": 0,
-    "n_envs": 10,
+    "n_envs": 14,
 }
 
 CALLBACK_CONFIG = {
@@ -55,7 +55,8 @@ def main(RUN_DIR, train_on, message):
     print_cpu_info()
 
     if train_on == None:
-        env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        # env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
         env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])

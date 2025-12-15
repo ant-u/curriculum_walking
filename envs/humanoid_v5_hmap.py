@@ -9,7 +9,7 @@ class HumanoidEnvHmap(HumanoidEnv):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
     def __init__(self, **kwargs):
-        path = os.path.abspath("./models/humanoid.xml")
+        path = os.path.abspath("./models/humanoid_hmap.xml")
         super().__init__(xml_file=path, **kwargs)
         
         self.num_points_x = 6      # forward sampling
@@ -28,12 +28,12 @@ class HumanoidEnvHmap(HumanoidEnv):
         self.sample_points_local = np.array(grid)
         height_map_dim = len(self.sample_points_local)
         assert height_map_dim == len(self.data.site_xpos), "Number of observation points does NOT match "\
-        "number of site markers in humanoid.xml. Make sure there are exactly as much points in xml than "\
+        "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml than "\
         "defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
 
         low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
         high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
-        self.observation_space = Box(low, high, dtype=np.float64)
+        # self.observation_space = Box(low, high, dtype=np.float64)
 
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
@@ -69,8 +69,9 @@ class HumanoidEnvHmap(HumanoidEnv):
         base_obs = super()._get_obs()
         heightmap = self._get_heightmap()
 
-        return np.concatenate([base_obs, heightmap]).astype(np.float32)
-    
+        # return np.concatenate([base_obs, heightmap]).astype(np.float32)
+        return base_obs
+
     def set_env_level_stairs(self, height, x_ratio, y_ratio):
         self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)
 
@@ -81,7 +82,7 @@ class HumanoidEnvHmap(HumanoidEnv):
 
     def _get_hfield_index(self, pos, x: bool, y: bool):
         """Map coord space  to hfield space.
-        So either one of the two, with the vars as defined in hfield in humanoid.xml:
+        So either one of the two, with the vars as defined in hfield in humanoid_hmap.xml:
         - [-x_size, x_size] --> [0, ncol]
         - [-y_size, y_size] --> [0, nrow]
 

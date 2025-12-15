@@ -19,10 +19,73 @@
         <texture builtin="checker" height="100" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="100"/>
         <material name="MatPlane" reflectance="0.5" shininess="1" specular="1" texrepeat="60 60" texture="texplane"/>
         <material name="geom" texture="texgeom" texuniform="true"/>
+        <hfield name="chaos" ncol="100" nrow="100" size="10 10 1 1"/>  <!-- size: x, y, max height for z, box in -z. Also x direction is ncol and y dir is nrow-->
     </asset>
     <worldbody>
+        <site name="point_marker0" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker1" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker2" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker3" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker4" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker5" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker6" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker7" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker8" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker9" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker10" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker11" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker12" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker13" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker14" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker15" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker16" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker17" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker18" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker19" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker20" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker21" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker22" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker23" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker24" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker25" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker26" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker27" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker28" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker29" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <!-- <site name="point_marker30" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker31" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker32" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker33" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker34" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker35" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker36" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker37" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker38" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker39" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker40" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker41" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker42" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker43" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker44" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker45" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker46" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker47" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker48" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker49" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker50" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker51" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker52" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker53" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker54" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker55" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker56" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker57" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker58" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/>
+        <site name="point_marker59" pos="0 0 1" size="0.02" rgba="1 0 0 1" type="sphere"/> -->
         <light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1"/>
-        <geom condim="3" friction="1 .1 .1" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="20 20 0.125" type="plane"/>
+        <!-- <geom condim="3" friction="1 .1 .1" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="20 20 0.125" type="plane"/> -->
+        <geom name="floor" pos="0 0 0" size="0 0 .125" type="hfield" hfield="chaos" material="MatPlane" conaffinity="15" condim="3" rgba="0.8 0.9 0.8 1"/>
+        
         <!-- <geom condim="3" material="MatPlane" name="floor" pos="0 0 0" size="10 10 0.125" type="plane"/>-->
         <body name="torso" pos="0 0 1.4">
             <camera name="track" mode="trackcom" pos="0 -4 0" xyaxes="1 0 0 0 0 1"/>
