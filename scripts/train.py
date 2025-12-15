@@ -22,11 +22,11 @@ PPO_CONFIG = {
     "gae_lambda": 0.90,
     "max_grad_norm": 0.3,
     "n_epochs": 15,
-    "normalize_advantage": True,
+    "normalize_advantage": False,
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 25e6,
+    "timesteps": 17e6,
     "seed": 0,
     "n_envs": 14,
 }

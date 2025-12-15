@@ -33,7 +33,7 @@ class HumanoidEnvHmap(HumanoidEnv):
 
         low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
         high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
-        # self.observation_space = Box(low, high, dtype=np.float64)
+        self.observation_space = Box(low, high, dtype=np.float64)
 
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
@@ -69,8 +69,7 @@ class HumanoidEnvHmap(HumanoidEnv):
         base_obs = super()._get_obs()
         heightmap = self._get_heightmap()
 
-        # return np.concatenate([base_obs, heightmap]).astype(np.float32)
-        return base_obs
+        return np.concatenate([base_obs, heightmap]).astype(np.float32)
     
     def set_env_level_stairs(self, height, x_ratio, y_ratio):
         self.model.hfield_data = get_step_level(self.model, height, x_ratio, y_ratio)

@@ -6,7 +6,7 @@ from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, Check
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
 from envs.curriculum.level_generator import LevelGenerator
-from stable_baselines3 import PPO
+from scripts.util.plot import Plot, IQRPlot
 
 
 class CurriculumCallback(BaseCallback):
@@ -17,53 +17,25 @@ class CurriculumCallback(BaseCallback):
         self.curriculum_manr = CurriculumManager()
         self.level_gen = LevelGenerator()
         self.regrets = []
-        self.regrets_q25 = []
-        self.regrets_q75 = []
-        
-        plt.ion()
-        self.fig, self.ax = plt.subplots(figsize=(8, 5))
-        self.line_rollout, = self.ax.plot([], [], label="Avg rollout regret", color="tab:blue")
-        self.fill = None
-        self.ax.set_title(f"Regret")
-        self.ax.set_xlabel("Steps")
-        self.ax.set_ylabel("Regret")
-        self.ax.legend()
-        self.fig.tight_layout()
+        self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
+                            ylabel="Regret", line_label="Avg rollout regret")
         
     def _on_step(self):
         return True
         
     def _on_rollout_end(self) -> None:
-        super()._on_rollout_end()
         buffer = self.model.rollout_buffer
         advantages = buffer.advantages.copy()  # GAE
-        regrets = -advantages
-
-        self.regrets.append(float(regrets.mean()))
-        self.regrets_q25.append(np.percentile(regrets, 25))
-        self.regrets_q75.append(np.percentile(regrets, 75))
-        self.update_plot()
+        regret = np.maximum(advantages, 0).sum() / advantages.shape[0]
+        self.regrets.append(regret)
+        self.regrent_plot.update(self.regrets)
         print(f"rollout mean regret: {self.regrets[-1]}")
         
-    def update_plot(self):
-        x = np.arange(len(self.regrets))
-        self.line_rollout.set_data(x, self.regrets)
-        if self.fill is not None:
-            self.fill.remove()
-        self.fill = self.ax.fill_between(x, self.regrets_q25, self.regrets_q75, color='blue', alpha=0.2, label="IQR")
-        self.ax.relim()
-        self.ax.autoscale_view()
-        self.fig.canvas.draw()
-        self.fig.canvas.flush_events()
-        self.save_plot()
+        self.performance_est.estimate(advantages)
         
     def _on_training_end(self):
-        self.update_plot()
-        self.save_plot()
-        
-    def save_plot(self):
-        self.fig.savefig(os.path.join(self.save_dir, "regret.svg"))
-        
+        self.regrent_plot.update(self.regrets)
+        self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
         
 
 class LivePlotCallback(BaseCallback):
