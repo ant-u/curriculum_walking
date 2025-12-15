@@ -55,8 +55,7 @@ def main(RUN_DIR, train_on, message):
     print_cpu_info()
 
     if train_on == None:
-        # env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
-        env = make_env(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
         env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])

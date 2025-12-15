@@ -30,6 +30,7 @@ python -u -m scripts.train -p {run_dir}{train_argument}{message_argument}
         f.write(content)
     # Make it executable
     print(f"train.sh written to {train_sh_path}")
+    print(f"Directory created at: {run_dir}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='create a script for training')
