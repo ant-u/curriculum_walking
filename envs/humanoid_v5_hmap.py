@@ -9,7 +9,7 @@ class HumanoidEnvHmap(HumanoidEnv):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
 
-    def __init__(self, xml_file: str = 'humanoid.xml', **kwargs):
+    def __init__(self, xml_file: str = 'humanoid_plane.xml', **kwargs):
         """xml file is xml file name under ./models/ which shall be loaded."""
         path = os.path.abspath(f"./models/{xml_file}")
         super().__init__(xml_file=path, **kwargs)

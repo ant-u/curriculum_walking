@@ -12,15 +12,21 @@ def make_env(n_envs: int = 1, seed: int = 0):
     return norm_env
 
 
-def make_env_hmap(n_envs: int = 1, seed: int = 0):
-    vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None)
+def make_env_plane(n_envs: int = 1, seed: int = 0, xml_file_name = None):
+    if xml_file_name is None:
+        vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None)
+    else:
+        vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None, env_kwargs={"xml_file": xml_file_name})
     norm_env = VecMonitor(vec_env)
     norm_env = VecNormalize(norm_env, norm_reward=True, clip_reward=10, norm_obs=True)
     return norm_env
 
-def laod_env_hmap(path: str, n_envs: int = 1, seed: int = 0):
+def laod_env_plane(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = None):
     joined_path = os.path.join(path, "checkpoints", "vecnormalize_stats.pkl")
-    vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None)
+    if xml_file_name is None:
+        vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None)
+    else:
+        vec_env = make_vec_env(HumanoidEnvHmap, n_envs=n_envs, seed=seed, monitor_dir=None, env_kwargs={"xml_file": xml_file_name})
     mon_env = VecMonitor(vec_env)
     norm_env = VecNormalize.load(joined_path, mon_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env

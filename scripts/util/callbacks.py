@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from envs.vec_env import make_env, make_env_hmap
+from envs.vec_env import make_env, make_env_plane
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
@@ -112,7 +112,7 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(cnfg, run_dir, n_envs: int=1) -> tuple:
+def get_all_callbacks(cnfg, run_dir, n_envs: int=1, xml_file_name: str = 'humanoid_plane.xml') -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
 
@@ -124,7 +124,7 @@ def get_all_callbacks(cnfg, run_dir, n_envs: int=1) -> tuple:
     )
 
     # eval_env = make_env(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"])
-    eval_env = make_env_hmap(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"])
+    eval_env = make_env_plane(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"], xml_file_name=xml_file_name)
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,

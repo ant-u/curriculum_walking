@@ -4,11 +4,12 @@ import os, psutil
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import make_env, make_env_hmap, laod_env_hmap
+from envs.vec_env import make_env, make_env_plane, laod_env_plane
 import yaml
 
 PPO_CONFIG = {
-    "env_id": "Humanoid-v5-basic",
+    "env_id": "Humanoid-v5-plane",
+    "xml_file": "humanoid_plane.xml",
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
@@ -55,15 +56,15 @@ def main(RUN_DIR, train_on, message):
     print_cpu_info()
 
     if train_on == None:
-        env = make_env_hmap(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        env = make_env_plane(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
-        env = laod_env_hmap(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"])
+        env = laod_env_plane(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
         print(f"using pretrained model from: {train_on}")
 
     checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
-        CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"])
+        CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"], xml_file_name=PPO_CONFIG["xml_file"])
     # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
                 callback=[checkpoint_callback, eval_callback, plot_callback, curr_callback])
