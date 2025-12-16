@@ -1,0 +1,9 @@
+{
+    "mean_reward_eval": 4982.11181640625,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "changed actual torso position, removed teleport line in reset() function."
+}

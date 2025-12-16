@@ -1,0 +1,9 @@
+{
+    "mean_reward_eval": 3612.932373046875,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "reintroduced hmap observation with 6*5 field. left out reset function which teleports bot to 0,-8. Probably further experiments have to show which map size is ideal."
+}

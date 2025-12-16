@@ -1,0 +1,9 @@
+{
+    "mean_reward_eval": 4933.99609375,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "using old, basic version of humanoid_v5 env to find out which changes have which influence on performance. This version is expected to perform well."
+}

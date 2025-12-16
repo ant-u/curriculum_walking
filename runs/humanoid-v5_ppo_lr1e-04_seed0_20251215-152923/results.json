@@ -1,0 +1,9 @@
+{
+    "mean_reward_eval": 7218.4638671875,
+    "n_eval_episodes": 5,
+    "timesteps": 17000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "changed regret calculation, finding out about new plot for regret. n_envs is 14"
+}
