@@ -2,6 +2,8 @@ import argparse
 import json
 import os, psutil
 import time
+from datetime import timedelta
+import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
 from envs.vec_env import make_env, make_env_plane, laod_env_plane
@@ -27,7 +29,7 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 20e6,
+    "timesteps": 200000,
     "seed": 0,
     "n_envs": 14,
 }
@@ -65,9 +67,11 @@ def main(RUN_DIR, train_on, message):
 
     checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
         CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"], xml_file_name=PPO_CONFIG["xml_file"])
-    # env.venv.envs[0].env.set_env_level_stairs(0.05, -0.3, 0)
+    
+    start_time = time.monotonic()
     model.learn(total_timesteps=PPO_CONFIG["timesteps"],
                 callback=[checkpoint_callback, eval_callback, plot_callback, curr_callback])
+    end_time = time.monotonic()
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
@@ -76,7 +80,8 @@ def main(RUN_DIR, train_on, message):
         "n_eval_episodes": eval_callback.n_eval_episodes,
         "timesteps": PPO_CONFIG["timesteps"],
         "obs_shape": model.observation_space.shape,
-        "message": message
+        "message": message,
+        "running_time": str(timedelta(seconds=end_time - start_time))
     }
     if train_on != None:
        results_summary.update({"based_on": train_on})
