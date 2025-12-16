@@ -39,4 +39,37 @@ def get_h_field(model) -> Tuple[np.ndarray, np.int32, np.int32]:
     return hfield, nrow, ncol
 
 
+def set_slab(model, data, x_ratio, height):
+    activate_shape(model, "slab_shape")
+    geom = model.geom("slab_shape")
+    floor = model.geom("floor")
+    mocap_id = model.body("slab").mocapid[0]
+
+    x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
+    data.mocap_pos[mocap_id][0] = x_pos
+    data.mocap_pos[mocap_id][1] = 0
+    data.mocap_pos[mocap_id][2] = height - geom.size[2]
+    # model.geom_size[geom.id][2] = height
+    return True
+
+def unset_slab(model, data):
+    deactivate_shape(model, "slab_shape")
+    mocap_id = model.body("slab").mocapid[0]
+    data.mocap_pos[mocap_id][0] = 10
+    data.mocap_pos[mocap_id][1] = 40
+    data.mocap_pos[mocap_id][2] = 0
+
+
+def activate_shape(model, name):
+    gid = model.geom(name).id
+    model.geom_rgba[gid][3] = 1.0
+    model.geom_contype[gid] = 1
+    model.geom_conaffinity[gid] = 1
+
+
+def deactivate_shape(model, name):
+    gid = model.geom(name).id
+    model.geom_rgba[gid][3] = 0.0
+    model.geom_contype[gid] = 0
+    model.geom_conaffinity[gid] = 0
 

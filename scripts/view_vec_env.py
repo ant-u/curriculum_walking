@@ -10,7 +10,8 @@ from envs.humanoid_v5_hmap import HumanoidEnvHmap
 
 def load_render_env(stats_path: str, seed: int = 0, render_mode: str = "human"):
     env = make_vec_env(HumanoidEnvHmap, n_envs=1, 
-                       seed=seed, env_kwargs={"render_mode": render_mode})
+                       seed=seed, env_kwargs={"render_mode": render_mode,
+                                              "xml_file": "humanoid_floor.xml"})
     env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
 
     env.training = False        # disables running stats updates

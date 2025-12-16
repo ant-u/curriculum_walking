@@ -387,12 +387,23 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
             "render_fps": int(np.round(1.0 / self.dt)),
         }
 
+        robot_body_names = ["torso", "lwaist", "pelvis", 
+                            "right_thigh", "right_shin", "right_foot", 
+                            "left_thigh", "left_shin", "left_foot", 
+                            "right_upper_arm", "right_lower_arm", 
+                            "left_upper_arm", "left_lower_arm"]
+        self.r_ids = []  # the actual ids of all body parts belonging to robot
+        for id in range(self.model.nbody):
+            name = self.model.body(id).name
+            if name in robot_body_names:
+                self.r_ids.append(id)
+
         obs_size = self.data.qpos.size + self.data.qvel.size
         obs_size -= 2 * exclude_current_positions_from_observation
-        obs_size += self.data.cinert[1:].size * include_cinert_in_observation
-        obs_size += self.data.cvel[1:].size * include_cvel_in_observation
+        obs_size += self.data.cinert[self.r_ids].size * include_cinert_in_observation
+        obs_size += self.data.cvel[self.r_ids].size * include_cvel_in_observation
         obs_size += (self.data.qvel.size - 6) * include_qfrc_actuator_in_observation
-        obs_size += self.data.cfrc_ext[1:].size * include_cfrc_ext_in_observation
+        obs_size += self.data.cfrc_ext[self.r_ids].size * include_cfrc_ext_in_observation
 
         self.observation_space = Box(
             low=-np.inf, high=np.inf, shape=(obs_size,), dtype=np.float64
@@ -403,11 +414,11 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
             "qpos": self.data.qpos.size
             - 2 * exclude_current_positions_from_observation,
             "qvel": self.data.qvel.size,
-            "cinert": self.data.cinert[1:].size * include_cinert_in_observation,
-            "cvel": self.data.cvel[1:].size * include_cvel_in_observation,
+            "cinert": self.data.cinert[self.r_ids].size * include_cinert_in_observation,
+            "cvel": self.data.cvel[self.r_ids].size * include_cvel_in_observation,
             "qfrc_actuator": (self.data.qvel.size - 6)
             * include_qfrc_actuator_in_observation,
-            "cfrc_ext": self.data.cfrc_ext[1:].size * include_cfrc_ext_in_observation,
+            "cfrc_ext": self.data.cfrc_ext[self.r_ids].size * include_cfrc_ext_in_observation,
             "ten_length": 0,
             "ten_velocity": 0,
         }
@@ -440,11 +451,11 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
         velocity = self.data.qvel.flatten()
 
         if self._include_cinert_in_observation is True:
-            com_inertia = self.data.cinert[1:].flatten()
+            com_inertia = self.data.cinert[self.r_ids].flatten()
         else:
             com_inertia = np.array([])
         if self._include_cvel_in_observation is True:
-            com_velocity = self.data.cvel[1:].flatten()
+            com_velocity = self.data.cvel[self.r_ids].flatten()
         else:
             com_velocity = np.array([])
 
@@ -453,7 +464,7 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
         else:
             actuator_forces = np.array([])
         if self._include_cfrc_ext_in_observation is True:
-            external_contact_forces = self.data.cfrc_ext[1:].flatten()
+            external_contact_forces = self.data.cfrc_ext[self.r_ids].flatten()
         else:
             external_contact_forces = np.array([])
 
