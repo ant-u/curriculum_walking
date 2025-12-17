@@ -25,13 +25,13 @@ PPO_CONFIG = {
     "gae_lambda": 0.90,
     "max_grad_norm": 0.3,
     "n_epochs": 15,
-    "normalize_advantage": True,  # TODO: CHANGE TO FALSE FOR CURRICULUM
+    "normalize_advantage": False,  # TODO: CHANGE TO FALSE FOR CURRICULUM
     "verbose": 1,
     "tensorboard_log": True,
     
-    "timesteps": 200000,
+    "timesteps": 20e6,
     "seed": 0,
-    "n_envs": 14,
+    "n_envs": 10,
 }
 
 CALLBACK_CONFIG = {
