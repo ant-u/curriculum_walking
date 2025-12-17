@@ -25,7 +25,11 @@ class CurriculumCallback(BaseCallback):
         
     def _on_rollout_end(self) -> None:
         buffer = self.model.rollout_buffer
-        advantages = buffer.advantages.copy()  # GAE
+        
+        # raw advantage, unnormalized, see 
+        # https://github.com/DLR-RM/stable-baselines3/blob/master/stable_baselines3/ppo/ppo.py line 216 - 219, 
+        # buffer is not overwritten, normalization uses local copy only
+        advantages = buffer.advantages.copy()
         regret = np.maximum(advantages, 0).sum() / advantages.shape[0]
         self.regrets.append(regret)
         self.regrent_plot.update(self.regrets)

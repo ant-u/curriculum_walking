@@ -25,7 +25,7 @@ PPO_CONFIG = {
     "gae_lambda": 0.90,
     "max_grad_norm": 0.3,
     "n_epochs": 15,
-    "normalize_advantage": True,  # TODO: CHANGE TO FALSE FOR CURRICULUM
+    "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
     
