@@ -1,11 +1,11 @@
 import os
-from envs.humanoid_v5 import HumanoidEnv
+from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
 import envs.levels as levels
 
 
-class HumanoidEnvHmap(HumanoidEnv):
+class HumanoidEnvCurr(HumanoidEnvBase):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
 

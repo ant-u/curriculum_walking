@@ -6,7 +6,7 @@ from datetime import timedelta
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import make_env, make_env_plane, laod_env_plane
+from envs.vec_env import make_env_base, make_env_curr, laod_env_curr
 import yaml
 
 PPO_CONFIG = {
@@ -58,10 +58,10 @@ def main(RUN_DIR, train_on, message):
     print_cpu_info()
 
     if train_on == None:
-        env = make_env_plane(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
+        env = make_env_curr(n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
-        env = laod_env_plane(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
+        env = laod_env_curr(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
         print(f"using pretrained model from: {train_on}")
 
