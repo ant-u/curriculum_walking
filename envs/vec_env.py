@@ -28,7 +28,7 @@ def make_env_curr(n_envs: int = 1, seed: int = 0, xml_file_name = None):
     else:
         vec_env = make_vec_env(HumanoidEnvCurr, n_envs=n_envs, seed=seed, monitor_dir=None, env_kwargs={"xml_file": xml_file_name})
     norm_env = VecMonitor(vec_env)
-    norm_env = VecNormalize(norm_env, norm_reward=True, clip_reward=10, norm_obs=True)
+    norm_env = VecNormalize(norm_env, norm_reward=False, clip_reward=10, norm_obs=True)
     return norm_env
 
 def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = None):
