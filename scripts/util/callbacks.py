@@ -34,7 +34,7 @@ class CurriculumCallback(BaseCallback):
         self.regrets.append(regret)
         self.regrent_plot.update(self.regrets)
         print(f"rollout mean regret: {self.regrets[-1]}")
-        
+        # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
         self.performance_est.estimate(advantages)
         
     def _on_training_end(self):

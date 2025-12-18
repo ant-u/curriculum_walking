@@ -13,6 +13,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         """xml file is xml file name under ./models/ which shall be loaded."""
         path = os.path.abspath(f"./models/{xml_file}")
         super().__init__(xml_file=path, **kwargs)
+
+        # TODO: control usage of lidar by arguments to safe it in config
         
         self.num_points_x = 6      # forward sampling
         self.num_points_y = 5      # sideways sampling
@@ -74,7 +76,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         # return np.concastenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
 
-    def set_env_level_slab(self, height, x_ratio, y_ratio):
+    def set_env_level_slab(self, height, x_ratio):
         levels.set_slab(self.model, self.data, x_ratio, height)
 
     def unset_env_level_slab(self):
