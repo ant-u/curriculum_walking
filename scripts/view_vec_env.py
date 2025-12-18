@@ -28,7 +28,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
     env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), render_mode=render_mode)
     
-    env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
+    # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
     
     frames = []
     obs = env.reset()

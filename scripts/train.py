@@ -66,7 +66,7 @@ def main(RUN_DIR, train_on, message):
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
         print(f"using pretrained model from: {train_on}")
 
-    env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
+    # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
 
     checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
         CALLBACK_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"], xml_file_name=PPO_CONFIG["xml_file"])

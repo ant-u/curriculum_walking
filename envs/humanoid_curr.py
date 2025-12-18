@@ -15,6 +15,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         super().__init__(xml_file=path, **kwargs)
 
         # TODO: control usage of lidar by arguments to safe it in config
+        # TODO: make set levels survive the reset
         
         self.num_points_x = 6      # forward sampling
         self.num_points_y = 5      # sideways sampling
