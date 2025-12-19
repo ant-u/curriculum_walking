@@ -1,23 +1,10 @@
 import argparse
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import VecNormalize
-from stable_baselines3.common.env_util import make_vec_env
 import imageio
 import os
 from stable_baselines3 import PPO
-from envs.humanoid_curr import HumanoidEnvCurr
-from envs.humanoid_base import HumanoidEnvBase
-
-
-def load_render_env(stats_path: str, seed: int = 0, render_mode: str = "human"):
-    env = make_vec_env(HumanoidEnvCurr, n_envs=1,
-                       seed=seed, env_kwargs={"render_mode": render_mode,
-                                              "xml_file": "humanoid_plane.xml"})
-    env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
-
-    env.training = False        # disables running stats updates
-    env.norm_reward = False     # do not normalize rewards during inference
-    return env
+from envs.vec_env import load_render_env
+from scripts.train import PPO_CONFIG
 
 def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
@@ -26,7 +13,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     """
     render_mode = "human" if not export_gif else "rgb_array"
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
-    env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), render_mode=render_mode)
+    env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), PPO_CONFIG, render_mode=render_mode)
     
     # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
     

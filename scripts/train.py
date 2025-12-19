@@ -13,6 +13,7 @@ PPO_CONFIG = {
     "env_id": "Humanoid-v5-plane",
     "xml_file": "humanoid_plane.xml",
     "algo": "PPO",
+
     "policy": "MlpPolicy",
     "device": "cpu",
     "learning_rate": 1e-4,
@@ -33,8 +34,15 @@ PPO_CONFIG = {
     "timesteps": 8e6,
     "seed": 0,
     "n_envs": 8,
+    "use_lidar": False,
+    "render_lidar": False,  # TODO: create train config with this disabled.
+    "n_points_x": 6,
+    "n_points_y": 5,
+    "y_width": 1.5,
+    "x_forward": 4,
+    "x_start": -1,
 }
-
+# TODO: add dynamic config load depending on usage
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
         "save_freq": 3_000_000,

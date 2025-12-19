@@ -9,42 +9,46 @@ class HumanoidEnvCurr(HumanoidEnvBase):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
 
-    def __init__(self, xml_file: str = 'humanoid_plane.xml', **kwargs):
+    def __init__(self, cnfg, xml_file: str = 'humanoid_plane.xml', **kwargs):
         """xml file is xml file name under ./models/ which shall be loaded."""
+
         path = os.path.abspath(f"./models/{xml_file}")
         super().__init__(xml_file=path, **kwargs)
+        self.use_lidar = cnfg["use_lidar"]
+        self.render_lidar = cnfg["render_lidar"]
+        if self.render_lidar:
+            assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
+            assert height_map_dim == len(self.data.site_xpos), "Number of observation points does NOT match "\
+                "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
+                "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
 
-        # TODO: control usage of lidar by arguments to safe it in config
         # TODO: make set levels survive the reset
-        
-        self.num_points_x = 6      # forward sampling
-        self.num_points_y = 5      # sideways sampling
-        self.y_width = 1.5         # meters left/right of pelvis
-        self.x_forward = 4       # meters in front of pelvis
-        self.x_start = -1         # skip the immediate area directly below
 
-        xs = np.linspace(self.x_start, self.x_forward, self.num_points_x)
-        ys = np.linspace(-self.y_width, self.y_width, self.num_points_y)
+        if self.use_lidar:
+            self.n_points_x = cnfg["n_points_x"]   # forward sampling
+            self.n_points_y = cnfg["n_points_y"]   # sideways sampling
+            self.y_width = cnfg["y_width"]         # meters left/right of pelvis
+            self.x_forward = cnfg["x_forward"]     # meters in front of pelvis
+            self.x_start = cnfg["x_start"]         # skip the immediate area directly below
 
-        grid = []
-        for y in ys:
-            for x in xs:
-                grid.append([x, y, 0])  
-        self.sample_points_local = np.array(grid)
-        height_map_dim = len(self.sample_points_local)
-        # assert height_map_dim == len(self.data.site_xpos), "Number of observation points does NOT match "\
-        # "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml than "\
-        # "defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
+            xs = np.linspace(self.x_start, self.x_forward, self.n_points_x)
+            ys = np.linspace(-self.y_width, self.y_width, self.n_points_y)
 
-        # low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
-        # high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
-        # self.observation_space = Box(low, high, dtype=np.float64)
+            grid = []
+            for y in ys:
+                for x in xs:
+                    grid.append([x, y, 0])  
+            self.sample_points_local = np.array(grid)
+            height_map_dim = len(self.sample_points_local)
+
+            low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
+            high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
+            self.observation_space = Box(low, high, dtype=np.float64)
 
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
         p = self.data.xpos[pelvis_id]          # pelvis world position
         R = self.data.xmat[pelvis_id].reshape(3, 3)  # rotation matrix
-
         # Rotate and translate
         return (R @ local_points.T).T + p
     

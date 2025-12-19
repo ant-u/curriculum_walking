@@ -24,9 +24,9 @@ def make_env_base(n_envs: int = 1, seed: int = 0):
 
 
 def make_env_curr(n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_file_name = None):
-    env_kwargs = {}
+    env_kwargs = {}  # "render_mode": "human"
     if xml_file_name is not None:
-        env_kwargs = {"xml_file": xml_file_name}
+        env_kwargs.update({"xml_file": xml_file_name})
     
     vec_env = make_vec_env(
         HumanoidEnvCurr, 
@@ -36,8 +36,9 @@ def make_env_curr(n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_fil
         # wrapper_kwargs={"max_episode_steps": max_steps},
         env_kwargs=env_kwargs)
     
-    norm_env = VecNormalize(vec_env, norm_reward=False, clip_reward=10, norm_obs=True)
+    norm_env = VecNormalize(vec_env, norm_reward=True, clip_reward=10, norm_obs=True)
     return norm_env
+
 
 def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = None):
     joined_path = os.path.join(path, "checkpoints", "vecnormalize_stats.pkl")
@@ -48,3 +49,14 @@ def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = Non
     mon_env = VecMonitor(vec_env)
     norm_env = VecNormalize.load(joined_path, mon_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env
+
+
+def load_render_env(stats_path: str, cnfg, seed: int = 0, render_mode: str = "human"):
+    env = make_vec_env(HumanoidEnvCurr, n_envs=1,
+                       seed=seed, env_kwargs={"render_mode": render_mode,
+                                              "cnfg": cnfg,
+                                              "xml_file": "humanoid_plane.xml"})
+    env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
+    env.training = False        # disables running stats updates
+    env.norm_reward = False     # do not normalize rewards during inference
+    return env
