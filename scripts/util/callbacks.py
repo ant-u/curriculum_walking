@@ -116,31 +116,30 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(cnfg, env_cnfg, run_dir, n_envs: int=1, xml_file_name: str = 'humanoid_plane.xml') -> tuple:
+def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
 
     checkpoint_callback = CheckpointCallback(
-        save_freq=cnfg["checkpoint_cb_conf"]["save_freq"] // n_envs,
+        save_freq=callback_cnfg["checkpoint_cb_conf"]["save_freq"] // env_cnfg["n_envs"],
         save_path=CHECKPOINT_PATH,
-        save_vecnormalize=cnfg["checkpoint_cb_conf"]["save_vecnormalize"],
-        name_prefix=cnfg["checkpoint_cb_conf"]["name_prefix"]
+        save_vecnormalize=callback_cnfg["checkpoint_cb_conf"]["save_vecnormalize"],
+        name_prefix=callback_cnfg["checkpoint_cb_conf"]["name_prefix"]
     )
 
-    # eval_env = make_env(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"])
-    eval_env = make_env_curr(env_cnfg, n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"], xml_file_name=xml_file_name)
+    eval_env = make_env_curr(env_cnfg)
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,
         log_path=LOG_PATH,
-        eval_freq=cnfg["eval_env_conf"]["eval_freq"] // n_envs,
-        deterministic=cnfg["eval_env_conf"]["deterministic"],
-        render=cnfg["eval_env_conf"]["render"],
+        eval_freq=callback_cnfg["eval_env_conf"]["eval_freq"] // env_cnfg["n_envs"],
+        deterministic=callback_cnfg["eval_env_conf"]["deterministic"],
+        render=callback_cnfg["eval_env_conf"]["render"],
     )
     plot_callback = LivePlotCallback(
         save_dir=LOG_PATH,
-        window=cnfg["plot_callback"]["window"],
-        log_level=cnfg["plot_callback"]["log_level"],
+        window=callback_cnfg["plot_callback"]["window"],
+        log_level=callback_cnfg["plot_callback"]["log_level"],
     )
     curr_callback = CurriculumCallback(save_dir=LOG_PATH)
     return checkpoint_callback, eval_callback, plot_callback, curr_callback

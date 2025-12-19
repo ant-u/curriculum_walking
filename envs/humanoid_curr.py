@@ -11,10 +11,13 @@ class HumanoidEnvCurr(HumanoidEnvBase):
     """Humanoid-v5 environment with heightmap observation added.
     Also it has additional methods for adapting terrain."""
 
-    def __init__(self, cnfg, xml_file: str = 'humanoid_plane.xml', **kwargs):
+    def __init__(self, cnfg, xml_file: str | None = None, **kwargs):
         """xml file is xml file name under ./models/ which shall be loaded."""
 
-        path = os.path.abspath(f"./models/{xml_file}")
+        if xml_file == None:
+            path = os.path.abspath(f"./models/{cnfg["xml_file"]}")
+        else:
+            path = os.path.abspath(f"./models/{xml_file}")
         super().__init__(xml_file=path, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
@@ -48,7 +51,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
             self.observation_space = Box(low, high, dtype=np.float64)
-        self.set_env_level_slab(1, 0.66)
+        # self.set_env_level_slab(1, 0.66)
     
     def _get_obs(self):
         base_obs = super()._get_obs()

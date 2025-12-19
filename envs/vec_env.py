@@ -7,36 +7,40 @@ from envs.humanoid_curr import HumanoidEnvCurr
 from gymnasium.envs.mujoco.humanoid_v5 import HumanoidEnv as HumanoidEnvDefault  # NOTE: renaming to default for less confusion
 
 
-def make_env_default(n_envs: int = 1, seed: int = 0):
+def make_env_default(cnfg):
     """Generates the default gymnasium humnanoid_v5 env with no extras whatsoever."""
-    vec_env = make_vec_env(HumanoidEnvDefault, n_envs=n_envs, seed=seed, monitor_dir=None)
-    norm_env = VecMonitor(vec_env)
-    norm_env = VecNormalize(norm_env, norm_reward=True, clip_reward=10, norm_obs=True)
+    vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None)
+    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
+                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
     return norm_env
 
 
-def make_env_base(n_envs: int = 1, seed: int = 0):
+def make_env_base(cnfg):
     """Generates an env with envs.humanoid_v5, which is NOT the original humanoid_v5, but extended."""
-    vec_env = make_vec_env(HumanoidEnvBase, n_envs=n_envs, seed=seed, monitor_dir=None)
-    norm_env = VecMonitor(vec_env)
-    norm_env = VecNormalize(norm_env, norm_reward=True, clip_reward=10, norm_obs=True)
+    vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None)
+    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
+                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
     return norm_env
 
 
-def make_env_curr(cnfg, n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_file_name = None):
+def make_env_curr(cnfg):
     env_kwargs = {"cnfg": cnfg}  # "render_mode": "human"
-    if xml_file_name is not None:
-        env_kwargs.update({"xml_file": xml_file_name})
+    if cnfg["xml_file"] is not None:
+        env_kwargs.update({"xml_file": cnfg["xml_file"]})
+    if cnfg["max_steps"] > 0:
+        wrapper_class = TimeLimit
+        wrapper_kwargs = {"max_episode_steps": cnfg["max_steps"]}
     
     vec_env = make_vec_env(
         HumanoidEnvCurr, 
-        n_envs=n_envs, 
-        seed=seed, 
-        # wrapper_class=TimeLimit, 
-        # wrapper_kwargs={"max_episode_steps": max_steps},
+        n_envs=cnfg["n_envs"], 
+        seed=cnfg["seed"], 
+        wrapper_class=wrapper_class, 
+        wrapper_kwargs=wrapper_kwargs,
         env_kwargs=env_kwargs)
     
-    norm_env = VecNormalize(vec_env, norm_reward=True, clip_reward=10, norm_obs=True)
+    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
+                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
     return norm_env
 
 
@@ -51,11 +55,9 @@ def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = Non
     return norm_env
 
 
-def load_render_env(stats_path: str, cnfg, seed: int = 0, render_mode: str = "human"):
-    env = make_vec_env(HumanoidEnvCurr, n_envs=1,
-                       seed=seed, env_kwargs={"render_mode": render_mode,
-                                              "cnfg": cnfg,
-                                              "xml_file": "humanoid_plane.xml"})
+def load_render_env(stats_path: str, cnfg, render_mode: str = "human"):
+    env = make_vec_env(HumanoidEnvCurr, n_envs=1, seed=cnfg["seed"], 
+                       env_kwargs={"render_mode": render_mode, "cnfg": cnfg})
     env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
     env.training = False        # disables running stats updates
     env.norm_reward = False     # do not normalize rewards during inference

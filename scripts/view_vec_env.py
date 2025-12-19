@@ -3,17 +3,19 @@ from stable_baselines3 import PPO
 import imageio
 import os
 from stable_baselines3 import PPO
+import yaml
 from envs.vec_env import load_render_env
-from scripts.train import PPO_CONFIG
 
 def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
     - display_loop gives how many resets are done.
     - display_steps gives how many steps per episode are rendered.
     """
+    PPO_config, env_config, callback_config = load_configs(run_dir)
     render_mode = "human" if not export_gif else "rgb_array"
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
-    env = load_render_env(os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl"), PPO_CONFIG, render_mode=render_mode)
+    stats_path = os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl")
+    env = load_render_env(stats_path, env_config, render_mode=render_mode)
     
     # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
     
@@ -34,6 +36,17 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
         obs = env.reset()
     env.close()
     return frames
+
+
+def load_configs(run_dir: str):
+    path = os.path.join(run_dir, "configs", "config_used.yaml")
+    with open(path, 'r') as f:
+        doc = yaml.safe_load_all(f)
+        configs = list(doc)
+    PPO_config = configs[0]['PPO_CONFIG']
+    env_config = configs[1]['ENV_CONFIG']
+    callback_config = configs[2]['CALLBACK_CONFIG']
+    return PPO_config, env_config, callback_config
     
         
 def save_gif(run_dir: str, display_steps: int = 300):

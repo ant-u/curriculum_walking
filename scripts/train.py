@@ -10,10 +10,7 @@ from envs.vec_env import make_env_base, make_env_curr, laod_env_curr
 import yaml
 
 PPO_CONFIG = {
-    "env_id": "Humanoid-v5-plane",
-    "xml_file": "humanoid_plane.xml",
     "algo": "PPO",
-
     "policy": "MlpPolicy",
     "device": "cpu",
     "learning_rate": 1e-4,
@@ -30,19 +27,28 @@ PPO_CONFIG = {
     "verbose": 1,
     "tensorboard_log": True,
     "max_steps": 1000,
-    
     "timesteps": 10e6,
     "seed": 0,
+}
+
+ENV_CONFIG = {
+    "xml_file": "humanoid_plane.xml",
+    "env_id": "Humanoid-v5-plane",
     "n_envs": 8,
+    "max_steps": 1000,  # 0 disables max steps
     "use_lidar": False,
     "render_lidar": False,  # TODO: create train config with this disabled.
+    "seed": 0,
     "n_points_x": 6,
     "n_points_y": 5,
     "y_width": 1.5,
     "x_forward": 4,
     "x_start": -1,
+    "norm_reward": True,
+    "norm_obs": True,
+    "clip_reward": 10,
 }
-# TODO: add dynamic config load depending on usage
+
 CALLBACK_CONFIG = {
     "checkpoint_cb_conf": {
         "save_freq": 3_000_000,
@@ -51,7 +57,7 @@ CALLBACK_CONFIG = {
     },
     "eval_env_conf": {
         "env_seed": 0,
-        "eval_freq": 500_000,
+        "eval_freq": 100_000,
         "deterministic": True,
         "render": False,
     },
@@ -67,7 +73,7 @@ def main(RUN_DIR, train_on, message):
     print_cpu_info()
 
     if train_on == None:
-        env = make_env_curr(cnfg=PPO_CONFIG, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
+        env = make_env_curr(ENV_CONFIG)
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
         env = laod_env_curr(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
@@ -76,19 +82,17 @@ def main(RUN_DIR, train_on, message):
 
     # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
 
-    checkpoint_callback, eval_callback, plot_callback, curr_callback = get_all_callbacks(
-        CALLBACK_CONFIG, PPO_CONFIG, RUN_DIR, n_envs=PPO_CONFIG["n_envs"], xml_file_name=PPO_CONFIG["xml_file"])
+    checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR)
     
     start_time = time.monotonic()
-    model.learn(total_timesteps=PPO_CONFIG["timesteps"],
-                callback=[checkpoint_callback, eval_callback, plot_callback, curr_callback])
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, eval_cb, plot_cb, curr_cb])
     end_time = time.monotonic()
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
     results_summary = {
-        "mean_reward_eval": float(eval_callback.last_mean_reward),
-        "n_eval_episodes": eval_callback.n_eval_episodes,
+        "mean_reward_eval": float(eval_cb.last_mean_reward),
+        "n_eval_episodes": eval_cb.n_eval_episodes,
         "timesteps": PPO_CONFIG["timesteps"],
         "obs_shape": model.observation_space.shape,
         "message": message,
@@ -101,8 +105,8 @@ def main(RUN_DIR, train_on, message):
     # save_gif(RUN_DIR, display_steps=300)
 
 
-def make_run_dir(cfg):
-    folder_name = f"{cfg['env_id'].lower()}_{cfg['algo'].lower()}_lr{cfg['learning_rate']:.0e}_seed{cfg['seed']}"
+def make_run_dir(ppo_cnfg, env_cnfg, callback_cnfg):
+    folder_name = f"{env_cnfg['env_id'].lower()}_{ppo_cnfg['algo'].lower()}_lr{ppo_cnfg['learning_rate']:.0e}_seed{ppo_cnfg['seed']}"
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     run_dir = os.path.join("runs", f"{folder_name}_{timestamp}")
     
@@ -112,7 +116,12 @@ def make_run_dir(cfg):
 
     # save config copy
     with open(os.path.join(run_dir, "configs", "config_used.yaml"), "w") as f:
-        yaml.dump(cfg, f)
+        cnfg_list = [
+            {'PPO_CONFIG': PPO_CONFIG},
+            {'ENV_CONFIG': ENV_CONFIG},
+            {'CALLBACK_CONFIG': CALLBACK_CONFIG},
+        ]
+        yaml.dump_all(cnfg_list, f, indent=4)
     return run_dir
 
 
@@ -139,5 +148,5 @@ if __name__ == '__main__':
     if args.path != None:  # run_dir path given in call
         run_dir = args.path
     else:
-        run_dir = make_run_dir(PPO_CONFIG)
+        run_dir = make_run_dir(PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG)
     main(run_dir, args.train, args.message)
