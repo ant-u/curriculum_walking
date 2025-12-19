@@ -26,8 +26,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "max_steps": 1000,
-    "timesteps": 10e6,
+    "timesteps": 20e6,
     "seed": 0,
 }
 
@@ -35,9 +34,10 @@ ENV_CONFIG = {
     "xml_file": "humanoid_plane.xml",
     "env_id": "Humanoid-v5-plane",
     "n_envs": 8,
-    "max_steps": 1000,  # 0 disables max steps
-    "use_lidar": False,
-    "render_lidar": False,  # TODO: create train config with this disabled.
+    "max_steps": 1500,  # 0 disables max steps
+    "use_lidar": True,
+    "render_lidar": True,  # TODO: create train config with this disabled.
+    "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
     "n_points_y": 5,
@@ -57,7 +57,7 @@ CALLBACK_CONFIG = {
     },
     "eval_env_conf": {
         "env_seed": 0,
-        "eval_freq": 100_000,
+        "eval_freq": 500_000,
         "deterministic": True,
         "render": False,
     },

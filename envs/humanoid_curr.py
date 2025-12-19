@@ -28,6 +28,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         # TODO: make set levels survive the reset
 
         if self.use_lidar:
+            self.use_relative_height = cnfg["use_relative_height"]
             self.n_points_x = cnfg["n_points_x"]   # forward sampling
             self.n_points_y = cnfg["n_points_y"]   # sideways sampling
             self.y_width = cnfg["y_width"]         # meters left/right of pelvis
@@ -73,7 +74,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         
         heights = np.zeros(len(world_points))
         torso_height = self.data.xpos[self.model.body('torso').id][2]
-        torso_height = 0
+        torso_height = torso_height if self.use_relative_height == True else 0  # if not relative height: pick 0, results in absolute height
         
         for i, point in enumerate(world_points):
             # Ray-cast from above the point down to find terrain height
@@ -102,12 +103,10 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             if geomid[0] >= 0 and distance >= 0:  # Hit something
                 hit_point = ray_start + distance * vec
                 absolute_point_height = hit_point[2]
-                heights[i] = absolute_point_height - torso_height  # using relative heights
-                print(f"found point of group {geomid[0]} and height {absolute_point_height}")  
             else:
                 # No hit - assume ground plane at z=0
                 absolute_point_height = 0.0
-                heights[i] = absolute_point_height - torso_height
+            heights[i] = absolute_point_height - torso_height  # if use_relative_height is false: torso height = 0 --> absolute height
             self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
 
