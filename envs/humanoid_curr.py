@@ -40,6 +40,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                     grid.append([x, y, 0])  
             self.sample_points_local = np.array(grid)
             height_map_dim = len(self.sample_points_local)
+            # NOTE: -3 because of 3 markers for coord system in plane middle
             assert height_map_dim == len(self.data.site_xpos[:-3]), "Number of observation points does NOT match "\
                 "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
                 "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
@@ -51,10 +52,10 @@ class HumanoidEnvCurr(HumanoidEnvBase):
     
     def _get_obs(self):
         base_obs = super()._get_obs()
-        heightmap = self._get_heightmap()
-
-        # return np.concastenate([base_obs, heightmap]).astype(np.float32)
-        return np.concatenate([base_obs, heightmap]).astype(np.float32)
+        if self.use_lidar:
+            heightmap = self._get_heightmap()
+            return np.concatenate([base_obs, heightmap]).astype(np.float32)
+        return base_obs
     
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
