@@ -30,7 +30,7 @@ PPO_CONFIG = {
     "tensorboard_log": True,
     "max_steps": 1000,
     
-    "timesteps": 15e6,
+    "timesteps": 8e6,
     "seed": 0,
     "n_envs": 8,
 }

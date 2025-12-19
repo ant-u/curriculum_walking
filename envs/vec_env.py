@@ -32,11 +32,11 @@ def make_env_curr(n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_fil
         HumanoidEnvCurr, 
         n_envs=n_envs, 
         seed=seed, 
-        wrapper_class=TimeLimit, 
-        wrapper_kwargs={"max_episode_steps": max_steps},
+        # wrapper_class=TimeLimit, 
+        # wrapper_kwargs={"max_episode_steps": max_steps},
         env_kwargs=env_kwargs)
     
-    norm_env = VecNormalize(vec_env, norm_reward=True, clip_reward=10, norm_obs=True)
+    norm_env = VecNormalize(vec_env, norm_reward=False, clip_reward=10, norm_obs=True)
     return norm_env
 
 def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = None):
