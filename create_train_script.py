@@ -4,7 +4,7 @@ from scripts import train
 
 
 def main(train_on, message):
-    run_dir = train.make_run_dir(train.PPO_CONFIG)
+    run_dir = train.make_run_dir(train.PPO_CONFIG, train.ENV_CONFIG, train.CALLBACK_CONFIG)
     train_argument = ' -t ' + train_on if train_on else ''
     message_argument = ' -m "' + message + '"' if message else ''
     # Content of the SLURM script

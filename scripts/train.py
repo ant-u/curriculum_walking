@@ -117,9 +117,9 @@ def make_run_dir(ppo_cnfg, env_cnfg, callback_cnfg):
     # save config copy
     with open(os.path.join(run_dir, "configs", "config_used.yaml"), "w") as f:
         cnfg_list = [
-            {'PPO_CONFIG': PPO_CONFIG},
-            {'ENV_CONFIG': ENV_CONFIG},
-            {'CALLBACK_CONFIG': CALLBACK_CONFIG},
+            {'PPO_CONFIG': ppo_cnfg},
+            {'ENV_CONFIG': env_cnfg},
+            {'CALLBACK_CONFIG': callback_cnfg},
         ]
         yaml.dump_all(cnfg_list, f, indent=4)
     return run_dir
