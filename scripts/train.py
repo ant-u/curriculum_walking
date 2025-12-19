@@ -34,8 +34,8 @@ PPO_CONFIG = {
     "timesteps": 8e6,
     "seed": 0,
     "n_envs": 8,
-    "use_lidar": False,
-    "render_lidar": False,  # TODO: create train config with this disabled.
+    "use_lidar": True,
+    "render_lidar": True,  # TODO: create train config with this disabled.
     "n_points_x": 6,
     "n_points_y": 5,
     "y_width": 1.5,

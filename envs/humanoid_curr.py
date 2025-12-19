@@ -1,4 +1,6 @@
 import os
+
+import mujoco
 from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
@@ -18,9 +20,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.render_lidar = cnfg["render_lidar"]
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
-            assert height_map_dim == len(self.data.site_xpos), "Number of observation points does NOT match "\
-                "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
-                "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
+            
 
         # TODO: make set levels survive the reset
 
@@ -40,11 +40,22 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                     grid.append([x, y, 0])  
             self.sample_points_local = np.array(grid)
             height_map_dim = len(self.sample_points_local)
-
+            assert height_map_dim == len(self.data.site_xpos[:-3]), "Number of observation points does NOT match "\
+                "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
+                "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
+            
             low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
             self.observation_space = Box(low, high, dtype=np.float64)
+        self.set_env_level_slab(1, 0.66)
+    
+    def _get_obs(self):
+        base_obs = super()._get_obs()
+        heightmap = self._get_heightmap()
 
+        # return np.concastenate([base_obs, heightmap]).astype(np.float32)
+        return np.concatenate([base_obs, heightmap]).astype(np.float32)
+    
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
         p = self.data.xpos[pelvis_id]          # pelvis world position
@@ -53,33 +64,48 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         return (R @ local_points.T).T + p
     
     def _get_heightmap(self):
-        points_world = self._local_to_world(self.sample_points_local)
-        heights = []
-
-        for i, pw in enumerate(points_world):
-            # Get height directly from height field
-            hfield_id = 0
-            x_idx = self._get_hfield_index(pw[0], x=True, y=False)
-            y_idx = self._get_hfield_index(pw[1], x=False, y=True)
-            
-            # Ensure indices are within bounds
-            x_idx = max(0, min(x_idx, self.model.hfield_ncol[hfield_id]-1))
-            y_idx = max(0, min(y_idx, self.model.hfield_nrow[hfield_id]-1))
-            
-            # Get height from height field data
-            height = self.model.hfield_data[y_idx * self.model.hfield_ncol[hfield_id] + x_idx]
-            heights.append(height)
-            
-            self.data.site_xpos[i] = [pw[0], pw[1], height]  # updating pos of sites
+        # Convert local sample points to world coordinates
+        world_points = self._local_to_world(self.sample_points_local)
         
-        return np.array(heights, dtype=np.float32)
-    
-    def _get_obs(self):
-        base_obs = super()._get_obs()
-        # heightmap = self._get_heightmap()
-
-        # return np.concastenate([base_obs, heightmap]).astype(np.float32)
-        return base_obs
+        heights = np.zeros(len(world_points))
+        torso_height = self.data.xpos[self.model.body('torso').id][2]
+        torso_height = 0
+        
+        for i, point in enumerate(world_points):
+            # Ray-cast from above the point down to find terrain height
+            # Start ray well above any expected terrain
+            ray_start = np.array(point.copy())
+            ray_start[2] = 100.0  # start 100m above
+            
+            ray_end = np.array(point.copy())
+            ray_end[2] = -100.0  # end 100m below
+            vec = ray_end - ray_start
+            geomid = np.array([-1], dtype=np.int32)
+            geomgroup = np.array([0, 1, 0, 0, 0, 0], dtype=np.uint8)  # only group 1, all obstacles (robot is 0)
+            
+            # Perform raycast
+            distance = mujoco.mj_ray(
+                self.model,
+                self.data,
+                pnt=ray_start,
+                vec=vec,
+                geomgroup=geomgroup,
+                flg_static=1,
+                bodyexclude=self.model.body('torso').id,  # exclude robot body
+                geomid=geomid
+            )
+            
+            if geomid[0] >= 0 and distance >= 0:  # Hit something
+                hit_point = ray_start + distance * vec
+                absolute_point_height = hit_point[2]
+                heights[i] = absolute_point_height - torso_height  # using relative heights
+                print(f"found point of group {geomid[0]} and height {absolute_point_height}")  
+            else:
+                # No hit - assume ground plane at z=0
+                absolute_point_height = 0.0
+                heights[i] = absolute_point_height - torso_height
+            self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
+        return heights
 
     def set_env_level_slab(self, height, x_ratio):
         levels.set_slab(self.model, self.data, x_ratio, height)
@@ -91,23 +117,3 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         ret = super().reset_model()
         # self.init_qpos[0] = -8
         return ret
-
-    def _get_hfield_index(self, pos, x: bool, y: bool):
-        """Map coord space  to hfield space.
-        So either one of the two, with the vars as defined in hfield in humanoid_hmap.xml:
-        - [-x_size, x_size] --> [0, ncol]
-        - [-y_size, y_size] --> [0, nrow]
-
-        x and y have to be exclusively true
-        """
-        hfield_id = 0
-        if x and not y:
-            coord_upper = self.model.hfield_size[hfield_id][0]
-            hfield_upper = self.model.hfield_ncol[hfield_id]
-        if y and not x:
-            coord_upper = self.model.hfield_size[hfield_id][1]
-            hfield_upper = self.model.hfield_nrow[hfield_id]
-
-        normalized = (pos - (-coord_upper)) / (2 * coord_upper)  # transform into normalized space [0..1]
-        transformed = normalized * (hfield_upper)  # map to hfield space [0..nrow] or [0..ncol]
-        return int(transformed)
