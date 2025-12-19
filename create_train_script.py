@@ -19,7 +19,7 @@ def main(train_on, message):
 #SBATCH -e ./{run_dir}/logs/slurm.%x.%j.err
 #SBATCH --partition=NvidiaAll
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task={train.PPO_CONFIG["n_envs"]}
+#SBATCH --cpus-per-task={train.ENV_CONFIG["n_envs"]}
 
 source ./.venv/bin/activate
 python -u -m scripts.train -p {run_dir}{train_argument}{message_argument}
