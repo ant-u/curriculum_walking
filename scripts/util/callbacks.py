@@ -116,7 +116,7 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(cnfg, run_dir, n_envs: int=1, xml_file_name: str = 'humanoid_plane.xml') -> tuple:
+def get_all_callbacks(cnfg, env_cnfg, run_dir, n_envs: int=1, xml_file_name: str = 'humanoid_plane.xml') -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
 
@@ -128,7 +128,7 @@ def get_all_callbacks(cnfg, run_dir, n_envs: int=1, xml_file_name: str = 'humano
     )
 
     # eval_env = make_env(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"])
-    eval_env = make_env_curr(n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"], xml_file_name=xml_file_name)
+    eval_env = make_env_curr(env_cnfg, n_envs=1, seed=cnfg["eval_env_conf"]["env_seed"], xml_file_name=xml_file_name)
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,

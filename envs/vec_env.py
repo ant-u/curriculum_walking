@@ -23,8 +23,8 @@ def make_env_base(n_envs: int = 1, seed: int = 0):
     return norm_env
 
 
-def make_env_curr(n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_file_name = None):
-    env_kwargs = {}  # "render_mode": "human"
+def make_env_curr(cnfg, n_envs: int = 1, max_steps: int = 1000, seed: int = 0, xml_file_name = None):
+    env_kwargs = {"cnfg": cnfg}  # "render_mode": "human"
     if xml_file_name is not None:
         env_kwargs.update({"xml_file": xml_file_name})
     
