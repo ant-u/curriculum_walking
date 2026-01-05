@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 22859280.0,
+    "n_eval_episodes": 5,
+    "timesteps": 15000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "training agent with environment reward normalisation turned off. finding out about regret",
+    "running_time": "2 days, 1:12:44.206637"
+}
