@@ -36,7 +36,7 @@ ENV_CONFIG = {
     "n_envs": 8,
     "max_steps": 1500,  # 0 disables max steps
     "use_lidar": True,
-    "render_lidar": True,  # TODO: create train config with this disabled.
+    "render_lidar": True,  # NOTE: is disabled during training
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -71,6 +71,7 @@ def main(RUN_DIR, train_on, message):
     """main function for training. run_dir is (new) folder for saving the trained model. 
     train_on is path to already trained model for continuing training"""
     print_cpu_info()
+    ENV_CONFIG["render_lidar"] = False  # For training, rendering is irelevant
 
     if train_on == None:
         env = make_env_curr(ENV_CONFIG)

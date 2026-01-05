@@ -107,7 +107,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 # No hit - assume ground plane at z=0
                 absolute_point_height = 0.0
             heights[i] = absolute_point_height - torso_height  # if use_relative_height is false: torso height = 0 --> absolute height
-            self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
+            if self.render_lidar:
+                self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
 
     def set_env_level_slab(self, height, x_ratio):

@@ -5,6 +5,8 @@ import os
 from stable_baselines3 import PPO
 import yaml
 from envs.vec_env import load_render_env
+from scripts.train import PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG
+
 
 def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
@@ -43,9 +45,14 @@ def load_configs(run_dir: str):
     with open(path, 'r') as f:
         doc = yaml.safe_load_all(f)
         configs = list(doc)
-    PPO_config = configs[0]['PPO_CONFIG']
-    env_config = configs[1]['ENV_CONFIG']
-    callback_config = configs[2]['CALLBACK_CONFIG']
+    if len(configs) >= 3:
+        PPO_config = configs[0]['PPO_CONFIG']
+        env_config = configs[1]['ENV_CONFIG']
+        callback_config = configs[2]['CALLBACK_CONFIG']
+    else:
+        PPO_config = PPO_CONFIG
+        env_config = ENV_CONFIG
+        callback_config = CALLBACK_CONFIG
     return PPO_config, env_config, callback_config
     
         
