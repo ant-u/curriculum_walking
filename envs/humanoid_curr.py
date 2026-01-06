@@ -1,5 +1,4 @@
 import os
-
 import mujoco
 from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
@@ -26,6 +25,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             
 
         # TODO: make set levels survive the reset
+        self.last_level = None
+        self.level_kwargs = None
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -113,11 +114,21 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def set_env_level_slab(self, height, x_ratio):
         levels.set_slab(self.model, self.data, x_ratio, height)
+        self.last_level = self.set_env_level_slab
+        self.level_kwargs = {"height": height, "x_ratio": x_ratio}
 
     def unset_env_level_slab(self):
         levels.unset_slab(self.model, self.data)
+        self.last_level = None
+        self.level_kwargs = None
 
     def reset_model(self):
         ret = super().reset_model()
         # self.init_qpos[0] = -8
+        if self.last_level and self.level_kwargs:
+            self.last_level(**self.level_kwargs)
         return ret
+    
+
+a = HumanoidEnvBase()
+print("a")

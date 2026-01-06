@@ -29,10 +29,10 @@
             "args": "${command:pickArgs}"
         },
         {
-            "name": "humanoid_v5_hmap as module",
+            "name": "humanoid_curr as module",
             "type": "debugpy",
             "request": "launch",
-            "module": "envs.humanoid_v5_hmap",
+            "module": "envs.humanoid_curr",
             "cwd": "${workspaceFolder}"
         }
     ]
