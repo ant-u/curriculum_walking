@@ -35,8 +35,8 @@ ENV_CONFIG = {
     "env_id": "Humanoid-v5-plane",
     "n_envs": 8,
     "max_steps": 500,  # 0 disables max steps
-    "use_lidar": False,
-    "render_lidar": False,  # NOTE: is disabled during training
+    "use_lidar": True,
+    "render_lidar": True,  # NOTE: is disabled during training
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
