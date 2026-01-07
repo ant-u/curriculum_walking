@@ -31,10 +31,10 @@ PPO_CONFIG = {
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid_plane.xml",
-    "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
+    "xml_file": "",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "env_id": "HumanoidEnvDefault",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
-    "max_steps": 500,  # 0 disables max steps
+    "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
     "use_relative_height": False,
@@ -46,7 +46,7 @@ ENV_CONFIG = {
     "x_start": -1,
     "norm_reward": True,
     "norm_obs": True,
-    "clip_reward": 10,
+    "clip_reward": 10,  # default: 10
 }
 
 CALLBACK_CONFIG = {
