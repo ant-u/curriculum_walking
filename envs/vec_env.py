@@ -35,7 +35,7 @@ def make_env_default(cnfg):
 def make_env_base(cnfg):
     """Generates an env with envs.humanoid_v5, which is NOT the original humanoid_v5, but extended."""
     env_kwargs = None
-    if cnfg["xml_file"] is not None:
+    if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         env_kwargs = {"xml_file": cnfg["xml_file"]}
     vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None,
                            env_kwargs=env_kwargs)
@@ -46,7 +46,7 @@ def make_env_base(cnfg):
 
 def make_env_curr(cnfg):
     env_kwargs = {"cnfg": cnfg}  # "render_mode": "human"
-    if cnfg["xml_file"] is not None:
+    if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         env_kwargs.update({"xml_file": cnfg["xml_file"]})
     if cnfg["max_steps"] > 0:
         wrapper_class = TimeLimit
