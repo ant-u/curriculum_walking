@@ -22,7 +22,7 @@ def make_env(cnfg):
 def make_env_default(cnfg):
     """Generates the default gymnasium humnanoid_v5 env with no extras whatsoever."""
     env_kwargs = None
-    if cnfg["xml_file"] is not None:
+    if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
         env_kwargs = {"xml_file": path}
     vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None,

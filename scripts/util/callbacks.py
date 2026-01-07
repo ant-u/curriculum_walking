@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from envs.vec_env import make_env_base, make_env_curr
+from envs.vec_env import make_env_base, make_env
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
@@ -127,7 +127,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
         name_prefix=callback_cnfg["checkpoint_cb_conf"]["name_prefix"]
     )
 
-    eval_env = make_env_curr(env_cnfg)
+    eval_env = make_env(env_cnfg)
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,
