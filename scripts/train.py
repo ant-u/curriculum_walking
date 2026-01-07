@@ -6,7 +6,7 @@ from datetime import timedelta
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import make_env_base, make_env_curr, laod_env_curr
+from envs.vec_env import laod_env_curr, make_env
 import yaml
 
 PPO_CONFIG = {
@@ -32,7 +32,7 @@ PPO_CONFIG = {
 
 ENV_CONFIG = {
     "xml_file": "humanoid_plane.xml",
-    "env_id": "Humanoid-v5-plane",
+    "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 500,  # 0 disables max steps
     "use_lidar": True,
@@ -74,7 +74,7 @@ def main(RUN_DIR, train_on, message):
     ENV_CONFIG["render_lidar"] = False  # For training, rendering is irelevant
 
     if train_on == None:
-        env = make_env_curr(ENV_CONFIG)
+        env = make_env(ENV_CONFIG)
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
         env = laod_env_curr(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])

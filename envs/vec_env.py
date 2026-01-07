@@ -7,6 +7,18 @@ from envs.humanoid_curr import HumanoidEnvCurr
 from gymnasium.envs.mujoco.humanoid_v5 import HumanoidEnv as HumanoidEnvDefault  # NOTE: renaming to default for less confusion
 
 
+def make_env(cnfg):
+    assert cnfg["env_id"] in ["HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"],\
+    "env_id has to be HumanoidEnvDefault, HumanoidEnvBase or HumanoidEnvCurr"
+    match cnfg["env_id"]:
+        case "HumanoidEnvDefault":
+            return make_env_default(cnfg)
+        case "HumanoidEnvBase":
+            return make_env_base(cnfg)
+        case "HumanoidEnvCurr":
+            return make_env_curr(cnfg)
+
+
 def make_env_default(cnfg):
     """Generates the default gymnasium humnanoid_v5 env with no extras whatsoever."""
     vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None)
