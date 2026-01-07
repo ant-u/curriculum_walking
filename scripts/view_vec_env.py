@@ -19,7 +19,8 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     stats_path = os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl")
     env = load_render_env(stats_path, env_config, render_mode=render_mode)
     
-    # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
+    # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.55)
+    # env.env_method("set_env_level_stairs", x_ratio=0.55, step_length=1, step_height=1)
     
     frames = []
     obs = env.reset()

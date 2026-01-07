@@ -119,8 +119,18 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def unset_env_level_slab(self):
         levels.unset_slab(self.model, self.data)
-        self.last_level = None
-        self.level_kwargs = None
+        self.last_level = self.level_kwargs = None
+
+    def set_env_level_stairs(self, x_ratio, step_length, step_height):
+        levels.set_stairs(self.model, self.data, x_ratio, step_length, step_height)
+        self.last_level = self.set_env_level_stairs
+        self.level_kwargs = {"x_ratio": x_ratio, 
+                             "step_length": step_length, 
+                             "step_height": step_height}
+        
+    def unset_env_level_stairs(self):
+        levels.unset_stairs(self.model, self.data)
+        self.last_level = self.level_kwargs = None
 
     def reset_model(self):
         ret = super().reset_model()
@@ -128,7 +138,3 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         if self.last_level and self.level_kwargs:
             self.last_level(**self.level_kwargs)
         return ret
-    
-
-a = HumanoidEnvBase()
-print("a")
