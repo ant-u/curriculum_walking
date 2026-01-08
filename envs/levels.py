@@ -10,7 +10,6 @@ def set_slab(model, data, x_ratio, height):
 
     x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
     move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
-    return True
 
 
 def unset_slab(model, data):
@@ -45,6 +44,48 @@ def unset_stairs(model, data):
         deactivate_shape(model, f"stairs_shape_{i}")
     move_mocap_pos(data, mocap_id, 10, 40, 0)
 
+
+def set_log(model, data, x_ratio, height, size):
+    """Set a log to lie in the way. height is z of middlepoint, size is diameter of log.
+    For limiting max height of log: height + size <= 1."""
+    assert height + size <= 1, "Log height and size are too high, unvalid obstacle."
+    activate_shape(model, "log_shape")
+    geom = model.geom("log_shape")
+    floor = model.geom("floor")
+    mocap_id = model.body("log").mocapid[0]
+
+    x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
+    move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
+    model.geom_size[geom.id][0] = size
+
+
+def unset_log(model, data):
+    deactivate_shape(model, "log_shape")
+    mocap_id = model.body("log").mocapid[0]
+    move_mocap_pos(data, mocap_id, 10, 40, 0)
+
+
+def set_stump(model, data, x_ratio, height, depth):
+    """Set a stump as level. Obstacle is meant as a stump in the way to conquer.
+    Depth is absolute. Height and depth both have to be <= 1.
+    Slab is for stepping up and walking on."""
+    assert height <= 1 and depth <= 1, "Height or depth are to high, unvalid obstacle."
+    activate_shape(model, "stump_shape")
+    geom = model.geom("stump_shape")
+    floor = model.geom("floor")
+    mocap_id = model.body("stump").mocapid[0]
+
+    x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
+    move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
+    model.geom_size[geom.id][0] = depth / 2
+
+
+def unset_stump(model, data):
+    deactivate_shape(model, "stump_shape")
+    mocap_id = model.body("stump").mocapid[0]
+    move_mocap_pos(data, mocap_id, 10, 40, 0)
+
+
 def move_mocap_pos(data, id, x, y, z):
     data.mocap_pos[id][0] = x
     data.mocap_pos[id][1] = y
@@ -64,3 +105,9 @@ def deactivate_shape(model, name):
     model.geom_contype[gid] = 0
     model.geom_conaffinity[gid] = 0
 
+
+def reset_all_levels(model, data):
+    unset_slab(model, data)
+    unset_stairs(model, data)
+    unset_log(model, data)
+    unset_stump(model, data)

@@ -81,7 +81,7 @@ def main(RUN_DIR, train_on, message):
         model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
         print(f"using pretrained model from: {train_on}")
 
-    # env.env_method("set_env_level_slab", height=0.1, x_ratio=0.8)
+    # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
 
     checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR)
     

@@ -112,14 +112,10 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
 
-    def set_env_level_slab(self, height, x_ratio):
+    def set_env_level_slab(self, x_ratio, height):
         levels.set_slab(self.model, self.data, x_ratio, height)
         self.last_level = self.set_env_level_slab
         self.level_kwargs = {"height": height, "x_ratio": x_ratio}
-
-    def unset_env_level_slab(self):
-        levels.unset_slab(self.model, self.data)
-        self.last_level = self.level_kwargs = None
 
     def set_env_level_stairs(self, x_ratio, step_length, step_height):
         levels.set_stairs(self.model, self.data, x_ratio, step_length, step_height)
@@ -127,9 +123,19 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.level_kwargs = {"x_ratio": x_ratio, 
                              "step_length": step_length, 
                              "step_height": step_height}
-        
-    def unset_env_level_stairs(self):
-        levels.unset_stairs(self.model, self.data)
+
+    def set_env_level_log(self, x_ratio, height, size):
+        levels.set_log(self.model, self.data, x_ratio, height, size)
+        self.last_level = self.set_env_level_log
+        self.level_kwargs = {"x_ratio": x_ratio, "height": height, "size": size}
+
+    def set_env_level_stump(self, x_ratio, height, depth):
+        levels.set_stump(self.model, self.data, x_ratio, height, depth)
+        self.last_level = self.set_env_level_stump
+        self.level_kwargs = {"x_ratio": x_ratio, "height": height, "depth": depth}
+
+    def unset_env_level(self):
+        levels.reset_all_levels(self.model, self.data)
         self.last_level = self.level_kwargs = None
 
     def reset_model(self):
