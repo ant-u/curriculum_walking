@@ -31,7 +31,7 @@ PPO_CONFIG = {
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "xml_file": "",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvDefault",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 0,  # 0 disables max steps
