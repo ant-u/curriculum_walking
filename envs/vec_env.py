@@ -49,6 +49,8 @@ def make_env_curr(cnfg):
     env_kwargs = {"cnfg": cnfg}  # "render_mode": "human"
     if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         env_kwargs.update({"xml_file": cnfg["xml_file"]})
+    wrapper_class = None
+    wrapper_kwargs = None
     if cnfg["max_steps"] > 0:
         wrapper_class = TimeLimit
         wrapper_kwargs = {"max_episode_steps": cnfg["max_steps"]}
