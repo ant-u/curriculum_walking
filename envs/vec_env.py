@@ -36,7 +36,8 @@ def make_env_base(cnfg):
     """Generates an env with envs.humanoid_v5, which is NOT the original humanoid_v5, but extended."""
     env_kwargs = None
     if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
-        env_kwargs = {"xml_file": cnfg["xml_file"]}
+        path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
+        env_kwargs = {"xml_file": path}
     vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None,
                            env_kwargs=env_kwargs)
     norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
