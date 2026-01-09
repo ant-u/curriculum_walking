@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 2847065.1198492,
+    "n_eval_episodes": 5,
+    "timesteps": 15000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "curr env and humanoid xml",
+    "running_time": "13:23:30.346926"
+}
