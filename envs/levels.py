@@ -1,21 +1,22 @@
 from typing import Tuple
 import numpy as np
+import mujoco
 
 
 def set_slab(model, data, x_ratio, height):
     activate_shape(model, "slab_shape")
     geom = model.geom("slab_shape")
     floor = model.geom("floor")
-    mocap_id = model.body("slab").mocapid[0]
+    body = model.body("slab")
 
     x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
-    move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
+    model.body_pos[body.id] = [x_pos, 0, height - geom.size[2]]
 
 
 def unset_slab(model, data):
     deactivate_shape(model, "slab_shape")
-    mocap_id = model.body("slab").mocapid[0]
-    move_mocap_pos(data, mocap_id, 10, 40, 0)
+    body_id = model.body("slab").id
+    model.body_pos[body_id] = [10, 40, 0]
 
 
 def set_stairs(model, data, x_ratio, step_length, step_height):
@@ -27,11 +28,10 @@ def set_stairs(model, data, x_ratio, step_length, step_height):
         activate_shape(model, f"stairs_shape_{i}")
         geom_obj.append(model.geom(f"stairs_shape_{i}"))
     floor_obj = model.geom("floor")
-    mocap_id = model.body("stairs").mocapid[0]
-
+    body_id = model.body("stairs").id
 
     x_pos = (floor_obj.size[0] * 2 * x_ratio) - floor_obj.size[0] + geom_obj[0].size[0]
-    move_mocap_pos(data, mocap_id, x_pos, 0, 0)
+    model.body_pos[body_id] = [x_pos, 0, 0]
     for i, o in enumerate(geom_obj):
         object_height = o.size[2]
         model.geom_pos[o.id][0] = i * step_length
@@ -39,10 +39,10 @@ def set_stairs(model, data, x_ratio, step_length, step_height):
 
 
 def unset_stairs(model, data):
-    mocap_id = model.body("stairs").mocapid[0]
+    body_id = model.body("stairs").id
     for i in range(1,9):
         deactivate_shape(model, f"stairs_shape_{i}")
-    move_mocap_pos(data, mocap_id, 10, 40, 0)
+    model.body_pos[body_id] = [10, 40, 0]
 
 
 def set_log(model, data, x_ratio, height, size):
@@ -52,17 +52,17 @@ def set_log(model, data, x_ratio, height, size):
     activate_shape(model, "log_shape")
     geom = model.geom("log_shape")
     floor = model.geom("floor")
-    mocap_id = model.body("log").mocapid[0]
+    body_id = model.body("log").id
 
     x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
-    move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
+    model.body_pos[body_id] = [x_pos, 0, height - geom.size[2]]
     model.geom_size[geom.id][0] = size
 
 
 def unset_log(model, data):
     deactivate_shape(model, "log_shape")
-    mocap_id = model.body("log").mocapid[0]
-    move_mocap_pos(data, mocap_id, 10, 40, 0)
+    body_id = model.body("log").id
+    model.body_pos[body_id] = [10, 40, 0]
 
 
 def set_stump(model, data, x_ratio, height, depth):
@@ -73,23 +73,17 @@ def set_stump(model, data, x_ratio, height, depth):
     activate_shape(model, "stump_shape")
     geom = model.geom("stump_shape")
     floor = model.geom("floor")
-    mocap_id = model.body("stump").mocapid[0]
+    body_id = model.body("stump").id
 
     x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
-    move_mocap_pos(data, mocap_id, x_pos, 0, height - geom.size[2])
+    model.body_pos[body_id] = [x_pos, 0, height - geom.size[2]]
     model.geom_size[geom.id][0] = depth / 2
 
 
 def unset_stump(model, data):
     deactivate_shape(model, "stump_shape")
-    mocap_id = model.body("stump").mocapid[0]
-    move_mocap_pos(data, mocap_id, 10, 40, 0)
-
-
-def move_mocap_pos(data, id, x, y, z):
-    data.mocap_pos[id][0] = x
-    data.mocap_pos[id][1] = y
-    data.mocap_pos[id][2] = z
+    body_id = model.body("stump").id
+    model.body_pos[body_id] = [10, 40, 0]
 
 
 def activate_shape(model, name):
