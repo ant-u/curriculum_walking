@@ -23,10 +23,9 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
             
-
-        # TODO: make set levels survive the reset
         self.last_level = None
         self.level_kwargs = None
+        self.unset_env_level()
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
