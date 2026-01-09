@@ -74,6 +74,9 @@
         <body name="stump" mocap="true" pos="10 40 0">
             <geom name="stump_shape" type="box" size="0.5 20 0.5" friction="1 .1 .1" group="1"/>
         </body>
+        <body name="ramp" mocap="true" pos="10 40 0">
+            <geom name="ramp_shape" type="box" size="5 20 0.5" friction="1 .1 .1" euler="0 -1 0" group="1"/>
+        </body>
         <!-- End of obstacles -->
 
         <!-- Markers-->

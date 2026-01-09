@@ -80,8 +80,21 @@ def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = Non
 
 
 def load_render_env(stats_path: str, cnfg, render_mode: str = "human"):
-    env = make_vec_env(HumanoidEnvCurr, n_envs=1, seed=cnfg["seed"], 
-                       env_kwargs={"render_mode": render_mode, "cnfg": cnfg})
+    env_class = HumanoidEnvCurr
+    env_kwargs={"render_mode": render_mode, "cnfg": cnfg}
+    if "env_id" in cnfg and cnfg["env_id"].lower() != "humanoidenvcurr":
+        match cnfg["env_id"].lower():  # no case sensitivity
+            case "humanoidenvdefault":
+                env_class = HumanoidEnvDefault
+                env_kwargs = {"render_mode": render_mode}
+            case "humanoidenvbase":
+                env_class = HumanoidEnvBase
+                env_kwargs = {"render_mode": render_mode}
+        if cnfg["xml_file"] != '':  # Catching case of using default xml file (in config as '')
+            env_kwargs["xml_file"] = cnfg["xml_file"]
+
+    env = make_vec_env(env_class, n_envs=1, seed=cnfg["seed"], 
+                       env_kwargs=env_kwargs)
     env = VecNormalize.load(stats_path, env)  # Load VecNormalize statistics into this new VecEnv
     env.training = False        # disables running stats updates
     env.norm_reward = False     # do not normalize rewards during inference

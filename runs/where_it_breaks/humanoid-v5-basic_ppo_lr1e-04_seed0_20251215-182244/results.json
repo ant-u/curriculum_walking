@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 4141.59375,
-    "n_eval_episodes": 5,
-    "timesteps": 20000000.0,
-    "obs_shape": [
-        348
-    ],
-    "message": "changed the xml file of humanoid_v5_hmap env to humanoid_hmap.xml. commented out all markers, so only difference is hmap as ground and not floor as in humanoid.xml"
-}

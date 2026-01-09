@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 10271374.0,
-    "n_eval_episodes": 5,
-    "timesteps": 20000000.0,
-    "obs_shape": [
-        348
-    ],
-    "message": "Next step: using humanoid_hmap env, but removed all functionality. Expected to perform exactly the same as run before."
-}

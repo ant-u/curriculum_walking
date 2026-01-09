@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 5338.61572265625,
-    "n_eval_episodes": 5,
-    "timesteps": 20000000.0,
-    "obs_shape": [
-        378
-    ],
-    "message": "reintroduced reset function which teleports robot to x=-8 but not changed the position in the xml file."
-}
