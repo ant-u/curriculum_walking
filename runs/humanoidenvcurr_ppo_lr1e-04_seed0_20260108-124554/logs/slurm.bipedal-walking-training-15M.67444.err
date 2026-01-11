@@ -1,0 +1,2 @@
+slurmstepd-basalt: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-basalt: error: Setting TMPDIR to /tmp

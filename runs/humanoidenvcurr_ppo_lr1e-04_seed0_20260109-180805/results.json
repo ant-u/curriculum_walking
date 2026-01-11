@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 2847065.1198492,
+    "n_eval_episodes": 5,
+    "timesteps": 15000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "added group 1 attribute back to floor",
+    "running_time": "13:24:04.622069"
+}

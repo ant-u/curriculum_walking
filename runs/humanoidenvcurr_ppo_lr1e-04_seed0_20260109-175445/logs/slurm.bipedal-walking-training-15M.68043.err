@@ -1,0 +1,2 @@
+slurmstepd-diorit: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-diorit: error: Setting TMPDIR to /tmp

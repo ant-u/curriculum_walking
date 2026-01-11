@@ -1,0 +1,2 @@
+slurmstepd-arkose: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-arkose: error: Setting TMPDIR to /tmp
