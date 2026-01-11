@@ -120,6 +120,7 @@ class LivePlotCallback(BaseCallback):
 def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
+    save_vec_norm = SaveVecNormalizeOnNewBest(CHECKPOINT_PATH)
 
     checkpoint_callback = CheckpointCallback(
         save_freq=callback_cnfg["checkpoint_cb_conf"]["save_freq"] // env_cnfg["n_envs"],
@@ -136,6 +137,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
         eval_freq=callback_cnfg["eval_env_conf"]["eval_freq"] // env_cnfg["n_envs"],
         deterministic=callback_cnfg["eval_env_conf"]["deterministic"],
         render=callback_cnfg["eval_env_conf"]["render"],
+        callback_on_new_best=save_vec_norm,
     )
     plot_callback = LivePlotCallback(
         save_dir=LOG_PATH,
@@ -144,3 +146,16 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
     )
     curr_callback = CurriculumCallback(save_dir=LOG_PATH)
     return checkpoint_callback, eval_callback, plot_callback, curr_callback
+
+
+class SaveVecNormalizeOnNewBest(BaseCallback):
+    def __init__(self, save_path: str):
+        super().__init__()
+        self.save_path = save_path
+
+    def _on_step(self) -> bool:
+        # This is called exactly once per new best
+        env = self.model.get_env()
+        if hasattr(env, "save"):
+            env.save(f"{self.save_path}/best_vecnormalize_stats.pkl")
+        return True

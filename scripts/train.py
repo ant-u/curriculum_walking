@@ -26,8 +26,9 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 15e6,
+    "timesteps": 20e6,
     "seed": 0,
+    "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
 
 ENV_CONFIG = {
@@ -35,8 +36,8 @@ ENV_CONFIG = {
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 0,  # 0 disables max steps
-    "use_lidar": False,
-    "render_lidar": False,  # NOTE: is disabled during training
+    "use_lidar": True,
+    "render_lidar": True,  # NOTE: is disabled during training
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -72,6 +73,9 @@ def main(RUN_DIR, train_on, message):
     train_on is path to already trained model for continuing training"""
     print_cpu_info()
     ENV_CONFIG["render_lidar"] = False  # For training, rendering is irelevant
+    summary_short = {"message": message}
+    with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
+        json.dump(summary_short, f, indent=4)
 
     if train_on == None:
         env = make_env(ENV_CONFIG)
@@ -90,7 +94,7 @@ def main(RUN_DIR, train_on, message):
     end_time = time.monotonic()
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
-    env.save(os.path.join(RUN_DIR, "checkpoints", "vecnormalize_stats.pkl"))
+    env.save(os.path.join(RUN_DIR, "checkpoints", "last_vecnormalize_stats.pkl"))
     results_summary = {
         "mean_reward_eval": float(eval_cb.last_mean_reward),
         "n_eval_episodes": eval_cb.n_eval_episodes,

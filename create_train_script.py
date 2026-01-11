@@ -17,7 +17,7 @@ def main(train_on, message):
 #SBATCH -D ./
 #SBATCH -o ./{run_dir}/logs/slurm.%j.%N.out
 #SBATCH -e ./{run_dir}/logs/slurm.%x.%j.err
-#SBATCH --partition=NvidiaAll
+#SBATCH --partition={train.PPO_CONFIG["partition"]}
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task={train.ENV_CONFIG["n_envs"]}
 

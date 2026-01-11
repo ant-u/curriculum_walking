@@ -16,7 +16,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     PPO_config, env_config, callback_config = load_configs(run_dir)
     render_mode = "human" if not export_gif else "rgb_array"
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
-    stats_path = os.path.join(run_dir, "checkpoints", "ckpt_vecnormalize_9000000_steps.pkl")
+    stats_path = os.path.join(run_dir, "checkpoints", "vecnormalize_stats.pkl")
     env = load_render_env(stats_path, env_config, render_mode=render_mode)
     
     # env.env_method("set_env_level_slab", x_ratio=0.55, height=0.1)
