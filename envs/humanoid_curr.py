@@ -45,10 +45,11 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                     grid.append([x, y, 0])  
             self.sample_points_local = np.array(grid)
             height_map_dim = len(self.sample_points_local)
-            # NOTE: -3 because of 3 markers for coord system in plane middle
-            assert height_map_dim == len(self.data.site_xpos[:-3]), "Number of observation points does NOT match "\
-                "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
-                "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
+            if self.render_lidar:
+                # NOTE: -3 because of 3 markers for coord system in plane middle
+                assert height_map_dim == len(self.data.site_xpos[:-3]), "Number of observation points does NOT match "\
+                    "number of site markers in humanoid_hmap.xml. Make sure there are exactly as much points in xml "\
+                    "than defined in HumanoidEnvHmap. (num_points_x * num_points_y must be same as len(site_markers))"
             
             low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
