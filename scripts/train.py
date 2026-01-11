@@ -26,7 +26,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 20e6,
+    "timesteps": 15e6,
     "seed": 0,
 }
 
