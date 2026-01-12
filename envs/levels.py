@@ -102,6 +102,6 @@ def deactivate_shape(model, name):
 
 def reset_all_levels(model, data):
     unset_slab(model, data)
-    unset_stairs(model, data)
-    unset_log(model, data)
-    unset_stump(model, data)
+    # unset_stairs(model, data)  # TODO: activate when needed
+    # unset_log(model, data)
+    # unset_stump(model, data)
