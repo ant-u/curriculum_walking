@@ -6,7 +6,7 @@ from datetime import timedelta
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import laod_env, make_env
+from envs.vec_env import load_env, make_env
 import yaml
 
 PPO_CONFIG = {
@@ -26,13 +26,13 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 20e6,
+    "timesteps": 10e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 0,  # 0 disables max steps
@@ -61,6 +61,7 @@ CALLBACK_CONFIG = {
         "eval_freq": 500_000,
         "deterministic": True,
         "render": False,
+        "n_envs": 1,
     },
     "plot_callback": {
         "window": 100,
@@ -80,13 +81,14 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
         env = make_env(ENV_CONFIG)
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
-        env = laod_env(train_on_path, ENV_CONFIG)
+        env = load_env(train_on_path, ENV_CONFIG)
         model = load_PPO(PPO_CONFIG, env, train_on_path, RUN_DIR)
         assert env.action_space == model.action_space and \
                env.observation_space == model.observation_space
 
-    # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
-    checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR)
+    env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
+    checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(
+        CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR, train_on_path)
     
     start_time = time.monotonic()
     model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, eval_cb, plot_cb, curr_cb])

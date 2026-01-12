@@ -68,7 +68,7 @@ def make_env_curr(cnfg):
     return norm_env
 
 
-def laod_env(path: str, cnfg):
+def load_env(path: str, cnfg):
     """Load env as specified by config. picks env type from config, 
     please make sure obs space and act space are same size as in previous one.
     Also loads per default the 'last_vecnormalize_stats'."""

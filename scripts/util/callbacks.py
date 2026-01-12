@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from envs.vec_env import make_env_base, make_env
+from envs.vec_env import make_env, load_env
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
@@ -117,7 +117,7 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
+def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
     save_vec_norm = SaveVecNormalizeOnNewBest(CHECKPOINT_PATH)
@@ -129,7 +129,14 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir) -> tuple:
         name_prefix=callback_cnfg["checkpoint_cb_conf"]["name_prefix"]
     )
 
-    eval_env = make_env(env_cnfg)
+    env_cnfg_tmp = env_cnfg.copy()
+    env_cnfg_tmp["n_envs"] = callback_cnfg["eval_env_conf"]["n_envs"]
+    if train_on != None and train_on != "":
+        eval_env = load_env(train_on, env_cnfg_tmp)
+    else:
+        eval_env = make_env(env_cnfg_tmp)
+    eval_env.training = False
+
     eval_callback = EvalCallback(
         eval_env,
         best_model_save_path=CHECKPOINT_PATH,

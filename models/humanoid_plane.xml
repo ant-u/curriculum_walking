@@ -58,7 +58,7 @@
         <body name="slab" pos="10 40 0">
             <geom name="slab_shape" type="box" size="10 20 2" friction="1 .1 .1" group="1"/>
         </body>
-        <body name="stairs" pos="10 40 0">
+        <!-- <body name="stairs" pos="10 40 0">
             <geom name="stairs_shape_1" type="box" pos="-0.5 0 0"   size="5 20 0.5" friction="1 .1 .1" group="1"/>
             <geom name="stairs_shape_2" type="box" pos="0.5 0 0.5" size="5 20 0.5" friction="1 .1 .1" group="1"/>
             <geom name="stairs_shape_3" type="box" pos="1 0 1"   size="5 20 0.5" friction="1 .1 .1" group="1"/>
@@ -73,7 +73,7 @@
         </body>
         <body name="stump" pos="10 40 0">
             <geom name="stump_shape" type="box" size="0.5 20 0.5" friction="1 .1 .1" group="1"/>
-        </body>
+        </body> -->
         <!-- <body name="ramp" mocap="true" pos="10 40 0">
             <geom name="ramp_shape" type="box" size="5 20 0.5" friction="1 .1 .1" euler="0 -1 0" group="1"/>
         </body> -->
