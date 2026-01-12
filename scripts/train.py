@@ -26,7 +26,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 40e6,
+    "timesteps": 20e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -82,7 +82,8 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
     else:
         env = laod_env(train_on_path, ENV_CONFIG)
         model = load_PPO(PPO_CONFIG, env, train_on_path, RUN_DIR)
-        print(f"using pretrained model from: {train_on_path}")
+        assert env.action_space == model.action_space and \
+               env.observation_space == model.observation_space
 
     # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
     checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR)

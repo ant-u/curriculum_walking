@@ -70,12 +70,17 @@ def make_env_curr(cnfg):
 
 def laod_env(path: str, cnfg):
     """Load env as specified by config. picks env type from config, 
-    please make sure obs space and act space are same size as in previous one."""
+    please make sure obs space and act space are same size as in previous one.
+    Also loads per default the 'last_vecnormalize_stats'."""
     env_kwargs = None
     if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
-        path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
-        env_kwargs = {"xml_file": path}
+        xml_path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
+        env_kwargs = {"xml_file": xml_path}
 
+    previous_env_id = path.split('/')[1].split("_")[0]
+    assert previous_env_id.lower() == cnfg["env_id"].lower(), \
+        "Previous env and new env differ! Use same env for continuing training."
+    
     match cnfg["env_id"].lower():
         case "humanoidenvdefault":
             env_class = HumanoidEnvDefault
@@ -83,9 +88,9 @@ def laod_env(path: str, cnfg):
             env_class = HumanoidEnvBase
         case "humanoidenvcurr":
             env_class = HumanoidEnvCurr
-            env_kwargs.update({"cnfg": cnfg})
+            env_kwargs = {"cnfg": cnfg}
 
-    joined_path = os.path.join(path, "checkpoints", "vecnormalize_stats.pkl")
+    joined_path = os.path.join(path, "checkpoints", "last_vecnormalize_stats.pkl")
     vec_env = make_vec_env(env_class, n_envs=cnfg["n_envs"], seed=cnfg["seed"], env_kwargs=env_kwargs)
     norm_env = VecNormalize.load(joined_path, vec_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env

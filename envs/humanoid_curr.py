@@ -12,7 +12,6 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def __init__(self, cnfg, xml_file: str | None = None, **kwargs):
         """xml file is xml file name under ./models/ which shall be loaded."""
-
         if xml_file == None:
             path = os.path.abspath(f"./models/{cnfg["xml_file"]}")
         else:

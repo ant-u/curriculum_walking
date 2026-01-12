@@ -26,6 +26,7 @@ def get_PPO(cnfg, env, run_dir):
 
 
 def load_PPO(cnfg, env, ppo_dir, run_dir):
+    """Loading PPO from the 'last_model' found under checkpoints of given ppo_dir location."""
     LOG_PATH = os.path.join(run_dir, "logs")
     ppo_path = os.path.join(ppo_dir, 'checkpoints', 'last_model.zip')
     model = PPO.load(
@@ -34,4 +35,5 @@ def load_PPO(cnfg, env, ppo_dir, run_dir):
         device=cnfg["device"],
         tensorboard_log= (LOG_PATH if cnfg["tensorboard_log"] else None)
     )
+    print(f"using pretrained model from: {ppo_dir}")
     return model
