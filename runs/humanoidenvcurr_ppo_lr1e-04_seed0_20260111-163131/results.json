@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 2533530.8311920003,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "run without lidar but humanoid xml as baseline",
+    "running_time": "14:28:27.200069"
+}
