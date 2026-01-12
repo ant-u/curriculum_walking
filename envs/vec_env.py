@@ -25,7 +25,7 @@ def make_env_default(cnfg):
     if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
         env_kwargs = {"xml_file": path}
-    vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None,
+    vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"],
                            env_kwargs=env_kwargs)
     norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
                             norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
@@ -38,7 +38,7 @@ def make_env_base(cnfg):
     if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
         path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
         env_kwargs = {"xml_file": path}
-    vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"], monitor_dir=None,
+    vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"],
                            env_kwargs=env_kwargs)
     norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
                             norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
@@ -68,14 +68,26 @@ def make_env_curr(cnfg):
     return norm_env
 
 
-def laod_env_curr(path: str, n_envs: int = 1, seed: int = 0, xml_file_name = None):
+def laod_env(path: str, cnfg):
+    """Load env as specified by config. picks env type from config, 
+    please make sure obs space and act space are same size as in previous one."""
+    env_kwargs = None
+    if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
+        path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
+        env_kwargs = {"xml_file": path}
+
+    match cnfg["env_id"].lower():
+        case "humanoidenvdefault":
+            env_class = HumanoidEnvDefault
+        case "humanoidenvbase":
+            env_class = HumanoidEnvBase
+        case "humanoidenvcurr":
+            env_class = HumanoidEnvCurr
+            env_kwargs.update({"cnfg": cnfg})
+
     joined_path = os.path.join(path, "checkpoints", "vecnormalize_stats.pkl")
-    if xml_file_name is None:
-        vec_env = make_vec_env(HumanoidEnvCurr, n_envs=n_envs, seed=seed, monitor_dir=None)
-    else:
-        vec_env = make_vec_env(HumanoidEnvCurr, n_envs=n_envs, seed=seed, monitor_dir=None, env_kwargs={"xml_file": xml_file_name})
-    mon_env = VecMonitor(vec_env)
-    norm_env = VecNormalize.load(joined_path, mon_env)  # Load VecNormalize statistics into this new VecEnv
+    vec_env = make_vec_env(env_class, n_envs=cnfg["n_envs"], seed=cnfg["seed"], env_kwargs=env_kwargs)
+    norm_env = VecNormalize.load(joined_path, vec_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env
 
 

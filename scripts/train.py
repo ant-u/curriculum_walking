@@ -6,7 +6,7 @@ from datetime import timedelta
 import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
-from envs.vec_env import laod_env_curr, make_env
+from envs.vec_env import laod_env, make_env
 import yaml
 
 PPO_CONFIG = {
@@ -68,25 +68,23 @@ CALLBACK_CONFIG = {
     }
 }
 
-def main(RUN_DIR, train_on, message):
+
+def main(RUN_DIR: str, train_on_path: str, message: str):
     """main function for training. run_dir is (new) folder for saving the trained model. 
     train_on is path to already trained model for continuing training"""
     print_cpu_info()
+    dump_premature_summary(message, RUN_DIR)
     ENV_CONFIG["render_lidar"] = False  # For training, rendering is irelevant
-    summary_short = {"message": message}
-    with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
-        json.dump(summary_short, f, indent=4)
-
-    if train_on == None:
+    
+    if train_on_path == None:
         env = make_env(ENV_CONFIG)
         model = get_PPO(PPO_CONFIG, env, RUN_DIR)
     else:
-        env = laod_env_curr(train_on, n_envs=PPO_CONFIG["n_envs"], seed=PPO_CONFIG["seed"], xml_file_name=PPO_CONFIG["xml_file"])
-        model = load_PPO(PPO_CONFIG, env, train_on, RUN_DIR)
-        print(f"using pretrained model from: {train_on}")
+        env = laod_env(train_on_path, ENV_CONFIG)
+        model = load_PPO(PPO_CONFIG, env, train_on_path, RUN_DIR)
+        print(f"using pretrained model from: {train_on_path}")
 
     # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
-
     checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR)
     
     start_time = time.monotonic()
@@ -95,22 +93,35 @@ def main(RUN_DIR, train_on, message):
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "last_vecnormalize_stats.pkl"))
+    time_diff = timedelta(seconds=end_time - start_time)
+    dump_summary(eval_cb, PPO_CONFIG["timesteps"], model, message, time_diff, train_on_path, RUN_DIR)
+
+
+def dump_premature_summary(message, RUN_DIR):
+    """Dump short summary with message so it doesn't get lost when training is killed."""
+    summary_short = {"message": message}
+    with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
+        json.dump(summary_short, f, indent=4)
+
+
+def dump_summary(eval_cb, timesteps, model, message, timedelta, train_on_path, RUN_DIR):
+    """Dump long summary after training finished."""
     results_summary = {
         "mean_reward_eval": float(eval_cb.last_mean_reward),
         "n_eval_episodes": eval_cb.n_eval_episodes,
-        "timesteps": PPO_CONFIG["timesteps"],
+        "timesteps": timesteps,
         "obs_shape": model.observation_space.shape,
         "message": message,
-        "running_time": str(timedelta(seconds=end_time - start_time))
+        "running_time": str(timedelta)
     }
-    if train_on != None:
-       results_summary.update({"based_on": train_on})
+    if train_on_path != None:
+       results_summary.update({"based_on": train_on_path})
     with open(os.path.join(RUN_DIR, "results.json"), "w") as f:
         json.dump(results_summary, f, indent=4)
-    # save_gif(RUN_DIR, display_steps=300)
 
 
 def make_run_dir(ppo_cnfg, env_cnfg, callback_cnfg):
+    """Make directory for new training. Includes subdirectories and also saves snapshot of config."""
     folder_name = f"{env_cnfg['env_id'].lower()}_{ppo_cnfg['algo'].lower()}_lr{ppo_cnfg['learning_rate']:.0e}_seed{ppo_cnfg['seed']}"
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     run_dir = os.path.join("runs", f"{folder_name}_{timestamp}")
