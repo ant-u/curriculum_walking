@@ -49,7 +49,7 @@ ENV_CONFIG = {
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
     "env_kwargs": {
-        "contact_cost_weight": 5e-5,
+        "contact_cost_weight": 5e-6,  # default 5e-7
     },
 }
 
@@ -89,7 +89,7 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
         assert env.action_space == model.action_space and \
                env.observation_space == model.observation_space
 
-    env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
+    # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
     checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(
         CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR, train_on_path)
     
