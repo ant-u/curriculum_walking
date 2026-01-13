@@ -55,24 +55,24 @@
         <geom condim="3" friction="1 .1 .1" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="20 20 0.125" type="plane" group="1"/>
         
         <!-- Obstacles -->
-        <body name="obstacles" pos="10 40 0">
-            <geom name="slab_shape" type="box" size="10 20 2" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-        
-            <geom name="stairs_shape_1" type="box" pos="-0.5 0 0"  size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_2" type="box" pos="0.5 0 0.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_3" type="box" pos="1 0 1"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_4" type="box" pos="1.5 0 1.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_5" type="box" pos="2 0 2"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_6" type="box" pos="2.5 0 2.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_7" type="box" pos="3 0 3"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-            <geom name="stairs_shape_8" type="box" pos="3.5 0 3.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-        
-            <geom name="log_shape" type="capsule" pos="0 0 0" size="0.5 20" euler="90 0 0" friction="1 .1 .1" contype="0" conaffinity="0"/>
-        
-            <geom name="stump_shape" type="box" size="0.5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
-        
-            <geom name="ramp_shape" type="box" size="5 20 0.5" friction="1 .1 .1" euler="0 -1 0" group="1" contype="0" conaffinity="0"/>
-        </body>
+        <!-- <body name="obstacles" pos="10 40 0"> -->
+        <geom name="slab_shape" type="box" size="10 20 2" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+    
+        <geom name="stairs_shape_1" type="box" pos="-0.5 0 0"  size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_2" type="box" pos="0.5 0 0.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_3" type="box" pos="1 0 1"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_4" type="box" pos="1.5 0 1.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_5" type="box" pos="2 0 2"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_6" type="box" pos="2.5 0 2.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_7" type="box" pos="3 0 3"     size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+        <geom name="stairs_shape_8" type="box" pos="3.5 0 3.5" size="5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+    
+        <geom name="log_shape" type="capsule" pos="0 0 0" size="0.5 20" euler="90 0 0" friction="1 .1 .1" contype="0" conaffinity="0"/>
+    
+        <geom name="stump_shape" type="box" size="0.5 20 0.5" friction="1 .1 .1" group="1" contype="0" conaffinity="0"/>
+    
+        <geom name="ramp_shape" type="box" size="5 20 0.5" friction="1 .1 .1" euler="0 -1 0" group="1" contype="0" conaffinity="0"/>
+        <!-- </body> -->
         <!-- End of obstacles -->
 
         <!-- Markers-->
