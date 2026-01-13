@@ -26,7 +26,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.level_kwargs = None
         # if xml_file == "humanoid_plane.xml":
         #     self.unset_env_level()
-        # levels.set_condim_all_geoms(self.model, 0)
+        levels.set_condim_all_geoms(self.model, 0)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
