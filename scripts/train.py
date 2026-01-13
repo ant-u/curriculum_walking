@@ -49,7 +49,7 @@ ENV_CONFIG = {
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
     "env_kwargs": {
-        "contact_cost_weight": 5e-6,
+        "contact_cost_weight": 5e-5,
     },
 }
 
