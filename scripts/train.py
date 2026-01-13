@@ -48,6 +48,9 @@ ENV_CONFIG = {
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
+    "env_kwargs": {
+        "contact_cost_weight": 5e-6,
+    },
 }
 
 CALLBACK_CONFIG = {
