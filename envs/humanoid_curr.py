@@ -24,8 +24,9 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             
         self.last_level = None
         self.level_kwargs = None
-        if xml_file == "humanoid_plane.xml":
-            self.unset_env_level()
+        # if xml_file == "humanoid_plane.xml":
+        #     self.unset_env_level()
+        # levels.set_condim_all_geoms(self.model, 0)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -54,7 +55,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
             self.observation_space = Box(low, high, dtype=np.float64)
         # self.set_env_level_slab(1, 0.66)
-    
+
     def _get_obs(self):
         base_obs = super()._get_obs()
         if self.use_lidar:

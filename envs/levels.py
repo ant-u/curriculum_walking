@@ -105,3 +105,12 @@ def reset_all_levels(model, data):
     # unset_stairs(model, data)  # TODO: activate when needed
     # unset_log(model, data)
     # unset_stump(model, data)
+
+
+def set_condim_all_geoms(model, condim: int):
+    geom_names = ["slab_shape", "log_shape", "stump_shape", "ramp_shape"]
+    for i in range(1, 9):
+        geom_names.append(f"stairs_shape_{i}")
+    for name in geom_names:
+        id = model.geom(name).id
+        model.geom_condim[id] = condim

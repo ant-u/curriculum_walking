@@ -26,18 +26,18 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 20e6,
+    "timesteps": 15e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 0,  # 0 disables max steps
-    "use_lidar": True,
-    "render_lidar": True,  # NOTE: is disabled during training
+    "use_lidar": False,
+    "render_lidar": False,  # NOTE: is disabled during training
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -48,9 +48,7 @@ ENV_CONFIG = {
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
-    "env_kwargs": {
-        "contact_cost_weight": 5e-5,  # default 5e-7
-    },
+    "env_kwargs": {},
 }
 
 CALLBACK_CONFIG = {
