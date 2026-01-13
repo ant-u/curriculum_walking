@@ -26,13 +26,13 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 10e6,
+    "timesteps": 20e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "xml_file": "humanoid.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
     "max_steps": 0,  # 0 disables max steps
