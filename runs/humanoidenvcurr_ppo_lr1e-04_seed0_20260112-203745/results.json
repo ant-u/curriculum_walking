@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 19327613.8012376,
+    "n_eval_episodes": 5,
+    "timesteps": 10000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "first continous training with baseline, trying to solve 0.1 slab",
+    "running_time": "1 day, 16:39:11.978227",
+    "based_on": "runs/humanoidenvcurr_ppo_lr1e-04_seed0_20260111-162734"
+}
