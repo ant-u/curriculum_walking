@@ -7,6 +7,8 @@ from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
 from envs.curriculum.level_generator import LevelGenerator
 from scripts.util.plot import Plot, IQRPlot
+# from envs.vec_env import make_env
+# from scripts.train import ENV_CONFIG
 
 
 class CurriculumCallback(BaseCallback):
@@ -36,7 +38,13 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
         print(f"rollout mean regret: {self.regrets[-1]}")
         # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
-        self.performance_est.estimate(advantages)
+    #     estimate = self.performance_est.estimate(advantages)
+    #     if estimate == True:
+    #         new_xml_file = self.level_gen()
+    #         self.change_env_new_level(new_xml_file)
+
+    # def change_env_new_level(self, xml_file):
+    #     self.model.env = make_env(ENV_CONFIG)
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)

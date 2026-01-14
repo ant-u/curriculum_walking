@@ -92,6 +92,9 @@ def load_env(path: str, cnfg):
             env_class = HumanoidEnvCurr
             env_kwargs = {"cnfg": cnfg}
 
+    if "env_kwargs" in cnfg and cnfg["env_kwargs"] != {}:
+        env_kwargs.update(cnfg["env_kwargs"])
+
     joined_path = os.path.join(path, "checkpoints", "last_vecnormalize_stats.pkl")
     vec_env = make_vec_env(env_class, n_envs=cnfg["n_envs"], seed=cnfg["seed"], env_kwargs=env_kwargs)
     norm_env = VecNormalize.load(joined_path, vec_env)  # Load VecNormalize statistics into this new VecEnv
@@ -111,6 +114,8 @@ def load_render_env(stats_path: str, cnfg, render_mode: str = "human"):
                 env_kwargs = {"render_mode": render_mode}
         if cnfg["xml_file"] != '':  # Catching case of using default xml file (in config as '')
             env_kwargs["xml_file"] = cnfg["xml_file"]
+    if "env_kwargs" in cnfg and cnfg["env_kwargs"] != {}:
+        env_kwargs.update(cnfg["env_kwargs"])
 
     env = make_vec_env(env_class, n_envs=1, seed=cnfg["seed"], 
                        env_kwargs=env_kwargs)
