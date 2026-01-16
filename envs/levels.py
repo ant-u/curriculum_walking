@@ -15,8 +15,8 @@ def set_slab(model, data, x_ratio, height):
 
 def unset_slab(model, data):
     deactivate_shape(model, "slab_shape")
-    body_id = model.body("slab").id
-    model.body_pos[body_id] = [10, 40, 0]
+    shape_id = model.geom("slab_shape").id
+    model.geom_pos[shape_id] = [10, 40, 0]
 
 
 def set_stairs(model, data, x_ratio, step_length, step_height):
@@ -39,10 +39,11 @@ def set_stairs(model, data, x_ratio, step_length, step_height):
 
 
 def unset_stairs(model, data):
-    body_id = model.body("stairs").id
     for i in range(1,9):
-        deactivate_shape(model, f"stairs_shape_{i}")
-    model.body_pos[body_id] = [10, 40, 0]
+        shape_name = f"stairs_shape_{i}"
+        shape_id = model.geom(shape_name).id
+        model.geom_pos[shape_id] = [10, 40, 0]
+        deactivate_shape(model, shape_name)
 
 
 def set_log(model, data, x_ratio, height, size):
@@ -61,8 +62,8 @@ def set_log(model, data, x_ratio, height, size):
 
 def unset_log(model, data):
     deactivate_shape(model, "log_shape")
-    body_id = model.body("log").id
-    model.body_pos[body_id] = [10, 40, 0]
+    shape_id = model.geom("log_shape").id
+    model.geom_pos[shape_id] = [10, 40, 0]
 
 
 def set_stump(model, data, x_ratio, height, depth):
@@ -82,8 +83,8 @@ def set_stump(model, data, x_ratio, height, depth):
 
 def unset_stump(model, data):
     deactivate_shape(model, "stump_shape")
-    body_id = model.body("stump").id
-    model.body_pos[body_id] = [10, 40, 0]
+    geom_id = model.geom("stump_shape").id
+    model.geom_pos[geom_id] = [10, 40, 0]
 
 
 def activate_shape(model, name):
@@ -102,9 +103,9 @@ def deactivate_shape(model, name):
 
 def reset_all_levels(model, data):
     unset_slab(model, data)
-    # unset_stairs(model, data)  # TODO: activate when needed
+    unset_stairs(model, data)  # TODO: activate when needed
     # unset_log(model, data)
-    # unset_stump(model, data)
+    unset_stump(model, data)
 
 
 def set_condim_all_geoms(model, condim: int):

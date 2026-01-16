@@ -41,30 +41,30 @@ class CurriculumCallback(BaseCallback):
         print(f"rollout mean regret: {self.regrets[-1]}")
         # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
         self.performance_est.estimate(regret)
-        if self.rollout_counter % 2 != 0:
-            new_xml_file = 'humanoid_plane.xml'
-            print("switching to " + new_xml_file)
-            self.change_env_new_level(self.env_cnfg, new_xml_file)
-        else:
-            new_xml_file = 'humanoid.xml'
-            print("switching to " + new_xml_file)
-            self.change_env_new_level(self.env_cnfg, new_xml_file)
-        print("using env with " + self.model.get_env().venv.envs[0].env.fullpath)
-        self.rollout_counter += 1
+    #     if self.rollout_counter % 2 != 0:
+    #         new_xml_file = 'humanoid_plane.xml'
+    #         print("switching to " + new_xml_file)
+    #         self.change_env_new_level(self.env_cnfg, new_xml_file)
+    #     else:
+    #         new_xml_file = 'humanoid.xml'
+    #         print("switching to " + new_xml_file)
+    #         self.change_env_new_level(self.env_cnfg, new_xml_file)
+    #     print("using env with " + self.model.get_env().venv.envs[0].env.fullpath)
+    #     self.rollout_counter += 1
 
-    def change_env_new_level(self, env_config, xml_file):
-        # env_config_to_pass = env_config.copy()
-        # env_config_to_pass["xml_file"] = xml_file
+    # def change_env_new_level(self, env_config, xml_file):
+    #     # env_config_to_pass = env_config.copy()
+    #     # env_config_to_pass["xml_file"] = xml_file
 
-        # new_env = test_something(env_config_to_pass)
-        # vecnorm = self.model.get_env()
-        # vecnorm.venv = new_env
-        self.model.get_env().change_level(xml_file)
-        new_env = self.model.get_env()
+    #     # new_env = test_something(env_config_to_pass)
+    #     # vecnorm = self.model.get_env()
+    #     # vecnorm.venv = new_env
+    #     self.model.get_env().change_level(xml_file)
+    #     new_env = self.model.get_env()
 
-        obs = new_env.reset()
-        self.model._last_obs = obs
-        self.model._last_episode_starts = np.ones((new_env.num_envs,), dtype=bool)
+    #     obs = new_env.reset()
+    #     self.model._last_obs = obs
+    #     self.model._last_episode_starts = np.ones((new_env.num_envs,), dtype=bool)
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)
