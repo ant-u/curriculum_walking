@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
-from envs.vec_env import make_env, load_env
+from envs.vec_env import make_env, load_env, test_something
 from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, CheckpointCallback
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
@@ -12,15 +12,17 @@ from scripts.util.plot import Plot, IQRPlot
 
 
 class CurriculumCallback(BaseCallback):
-    def __init__(self, save_dir: str, verbose: int = 0):
+    def __init__(self, save_dir: str, env_cnfg: dict, verbose: int = 0):
         super().__init__(verbose)
         self.save_dir = save_dir
+        self.env_cnfg = env_cnfg
         self.performance_est = PerformaneEstimator()
         self.curriculum_manr = CurriculumManager()
         self.level_gen = LevelGenerator()
         self.regrets = []
         self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
                             ylabel="Regret", line_label="Avg rollout regret")
+        self.rollout_counter = 0
         
     def _on_step(self):
         return True
@@ -38,13 +40,31 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
         print(f"rollout mean regret: {self.regrets[-1]}")
         # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
-    #     estimate = self.performance_est.estimate(advantages)
-    #     if estimate == True:
-    #         new_xml_file = self.level_gen()
-    #         self.change_env_new_level(new_xml_file)
+        self.performance_est.estimate(regret)
+        if self.rollout_counter % 2 != 0:
+            new_xml_file = 'humanoid_plane.xml'
+            print("switching to " + new_xml_file)
+            self.change_env_new_level(self.env_cnfg, new_xml_file)
+        else:
+            new_xml_file = 'humanoid.xml'
+            print("switching to " + new_xml_file)
+            self.change_env_new_level(self.env_cnfg, new_xml_file)
+        print("using env with " + self.model.get_env().venv.envs[0].env.fullpath)
+        self.rollout_counter += 1
 
-    # def change_env_new_level(self, xml_file):
-    #     self.model.env = make_env(ENV_CONFIG)
+    def change_env_new_level(self, env_config, xml_file):
+        # env_config_to_pass = env_config.copy()
+        # env_config_to_pass["xml_file"] = xml_file
+
+        # new_env = test_something(env_config_to_pass)
+        # vecnorm = self.model.get_env()
+        # vecnorm.venv = new_env
+        self.model.get_env().change_level(xml_file)
+        new_env = self.model.get_env()
+
+        obs = new_env.reset()
+        self.model._last_obs = obs
+        self.model._last_episode_starts = np.ones((new_env.num_envs,), dtype=bool)
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)
@@ -159,7 +179,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
         window=callback_cnfg["plot_callback"]["window"],
         log_level=callback_cnfg["plot_callback"]["log_level"],
     )
-    curr_callback = CurriculumCallback(save_dir=LOG_PATH)
+    curr_callback = CurriculumCallback(save_dir=LOG_PATH, env_cnfg=env_cnfg)
     return checkpoint_callback, eval_callback, plot_callback, curr_callback
 
 
