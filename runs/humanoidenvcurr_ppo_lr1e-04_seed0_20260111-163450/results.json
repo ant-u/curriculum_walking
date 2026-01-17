@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 13316192.949169401,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        348
+    ],
+    "message": "no lidar, 20m steps with humanoid_plane as comp to humanoid.xml",
+    "running_time": "3 days, 22:12:58.868212"
+}
