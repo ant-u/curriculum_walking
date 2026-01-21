@@ -29,6 +29,14 @@
             "args": "${command:pickArgs}"
         },
         {
+            "name": "view_vec_env with best_model",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.view_vec_env",
+            "cwd": "${workspaceFolder}",
+            "args": "runs/base_lidar_gait_running"
+        },
+        {
             "name": "humanoid_curr as module",
             "type": "debugpy",
             "request": "launch",

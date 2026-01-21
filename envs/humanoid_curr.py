@@ -27,8 +27,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.using_levels = False
         if path.endswith("humanoid_plane.xml"):
             self.using_levels = True
-            levels.reset_all_levels(self.model, self.data)
-        # levels.set_condim_all_geoms(self.model, 0)
+            levels.reset_all_levels(self.model)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -62,8 +61,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
-            heightmap = np.zeros(len(heightmap))
-            return np.concatenate([base_obs, heightmap]).astype(np.float32)
+            base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     
     def _local_to_world(self, local_points):
@@ -117,29 +115,26 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         return heights
 
     def set_env_level_slab(self, x_ratio, height):
-        # levels.set_slab(self.model, self.data, x_ratio, height)
-        self.last_level = self.set_env_level_slab
+        self.last_level = levels.set_slab
         self.level_kwargs = {"height": height, "x_ratio": x_ratio}
 
     def set_env_level_stairs(self, x_ratio, step_length, step_height):
-        # levels.set_stairs(self.model, self.data, x_ratio, step_length, step_height)
-        self.last_level = self.set_env_level_stairs
-        self.level_kwargs = {"x_ratio": x_ratio, 
-                             "step_length": step_length, 
-                             "step_height": step_height}
+        self.last_level = levels.set_stairs
+        self.level_kwargs = {"x_ratio": x_ratio, "step_length": step_length, "step_height": step_height}
 
     def set_env_level_log(self, x_ratio, height, size):
-        # levels.set_log(self.model, self.data, x_ratio, height, size)
-        self.last_level = self.set_env_level_log
+        self.last_level = levels.set_log
         self.level_kwargs = {"x_ratio": x_ratio, "height": height, "size": size}
 
     def set_env_level_stump(self, x_ratio, height, depth):
-        # levels.set_stump(self.model, self.data, x_ratio, height, depth)
-        self.last_level = self.set_env_level_stump
+        self.last_level = levels.set_stump
         self.level_kwargs = {"x_ratio": x_ratio, "height": height, "depth": depth}
 
+    def set_env_level_ramp(self, x_ratio, angle):
+        self.last_level = levels.set_ramp
+        self.level_kwargs = {"x_ratio": x_ratio, "angle": angle}
+
     def unset_env_level(self):
-        # levels.reset_all_levels(self.model, self.data)
         self.last_level = self.level_kwargs = None
 
     def reset_model(self):
@@ -147,8 +142,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         # self.init_qpos[0] = -8
         if self.using_levels:
             if self.last_level and self.level_kwargs:
+                self.level_kwargs.update({"model": self.model})
                 self.last_level(**self.level_kwargs)
-            else:
-                levels.reset_all_levels(self.model, self.data)
-        
+                self.last_level = None  # Changes to worldbody geom are persistant, stay even after reset
+                self.level_kwargs = None        
         return ret
