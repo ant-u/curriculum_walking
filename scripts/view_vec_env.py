@@ -19,11 +19,11 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1000
     stats_path = os.path.join(run_dir, "checkpoints", "best_vecnormalize_stats.pkl")
     env = load_render_env(stats_path, env_config, render_mode=render_mode)
     
-    # env.env_method("set_env_level_slab", x_ratio=0.6, height=0.5)
+    # env.env_method("set_env_level_slab", x_ratio=0.55, height=0.5)
     # env.env_method("set_env_level_stairs", x_ratio=0.55, step_length=1, step_height=1)
     # env.env_method("set_env_level_log", x_ratio=0.55, height=0, size=1)
     # env.env_method("set_env_level_stump", x_ratio=0.55, height=0.5, depth=0.5)
-    # env.env_method("set_env_level_ramp", x_ratio=0.55, angle=1)
+    # env.env_method("set_env_level_ramp", x_ratio=0.55, angle=30)
     
     frames = []
     obs = env.reset()

@@ -89,7 +89,7 @@ def set_ramp(model, x_ratio, angle):
     geom = model.geom("ramp_shape")
     floor = model.geom("floor")
 
-    x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0] + geom.size[0]
+    x_pos = (floor.size[0] * 2 * x_ratio) - floor.size[0]
     model.geom_pos[geom.id] = [x_pos, 0, 0 - geom.size[2]]
     yaw_rad = np.deg2rad(-angle)
     euler = [0, yaw_rad, 0]
@@ -100,7 +100,7 @@ def set_ramp(model, x_ratio, angle):
 
 def unset_ramp(model):
     deactivate_shape(model, "ramp_shape")
-    geom_id = model.geom("stump_shape").id
+    geom_id = model.geom("ramp_shape").id
     model.geom_pos[geom_id] = [10, 40, 0]
 
 

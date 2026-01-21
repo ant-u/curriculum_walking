@@ -145,5 +145,5 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 self.level_kwargs.update({"model": self.model})
                 self.last_level(**self.level_kwargs)
                 self.last_level = None  # Changes to worldbody geom are persistant, stay even after reset
-                self.level_kwargs = None        
+                self.level_kwargs = None
         return ret
