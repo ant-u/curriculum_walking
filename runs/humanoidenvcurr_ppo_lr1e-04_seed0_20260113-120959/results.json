@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 1687777.1054184001,
+    "n_eval_episodes": 5,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "lidar training with contact_cost_weight increased 10 times. maybe smoother gait?",
+    "running_time": "4 days, 7:21:17.295977"
+}
