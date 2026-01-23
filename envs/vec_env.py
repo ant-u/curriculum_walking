@@ -18,6 +18,7 @@ def make_env(cnfg):
         case "humanoidenvcurr":
             return make_env_curr(cnfg)
 
+# TODO: refactor these into one function, add timelimit option for all of these
 
 def make_env_default(cnfg):
     """Generates the default gymnasium humnanoid_v5 env with no extras whatsoever."""

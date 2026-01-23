@@ -8,9 +8,12 @@ class PerformaneEstimator():
     def __init__(self) -> None:
         pass
     
-    def estimate(self, advantages):
-        adv = np.array(advantages)
-        neg_advs = adv[adv < 0]
-        sum_neg_advs = np.sum(neg_advs)
-        # print(advantages)
-        return 0
+    def estimate(self, model):
+        # raw advantage, unnormalized, see 
+        # https://github.com/DLR-RM/stable-baselines3/blob/master/stable_baselines3/ppo/ppo.py line 216 - 219, 
+        # buffer is not overwritten, normalization uses local copy only
+        advantages = model.rollout_buffer.advantages.copy()
+        max_adv = np.maximum(advantages, 0)
+        regrets = [max_adv[:,i].sum() / max_adv.shape[0] for i in range(max_adv.shape[1])]
+        print(f"rollout mean regret: {np.mean(regrets)}")
+        return regrets

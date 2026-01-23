@@ -17,54 +17,27 @@ class CurriculumCallback(BaseCallback):
         self.save_dir = save_dir
         self.env_cnfg = env_cnfg
         self.performance_est = PerformaneEstimator()
-        self.curriculum_manr = CurriculumManager()
         self.level_gen = LevelGenerator()
         self.regrets = []
         self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
                             ylabel="Regret", line_label="Avg rollout regret")
         self.rollout_counter = 0
+
+    def _on_training_start(self):
+        self.curriculum_manr = CurriculumManager(self.training_env)
         
     def _on_step(self):
         return True
         
     def _on_rollout_end(self) -> None:
-        buffer = self.model.rollout_buffer
-        
-        # raw advantage, unnormalized, see 
-        # https://github.com/DLR-RM/stable-baselines3/blob/master/stable_baselines3/ppo/ppo.py line 216 - 219, 
-        # buffer is not overwritten, normalization uses local copy only
-        advantages = buffer.advantages.copy()
-        regret = np.maximum(advantages, 0).sum() / advantages.shape[0]
-        self.regrets.append(regret)
+        # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
+        regrets = self.performance_est.estimate(self.model)
+        self.regrets.append(np.mean(regrets))
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
-        print(f"rollout mean regret: {self.regrets[-1]}")
-        # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
-        self.performance_est.estimate(regret)
-    #     if self.rollout_counter % 2 != 0:
-    #         new_xml_file = 'humanoid_plane.xml'
-    #         print("switching to " + new_xml_file)
-    #         self.change_env_new_level(self.env_cnfg, new_xml_file)
-    #     else:
-    #         new_xml_file = 'humanoid.xml'
-    #         print("switching to " + new_xml_file)
-    #         self.change_env_new_level(self.env_cnfg, new_xml_file)
-    #     print("using env with " + self.model.get_env().venv.envs[0].env.fullpath)
-    #     self.rollout_counter += 1
 
-    # def change_env_new_level(self, env_config, xml_file):
-    #     # env_config_to_pass = env_config.copy()
-    #     # env_config_to_pass["xml_file"] = xml_file
-
-    #     # new_env = test_something(env_config_to_pass)
-    #     # vecnorm = self.model.get_env()
-    #     # vecnorm.venv = new_env
-    #     self.model.get_env().change_level(xml_file)
-    #     new_env = self.model.get_env()
-
-    #     obs = new_env.reset()
-    #     self.model._last_obs = obs
-    #     self.model._last_episode_starts = np.ones((new_env.num_envs,), dtype=bool)
+        self.curriculum_manr.update(regrets)
+        self.level_gen
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)
@@ -159,14 +132,16 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
 
     env_cnfg_tmp = env_cnfg.copy()
     env_cnfg_tmp["n_envs"] = callback_cnfg["eval_env_conf"]["n_envs"]
+    env_cnfg_tmp["max_steps"] = callback_cnfg["eval_env_conf"]["max_steps"]
     if train_on != None and train_on != "":
         eval_env = load_env(train_on, env_cnfg_tmp)
     else:
         eval_env = make_env(env_cnfg_tmp)
-    eval_env.training = False
+    eval_env.training = False  # TODO: add time limit to eval env??
 
     eval_callback = EvalCallback(
         eval_env,
+        n_eval_episodes=callback_cnfg["eval_env_cnfg"]["n_eval_episodes"],
         best_model_save_path=CHECKPOINT_PATH,
         log_path=LOG_PATH,
         eval_freq=callback_cnfg["eval_env_conf"]["eval_freq"] // env_cnfg["n_envs"],

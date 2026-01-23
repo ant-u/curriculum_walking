@@ -1,3 +1,4 @@
+from enum import StrEnum, auto
 
 
 class LevelGenerator():
@@ -15,3 +16,12 @@ class LevelGenerator():
     def __init__(self) -> None:
         pass
     
+
+
+class LevelType(StrEnum):
+    PLANE = auto()
+    SLAB = auto()
+    STAIRS = auto()
+    LOG = auto()
+    STUMP = auto()
+    RAMP = auto()
