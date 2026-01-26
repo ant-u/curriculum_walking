@@ -1,6 +1,7 @@
 from typing import Tuple
 import numpy as np
 import mujoco
+from envs.curriculum.level_generator import LevelType
 
 
 def set_slab(model, x_ratio, height):
@@ -126,6 +127,22 @@ def reset_all_levels(model):
     unset_log(model)
     unset_stump(model)
     unset_ramp(model)
+
+
+def enum_to_function(enum: LevelType):
+    match enum:
+        case LevelType.PLANE:
+            return reset_all_levels
+        case LevelType.SLAB:
+            return set_slab
+        case LevelType.STAIRS:
+            return set_stairs
+        case LevelType.LOG:
+            return set_log
+        case LevelType.STUMP:
+            return set_stump
+        case LevelType.RAMP:
+            return set_ramp
 
 
 def set_condim_all_geoms(model, condim: int):

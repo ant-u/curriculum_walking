@@ -4,7 +4,6 @@ from envs.curriculum.level_generator import LevelType
 import numpy as np
 
 
-
 class CurriculumManager:
     """Tracks the evaluated skills of the agent for all levels.
     Based on current agent performance, calls LevelGenerator for creating 'next' level
@@ -18,7 +17,8 @@ class CurriculumManager:
         self.curr_level = LevelType.PLANE  # Default plane to start with eval of walking
 
     def update(self, regrets):
-        for r in regrets:
+        for i, r in enumerate(regrets):
+            level = self.env[i].active_level  # enum
             pass
             # TODO: add regrets to env individually to keep varying level envs consistent with skills
         self.skill_tracker.get_skill(self.curr_level).update(regret)

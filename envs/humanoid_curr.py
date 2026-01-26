@@ -4,6 +4,7 @@ from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
 import envs.levels as levels
+from envs.curriculum.level_generator import LevelType
 
 
 class HumanoidEnvCurr(HumanoidEnvBase):
@@ -22,7 +23,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
             
-        self.last_level = None
+        self.current_level = None
         self.level_kwargs = None
         self.using_levels = False
         if path.endswith("humanoid_plane.xml"):
@@ -115,35 +116,37 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         return heights
 
     def set_env_level_slab(self, x_ratio, height):
-        self.last_level = levels.set_slab
+        self.current_level = LevelType.SLAB
         self.level_kwargs = {"height": height, "x_ratio": x_ratio}
 
     def set_env_level_stairs(self, x_ratio, step_length, step_height):
-        self.last_level = levels.set_stairs
+        self.current_level = LevelType.STAIRS
         self.level_kwargs = {"x_ratio": x_ratio, "step_length": step_length, "step_height": step_height}
 
     def set_env_level_log(self, x_ratio, height, size):
-        self.last_level = levels.set_log
+        self.current_level = LevelType.LOG
         self.level_kwargs = {"x_ratio": x_ratio, "height": height, "size": size}
 
     def set_env_level_stump(self, x_ratio, height, depth):
-        self.last_level = levels.set_stump
+        self.current_level = LevelType.STUMP
         self.level_kwargs = {"x_ratio": x_ratio, "height": height, "depth": depth}
 
     def set_env_level_ramp(self, x_ratio, angle):
-        self.last_level = levels.set_ramp
+        self.current_level = LevelType.RAMP
         self.level_kwargs = {"x_ratio": x_ratio, "angle": angle}
 
     def unset_env_level(self):
-        self.last_level = self.level_kwargs = None
+        self.current_level = LevelType.PLANE
+        self.level_kwargs = None
 
     def reset_model(self):
         ret = super().reset_model()
         # self.init_qpos[0] = -8
         if self.using_levels:
-            if self.last_level and self.level_kwargs:
+            if self.current_level and self.level_kwargs:
                 self.level_kwargs.update({"model": self.model})
-                self.last_level(**self.level_kwargs)
-                self.last_level = None  # Changes to worldbody geom are persistant, stay even after reset
-                self.level_kwargs = None
+                set_level = levels.enum_to_function(self.current_level)
+                set_level(**self.level_kwargs)
+                # self.current_level = None  # Changes to worldbody geom are persistant, stay even after reset
+                # self.level_kwargs = None
         return ret
