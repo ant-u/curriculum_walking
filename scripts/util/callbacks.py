@@ -141,7 +141,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
 
     eval_callback = EvalCallback(
         eval_env,
-        n_eval_episodes=callback_cnfg["eval_env_cnfg"]["n_eval_episodes"],
+        n_eval_episodes=callback_cnfg["eval_env_conf"]["n_eval_episodes"],
         best_model_save_path=CHECKPOINT_PATH,
         log_path=LOG_PATH,
         eval_freq=callback_cnfg["eval_env_conf"]["eval_freq"] // env_cnfg["n_envs"],

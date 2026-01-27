@@ -28,7 +28,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.using_levels = False
         if path.endswith("humanoid_plane.xml"):
             self.using_levels = True
-            levels.reset_all_levels(self.model)
+            self.unset_env_level()
+            # levels.reset_all_levels(self.model)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -115,6 +116,10 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
 
+    def set_level(self, type: LevelType, **level_kwargs):
+        self.current_level = type
+        self.level_kwargs = level_kwargs
+
     def set_env_level_slab(self, x_ratio, height):
         self.current_level = LevelType.SLAB
         self.level_kwargs = {"height": height, "x_ratio": x_ratio}
@@ -137,16 +142,15 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def unset_env_level(self):
         self.current_level = LevelType.PLANE
-        self.level_kwargs = None
+        self.level_kwargs = {}
 
     def reset_model(self):
         ret = super().reset_model()
         # self.init_qpos[0] = -8
         if self.using_levels:
-            if self.current_level and self.level_kwargs:
-                self.level_kwargs.update({"model": self.model})
-                set_level = levels.enum_to_function(self.current_level)
-                set_level(**self.level_kwargs)
+            set_level = levels.enum_to_function(self.current_level)
+            self.level_kwargs.update({"model": self.model})
+            set_level(**self.level_kwargs)
                 # self.current_level = None  # Changes to worldbody geom are persistant, stay even after reset
                 # self.level_kwargs = None
         return ret
