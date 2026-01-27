@@ -1,10 +1,11 @@
 import os
+from typing import List
 import mujoco
 from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
 import envs.levels as levels
-from envs.curriculum.level_generator import LevelType
+from envs.curriculum.level_generator import Element, LevelType
 
 
 class HumanoidEnvCurr(HumanoidEnvBase):
@@ -29,7 +30,6 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         if path.endswith("humanoid_plane.xml"):
             self.using_levels = True
             self.unset_env_level()
-            # levels.reset_all_levels(self.model)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -141,8 +141,14 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.level_kwargs = {"x_ratio": x_ratio, "angle": angle}
 
     def unset_env_level(self):
-        self.current_level = LevelType.PLANE
+        self.current_level = None
         self.level_kwargs = {}
+
+    def set_level_template(self, elements: List[Element]):
+        for i, e in enumerate(elements):
+            g = self.model.geom(f"obstacle_{i}")
+            self.model.geom_pos[g.id] = e.pos
+            self.model.geom_size[g.id] = e.size
 
     def reset_model(self):
         ret = super().reset_model()
