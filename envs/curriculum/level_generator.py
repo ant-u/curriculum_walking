@@ -67,10 +67,10 @@ class LevelGenerator():
             # height, depth, number
             case LevelType.SLAB:  # backwards
                 params = 0.1, 2, 2
-            case LevelType.STAIRS:  # backwards
-                params = 0.1, 1, 3
+            # case LevelType.STAIRS:  # backwards
+            #     params = 0.1, 1, 3
             case LevelType.STUMP:
-                params = 0.1, 0.2, 2
+                params = np.float64(0.1), np.float64(0.2), 2
             # case LevelType.RAMP:
             #     pass
             case LevelType.GAP:
@@ -82,8 +82,7 @@ class LevelGenerator():
         last_height = 0
         if elements[0]["pos"] > 0:
             x_size = elements[0]["pos"] / 2
-            x_pos = x_size + self.level_begin[0]
-            res.append(Element([x_pos, 0, -2.5], [x_size, self.level_size[1]/2, 2.5]))
+            res.append(Element([x_size, 0, -2.5], [x_size, self.level_size[1]/2, 2.5]))
         for i, e in enumerate(elements):
             if i+1 < len(elements):
                 next_elem_pos = elements[i+1]["pos"]
@@ -93,20 +92,35 @@ class LevelGenerator():
                 case LevelType.SLAB:
                     elem, last_height = self._get_slab_position(e, last_height, next_elem_pos)
                     res.append(elem)
-                case LevelType.STAIRS:
-                    pass
+                # case LevelType.STAIRS:
+                #     pass
                 case LevelType.STUMP:
-                    pass
+                    elems, last_height = self._get_stump_position(e, last_height, next_elem_pos)
+                    res.extend(elems)
                 case LevelType.GAP:
                     pass
         return res
 
     def _get_slab_position(self, element, last_height, end):
         x_size = (end - element["pos"]) / 2
-        z_size = (np.abs(self.level_begin[2]) + last_height + element["height"]) / 2
-        x_pos = self.level_begin[0] + element["pos"] + x_size
-        z_pos = z_size + self.level_begin[2]
+        z_size = (0 - self.level_begin[2] + last_height + element["height"]) / 2
+        x_pos = element["pos"] + x_size
+        z_pos = self.level_begin[2] + z_size
         return Element([x_pos, 0, z_pos], [x_size, self.level_size[1]/2, z_size]), z_pos + z_size
+    
+    def _get_stump_position(self, element, last_height, end):
+        x_size = element["depth"] / 2
+        z_size = (0 - self.level_begin[2] + last_height + element["height"]) / 2
+        x_pos = element["pos"] + x_size
+        z_pos = self.level_begin[2] + z_size
+        stump = Element([x_pos, 0, z_pos], [x_size, self.level_size[1]/2, z_size])
+        m_x_size = (end - x_pos - x_size) / 2
+        m_z_size = (0 - self.level_begin[2] + last_height) / 2
+        m_x_pos = m_x_size + x_pos + x_size 
+        m_z_pos = self.level_begin[2] + m_z_size
+        margin_elem = Element([m_x_pos, 0, m_z_pos], [m_x_size, self.level_size[1]/2, m_z_size])
+        return [stump, margin_elem], last_height
+        
 
 class LevelType(StrEnum):
     SLAB = auto()

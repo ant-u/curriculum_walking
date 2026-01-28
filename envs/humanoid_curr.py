@@ -4,7 +4,7 @@ import mujoco
 from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
-import envs.levels as levels
+from envs.geom_handler import GeomHandler
 from envs.curriculum.level_generator import Element, LevelType
 
 
@@ -21,15 +21,18 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         super().__init__(xml_file=path, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
+        self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
             
-        self.current_level = None
-        self.level_kwargs = None
-        self.using_levels = False
+        self.geom_handler = GeomHandler()
+        self.current_level: List[Element] = None
         if path.endswith("humanoid_plane.xml"):
-            self.using_levels = True
-            self.unset_env_level()
+            if self.using_levels:
+                self.geom_handler.deactivate_shape(self.model, "platform_middle")
+                self.geom_handler.init_obstacles(self.model)
+            else:
+                self.geom_handler.deactivate_all_obstacles(self.model)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -115,48 +118,27 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             if self.render_lidar:
                 self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
-
-    def set_level(self, type: LevelType, **level_kwargs):
-        self.current_level = type
-        self.level_kwargs = level_kwargs
-
-    def set_env_level_slab(self, x_ratio, height):
-        self.current_level = LevelType.SLAB
-        self.level_kwargs = {"height": height, "x_ratio": x_ratio}
-
-    def set_env_level_stairs(self, x_ratio, step_length, step_height):
-        self.current_level = LevelType.STAIRS
-        self.level_kwargs = {"x_ratio": x_ratio, "step_length": step_length, "step_height": step_height}
-
-    def set_env_level_log(self, x_ratio, height, size):
-        self.current_level = LevelType.LOG
-        self.level_kwargs = {"x_ratio": x_ratio, "height": height, "size": size}
-
-    def set_env_level_stump(self, x_ratio, height, depth):
-        self.current_level = LevelType.STUMP
-        self.level_kwargs = {"x_ratio": x_ratio, "height": height, "depth": depth}
-
-    def set_env_level_ramp(self, x_ratio, angle):
-        self.current_level = LevelType.RAMP
-        self.level_kwargs = {"x_ratio": x_ratio, "angle": angle}
-
-    def unset_env_level(self):
-        self.current_level = None
-        self.level_kwargs = {}
-
+    
     def set_level_template(self, elements: List[Element]):
+        self.current_level = elements
+
+    def _create_level(self, elements: List[Element]):
+        self.geom_handler.deactivate_all_obstacles(self.model)
+        if elements == None:
+            self.geom_handler.activate_shape(self.model, "platform_middle")
+            return
         for i, e in enumerate(elements):
-            g = self.model.geom(f"obstacle_{i}")
-            self.model.geom_pos[g.id] = e.pos
+            name = f"obstacle_{i}"
+            self.geom_handler.activate_shape(self.model, name)
+            g = self.model.geom(name)
+            offset = self.model.geom_size[self.model.geom("platform_start").id][0]
+            self.model.geom_pos[g.id] = [e.pos[0] + offset, e.pos[1], e.pos[2]]
             self.model.geom_size[g.id] = e.size
+        mujoco.mj_resetData(self.model, self.data)    
 
     def reset_model(self):
         ret = super().reset_model()
         # self.init_qpos[0] = -8
-        if self.using_levels:
-            set_level = levels.enum_to_function(self.current_level)
-            self.level_kwargs.update({"model": self.model})
-            set_level(**self.level_kwargs)
-                # self.current_level = None  # Changes to worldbody geom are persistant, stay even after reset
-                # self.level_kwargs = None
+        # if self.using_levels:
+        #     self._create_level(self.current_level)
         return ret

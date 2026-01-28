@@ -102,9 +102,10 @@ def load_env(path: str, cnfg):
     return norm_env
 
 
-def load_render_env(stats_path: str, cnfg, render_mode: str = "human"):
+def load_render_env(stats_path: str, cnfg, render_mode: str = "human", **kwargs,):
     env_class = HumanoidEnvCurr
     env_kwargs={"render_mode": render_mode, "cnfg": cnfg}
+    env_kwargs.update(kwargs)
     if "env_id" in cnfg and cnfg["env_id"].lower() != "humanoidenvcurr":
         match cnfg["env_id"].lower():  # no case sensitivity
             case "humanoidenvdefault":

@@ -38,6 +38,7 @@ ENV_CONFIG = {
     "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
+    "use_levels": True,
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
