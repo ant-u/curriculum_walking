@@ -66,6 +66,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
+            # heightmap = np.zeros(len(heightmap))
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     
@@ -137,8 +138,15 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         mujoco.mj_resetData(self.model, self.data)    
 
     def reset_model(self):
-        ret = super().reset_model()
+        
         # self.init_qpos[0] = -8
         # if self.using_levels:
         #     self._create_level(self.current_level)
+        # self.model.geom_pos[self.model.geom(f"stump_0").id][2] = -2.5
+        # self.model.geom_pos[self.model.geom(f"stump_1").id][2] = -2.5
+        self.model.geom_pos[self.model.geom(f"obstacle_0").id][2] = -2.5
+        self.model.geom_pos[self.model.geom(f"obstacle_10").id][2] = -2
+        # mujoco.mj_resetData(self.model, self.data)
+        # mujoco.mj_forward(self.model, self.data)
+        ret = super().reset_model()
         return ret

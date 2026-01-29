@@ -25,3 +25,13 @@ class GeomHandler:
         n = (model.geom_group == 2).sum()
         for i in range(0,n):
             self.activate_shape(model, f"obstacle_{i}")
+            # model.geom_pos[model.geom(f"obstacle_{i}").id][2] = -2.5 - i * 0.01
+        # model.geom_pos[model.geom(f"obstacle_10").id][2] = -2
+        # for i in range(0,2):
+        #     name = f"stump_{i}"
+        #     self.activate_shape(model, name)
+        #     model.geom_pos[model.geom(name).id][2] = -2.5
+        # model.geom_pos[model.geom(f"stump_0").id] = [20, 0, -2]
+        # model.geom_pos[model.geom(f"stump_0").id][2] = -2.5
+        # model.geom_pos[model.geom(f"stump_1").id] = [5, 0, -2.5]
+        # model.geom_pos[model.geom(f"stump_9").id] = [40, 0, -2]
