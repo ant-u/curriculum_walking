@@ -1,4 +1,5 @@
 import argparse
+import numpy as np
 from stable_baselines3 import PPO
 import imageio
 import os
@@ -19,7 +20,14 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
     stats_path = os.path.join(run_dir, "checkpoints", "best_vecnormalize_stats.pkl")
 
-    env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900)
+    cam_config = {
+        "trackbodyid": 1,
+        "distance": 45.0,
+        "lookat": np.array((30.0, 0.0, 2.0)),
+        "elevation": -10.0,
+    }
+    env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=False,
+                          default_camera_config=cam_config)
     gen = LevelGenerator([50, 10], [5,0,-5])
     level_des = gen.create_level(0.1, 0.1)
 

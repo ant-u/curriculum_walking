@@ -29,10 +29,9 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.current_level: List[Element] = None
         if path.endswith("humanoid_plane.xml"):
             if self.using_levels:
-                self.geom_handler.deactivate_shape(self.model, "platform_middle")
-                self.geom_handler.init_obstacles(self.model)
+                self.geom_handler.set_flat_level(self.model)
             else:
-                self.geom_handler.deactivate_all_obstacles(self.model)
+                self.geom_handler.set_no_level(self.model)
 
         if self.use_lidar:
             self.use_relative_height = cnfg["use_relative_height"]
@@ -66,7 +65,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
-            # heightmap = np.zeros(len(heightmap))
+            heightmap = np.zeros(len(heightmap))
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     
@@ -95,7 +94,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             ray_end[2] = -100.0  # end 100m below
             vec = ray_end - ray_start
             geomid = np.array([-1], dtype=np.int32)
-            geomgroup = np.array([0, 1, 0, 0, 0, 0], dtype=np.uint8)  # only group 1, all obstacles (robot is 0)
+            geomgroup = np.array([0, 1, 1, 0, 0, 0], dtype=np.uint8)  # only group 1, all obstacles (robot is 0)
             
             # Perform raycast
             distance = mujoco.mj_ray(
@@ -124,29 +123,13 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.current_level = elements
 
     def _create_level(self, elements: List[Element]):
-        self.geom_handler.deactivate_all_obstacles(self.model)
         if elements == None:
-            self.geom_handler.activate_shape(self.model, "platform_middle")
-            return
-        for i, e in enumerate(elements):
-            name = f"obstacle_{i}"
-            self.geom_handler.activate_shape(self.model, name)
-            g = self.model.geom(name)
-            offset = self.model.geom_size[self.model.geom("platform_start").id][0]
-            self.model.geom_pos[g.id] = [e.pos[0] + offset, e.pos[1], e.pos[2]]
-            self.model.geom_size[g.id] = e.size
-        mujoco.mj_resetData(self.model, self.data)    
+            self.geom_handler.set_flat_level(self.model)
+        else:
+            self.geom_handler.set_custom_level(self.model, elements)
 
     def reset_model(self):
-        
         # self.init_qpos[0] = -8
-        # if self.using_levels:
-        #     self._create_level(self.current_level)
-        # self.model.geom_pos[self.model.geom(f"stump_0").id][2] = -2.5
-        # self.model.geom_pos[self.model.geom(f"stump_1").id][2] = -2.5
-        self.model.geom_pos[self.model.geom(f"obstacle_0").id][2] = -2.5
-        self.model.geom_pos[self.model.geom(f"obstacle_10").id][2] = -2
-        # mujoco.mj_resetData(self.model, self.data)
-        # mujoco.mj_forward(self.model, self.data)
-        ret = super().reset_model()
-        return ret
+        if self.using_levels:
+            self._create_level(self.current_level)
+        return super().reset_model()
