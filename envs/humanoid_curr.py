@@ -65,7 +65,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
-            heightmap = np.zeros(len(heightmap))
+            # heightmap = np.zeros(len(heightmap))
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     
@@ -130,6 +130,6 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def reset_model(self):
         # self.init_qpos[0] = -8
-        if self.using_levels:
-            self._create_level(self.current_level)
+        # if self.using_levels:
+        #     self._create_level(self.current_level)
         return super().reset_model()

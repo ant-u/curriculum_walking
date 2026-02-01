@@ -16,7 +16,7 @@ class CurriculumManager:
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
         self.performance_est = PerformaneEstimator()
         self.skill_tracker = SkillTracker(list(LevelType))
-        self.curr_level = LevelType.PLANE  # Default plane to start with eval of walking
+        self.curr_level = None
         self.threshold = 0.1
         self.change_level = False
         self.level_options = list(LevelType)  # PLANE, SLAB, STAIRS, LOG, STUMP, RAMP

@@ -17,7 +17,7 @@ class CurriculumCallback(BaseCallback):
         self.save_dir = save_dir
         self.env_cnfg = env_cnfg
         self.performance_est = PerformaneEstimator()
-        self.level_gen = LevelGenerator()
+        self.level_gen = LevelGenerator([50, 10], [5,0,-5])
         self.regrets = []
         self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
                             ylabel="Regret", line_label="Avg rollout regret")
@@ -36,8 +36,8 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
 
-        self.curriculum_manr.update(regrets)
-        self.level_gen
+        # self.curriculum_manr.update(regrets)
+        # self.level_gen
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)
