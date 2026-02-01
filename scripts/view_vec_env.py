@@ -29,7 +29,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=False,
                           default_camera_config=cam_config)
     gen = LevelGenerator([50, 10], [5,0,-5])
-    level_des = gen.create_level(0.1, 0.1)
+    level_des = gen.create_level(0.3, 0.1)
 
     # env.env_method("set_env_level_slab", x_ratio=0.55, height=0.5)
     # env.env_method("set_env_level_stairs", x_ratio=0.55, step_length=1, step_height=1)
