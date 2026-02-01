@@ -62,6 +62,8 @@ class GeomHandler:
         for i, e_height in enumerate(level_des.elements):
             geom = model.geom(f"element_{i}")
             model.geom_pos[geom.id][2] = e_height - geom.size[2] + self.z_gap
+            if level_des.types[i]:
+                model.geom_rgba[geom.id][0:3] = level_des.types[i].value
         end_platform = model.geom("platform_end")
         model.geom_pos[end_platform.id][2] = level_des.elements[-1] - model.geom_size[end_platform.id][2] + self.z_gap
 

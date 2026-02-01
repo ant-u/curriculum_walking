@@ -1,15 +1,15 @@
 from dataclasses import dataclass, field
-from enum import StrEnum, auto
+from enum import Enum, auto
 from typing import List, Tuple
 import numpy as np
 import random
 
 
-class LevelType(StrEnum):
-    SLAB = auto()
-    STAIRS = auto()
-    STUMP = auto()
-    GAP = auto()
+class LevelType(Enum):
+    SLAB = [0.1, 0.9, 0.1]
+    STAIRS = [0.9, 0.1, 0.1]
+    STUMP = [0.1, 0.1, 0.9]
+    GAP = [1.0, 0.75, 0.8]  # pink
 
 
 @dataclass
@@ -25,10 +25,12 @@ class LevelDescription():
     n_stumps: int
     elements: List[float] = field(init=False)
     stumps: List[float | None] = field(init=False)
+    types: List[LevelType | None] = field(init=False)
 
     def __post_init__(self):
         self.elements = np.zeros(self.n_elements)
-        self.stumps = [None] * self.n_stumps
+        self.stumps = np.array([None] * self.n_stumps)
+        self.types = np.array([None] * self.n_elements)
 
 
 class LevelGenerator():
@@ -43,7 +45,7 @@ class LevelGenerator():
     - slippery surface
     """
     
-    def __init__(self, level_size: Tuple[int], level_begin: Tuple[int], size_per_obst: float=1, margin_per_obst: float=1) -> None:
+    def __init__(self, level_size: Tuple[int], level_begin: Tuple[int], size_per_obst: float=1, margin_per_obst: int=1) -> None:
         """level_size is [x,y] of space used for level design
         level_begin is [x,y] of beginning of level space. Note that y has to be middle, but x first value of space
         size_per_obs is space allocated for each single obstacle. Not nescesarrily takes up all of it.
@@ -59,6 +61,17 @@ class LevelGenerator():
         self.max_number_of_obstacles = int(self.level_size[0] / space_per_obst)  # NOTE: 10 for 5+5 plattform at start
         self.max_number_of_stumps = 10
 
+        # params for level difficulty
+        self.max_slab_height = 1.0
+        self.max_step_height = 1.0
+        self.max_step_n = 5
+        self.max_stump_height = 1.0
+        self.max_gap_depth = 1.0
+
+    @property
+    def flip(self):
+        return self.rng.choice([-1,1])
+
     def create_level(self, obstacles: float, diff_per_obs: float):
         """"""
         n_obst = int(np.ceil(obstacles*self.max_number_of_obstacles))  # 0.0 -> 0, 1 -> max
@@ -66,7 +79,7 @@ class LevelGenerator():
         available_positions = list(range(0,50,1))
         for _ in range(0, n_obst):
             element = self.pick_random_element()
-            height, number = self.get_element_params(element)
+            height, number = self.get_element_params(element, diff_per_obs)
             if element == LevelType.STUMP:
                 pos, available_positions = self.pick_random_location_stump(available_positions)
             else:
@@ -80,17 +93,26 @@ class LevelGenerator():
         elements = list(LevelType)
         return LevelType(self.rng.choice(elements))
     
-    def get_element_params(self, element):
+    def get_element_params(self, element, difficulty):
+        upper_border = difficulty
+        lower_border = difficulty / 2
         match element:
             # height, number
             case LevelType.SLAB:  # backwards
-                params = 0.1, 2
+                height = self.rng.uniform(lower_border, upper_border) * self.flip
+                params = height, self.margin_per_obst + 1
             case LevelType.STAIRS:  # backwards
-                params = 0.1, 3
+                height = self.rng.uniform(lower_border, upper_border) * self.flip
+                up_n = max(np.ceil(difficulty * self.max_step_n), 1)
+                low_n = max((up_n // 2), 1)
+                n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
+                params = height, n_stairs + self.margin_per_obst
             case LevelType.STUMP:
-                params = np.float64(0.3), 2
+                height = self.rng.uniform(lower_border, upper_border) 
+                params = height, self.margin_per_obst + 1
             case LevelType.GAP:
-                params = 1, 2
+                height = self.rng.uniform(lower_border, upper_border)
+                params = height, 1 + self.margin_per_obst
         return params
     
     def pick_random_location(self, available, n):
@@ -140,6 +162,7 @@ class LevelGenerator():
             else:
                 next_elem_pos = self.level_size[0]
             res.elements[e.pos + e.n : next_elem_pos] = last_height
+            res.types[e.pos : e.pos+e.n] = e.type
         return res
 
     def _add_slab_position(self, element: Element, last_height: float, res: LevelDescription):
@@ -150,6 +173,7 @@ class LevelGenerator():
     
     def _add_stairs_position(self, element: Element, last_height: float, res: LevelDescription):
         last_element = element.pos + element.n - 1
+        step_height = 0
         for i, pos in enumerate(range(element.pos, last_element)):
             step_height = (i + 1) * element.height + last_height
             res.elements[pos] = step_height
