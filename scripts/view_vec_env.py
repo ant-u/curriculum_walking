@@ -31,12 +31,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     gen = LevelGenerator([50, 10], [5,0,-5])
     level_des = gen.create_level(0.3, 0.1)
 
-    # env.env_method("set_env_level_slab", x_ratio=0.55, height=0.5)
-    # env.env_method("set_env_level_stairs", x_ratio=0.55, step_length=1, step_height=1)
-    # env.env_method("set_env_level_log", x_ratio=0.55, height=0, size=1)
-    # env.env_method("set_env_level_stump", x_ratio=0.55, height=0.5, depth=0.5)
-    # env.env_method("set_env_level_ramp", x_ratio=0.55, angle=30)
-    # env.env_method("set_level_template", elements=level_des)
+    # env.env_method("set_level_template", level=level_des)
     
     frames = []
     obs = env.reset()

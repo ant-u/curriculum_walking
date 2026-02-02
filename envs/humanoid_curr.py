@@ -5,7 +5,7 @@ from envs.humanoid_base import HumanoidEnvBase
 from gymnasium.spaces import Box
 import numpy as np
 from envs.geom_handler import GeomHandler
-from envs.curriculum.level_generator import Element, LevelType
+from envs.curriculum.level_generator import Element, LevelDescription
 
 
 class HumanoidEnvCurr(HumanoidEnvBase):
@@ -26,10 +26,11 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
             
         self.geom_handler = GeomHandler()
-        self.current_level: List[Element] = None
+        self.current_level: LevelDescription = None
         if path.endswith("humanoid_plane.xml"):
             if self.using_levels:
                 self.geom_handler.set_flat_level(self.model)
+                self.change_level_flag = False
             else:
                 self.geom_handler.set_no_level(self.model)
 
@@ -119,17 +120,19 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
     
-    def set_level_template(self, elements: List[Element]):
-        self.current_level = elements
+    def set_level_template(self, level: LevelDescription):
+        self.current_level = level
+        self.change_level_flag = True
 
-    def _create_level(self, elements: List[Element]):
-        if elements == None:
+    def _create_level(self, level: LevelDescription):
+        if level == None:
             self.geom_handler.set_flat_level(self.model)
         else:
-            self.geom_handler.set_custom_level(self.model, elements)
+            self.geom_handler.set_custom_level(self.model, level)
 
     def reset_model(self):
         # self.init_qpos[0] = -8
-        # if self.using_levels:
-        #     self._create_level(self.current_level)
+        if self.using_levels and self.change_level_flag:
+            self._create_level(self.current_level)
+            self.change_level_flag = False
         return super().reset_model()

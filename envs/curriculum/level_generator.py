@@ -73,7 +73,7 @@ class LevelGenerator():
         return self.rng.choice([-1,1])
 
     def create_level(self, obstacles: float, diff_per_obs: float):
-        """"""
+        """Create level with percentage of obstacles and percentual difficulty per obstacle."""
         n_obst = int(np.ceil(obstacles*self.max_number_of_obstacles))  # 0.0 -> 0, 1 -> max
         elements: List[Element] = []
         available_positions = list(range(0,50,1))
