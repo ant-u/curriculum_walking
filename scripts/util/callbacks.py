@@ -23,8 +23,8 @@ class CurriculumCallback(BaseCallback):
                             ylabel="Regret", line_label="Avg rollout regret")
         self.rollout_counter = 0
 
-    def _on_training_start(self):
-        self.curriculum_manr = CurriculumManager(self.training_env)
+    # def _on_training_start(self):
+    #     self.curriculum_manr = CurriculumManager(self.training_env)
         
     def _on_step(self):
         return True

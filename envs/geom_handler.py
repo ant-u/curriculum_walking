@@ -26,7 +26,7 @@ class GeomHandler:
 
     def deactivate_default_platform(self, model):
         self.deactivate_shape(model, "platform_middle")
-        model.geom_pos[model.geom("platform_middle").id][2] = -10
+        model.geom_pos[model.geom("platform_middle").id][2] = -20
 
     def deactivate_all_elements(self, model):
         for i in range((model.geom_group == 2).sum()):
@@ -44,19 +44,16 @@ class GeomHandler:
                 
     def set_flat_level(self, model):
         self.deactivate_default_platform(model)
-        x_offset = model.geom_size[model.geom("platform_start").id][0] + model.geom_size[model.geom("element_0").id][0]
         n = (model.geom_group == 2).sum()
         for i in range(0,n):
             self.activate_shape(model, f"element_{i}")
             geom = model.geom(f"element_{i}")
-            model.geom_pos[geom.id][0] = x_offset + i * (2 * model.geom_size[geom.id][0] + self.x_gap)
             model.geom_pos[geom.id][2] = (0.0 + self.z_gap) - model.geom_size[geom.id][2]
-        end_platform = model.geom("platform_end")
-        model.geom_pos[end_platform.id][0] = (model.geom_pos[geom.id][0] + 
-            model.geom_size[geom.id][0] + self.x_gap + model.geom_size[end_platform.id][0])
-        for i in range(0,10):
-            model.geom_pos[model.geom(f"stump_{i}").id][2] = -7
-        self.deactivate_all_stumps(model)
+        
+        model.geom_pos[model.geom("element_10").id][2] = -3.95
+        model.geom_pos[model.geom("element_11").id][2] = -3.95
+        model.geom_pos[model.geom("element_12").id][2] = -3.95
+        model.geom_pos[model.geom("element_13").id][2] = -3.95
 
     def set_custom_level(self, model, level_des: LevelDescription):
         for i, e_height in enumerate(level_des.elements):
