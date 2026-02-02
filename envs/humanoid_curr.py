@@ -136,3 +136,5 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             self._create_level(self.current_level)
             self.change_level_flag = False
         return super().reset_model()
+
+# TODO: add successfull finish option when reaching end of level

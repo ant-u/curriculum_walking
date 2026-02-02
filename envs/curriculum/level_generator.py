@@ -5,31 +5,28 @@ import numpy as np
 import random
 
 
-class LevelType(Enum):
-    SLAB = [0.1, 0.9, 0.1]
-    STAIRS = [0.9, 0.1, 0.1]
-    STUMP = [0.1, 0.1, 0.9]
-    GAP = [1.0, 0.75, 0.8]  # pink
+class ElementType(Enum):
+    SLAB = [0.5, 1, 0.5]  # green
+    STAIRS = [1, 0.5, 0.5]  # red
+    STUMP = [0.5, 0.5, 1]  # blue
+    GAP = [0.5, 1, 1]  # pink
 
 
 @dataclass
 class Element():
-    type: LevelType
-    pos: int  # number of geom (0..49) at which element is positioned
+    type: ElementType
+    pos: int  # number of geom (0..n_geoms) at which element is positioned
     height: float  # for slab, stump and gap height difference to surrounding, for stairs step height
-    n: int  # number of geoms involved in structure, slab stump and gap 2, stairs n_steps + 1 (margin)
+    n: int  # number of elements involved in structure (without margin), slab stump and gap 1, stairs n_steps
 
 @dataclass
 class LevelDescription():
     n_elements: int
-    n_stumps: int
     elements: List[float] = field(init=False)
-    stumps: List[float | None] = field(init=False)
-    types: List[LevelType | None] = field(init=False)
+    types: List[ElementType | None] = field(init=False)
 
     def __post_init__(self):
         self.elements = np.zeros(self.n_elements)
-        self.stumps = np.array([None] * self.n_stumps)
         self.types = np.array([None] * self.n_elements)
 
 
@@ -40,26 +37,27 @@ class LevelGenerator():
     - stump
     - gap
     - stairs
-    - gradient surface
     maybe addable:
     - slippery surface
     """
     
-    def __init__(self, level_size: Tuple[int], level_begin: Tuple[int], size_per_obst: float=1, margin_per_obst: int=1) -> None:
-        """level_size is [x,y] of space used for level design
-        level_begin is [x,y] of beginning of level space. Note that y has to be middle, but x first value of space
-        size_per_obs is space allocated for each single obstacle. Not nescesarrily takes up all of it.
-        margin_per_obs is space that comes after obstacle, adds up with whats not used of size_per_obs."""
-        self.level_size= level_size
-        self.level_begin= level_begin
-        self.size_per_obst = size_per_obst
-        self.margin_per_obst = margin_per_obst
+    def __init__(self, level_length_in_m: int, level_range_z: Tuple[int] = [-10,10], 
+                 n_geoms: int=150, element_size: int = 3, n_margin_elems: int=1) -> None:
+        """Name-clarification: a single geom is a geom. when geoms are grouped together and moved as one, they become an element.
+        Several elements can form an obstacle, e.g. for a slab: one lower element and another raised element become together an obstacle."""
+        self.level_length_in_m = level_length_in_m
+        self.level_range_in_z = level_range_z
+        self.n_geoms = n_geoms
+        self.geom_length = self.level_length_in_m / self.n_geoms
+
+        self.element_size = element_size  # how many geoms are grouped together
+        self.n_margin_elems = n_margin_elems
+        self.margin_size = self.element_size * self.n_margin_elems
         self.rng = np.random.default_rng()
 
-        space_per_obst = self.size_per_obst + self.margin_per_obst
-        self.number_of_elements = int(self.level_size[0] / self.size_per_obst)
-        self.max_number_of_obstacles = int(self.level_size[0] / space_per_obst)  # NOTE: 10 for 5+5 plattform at start
-        self.max_number_of_stumps = 10
+        space_per_element = self.geom_length * self.element_size
+        space_per_obst = space_per_element + self.n_margin_elems * space_per_element
+        self.max_number_of_obstacles = int(self.level_length_in_m / space_per_obst)
 
         # params for level difficulty
         self.max_slab_height = 1.0
@@ -68,56 +66,63 @@ class LevelGenerator():
         self.max_stump_height = 1.0
         self.max_gap_depth = 1.0
 
-    @property
-    def flip(self):
-        return self.rng.choice([-1,1])
+    def flip(self, elem_total_height: float, last_abs_height: float) -> int:
+        """Flips element z_direction by 50/50. Checks if z_range of level allows it and flips again if not."""
+        choice = self.rng.choice([-1,1])
+        new_height = elem_total_height * choice + last_abs_height
+        if self.level_range_in_z[0] <= new_height <= self.level_range_in_z[1]:
+            return choice
+        return choice * -1  # NOTE: Assertion here is that individual element cannot be higher than half z_range
 
-    def create_level(self, obstacles: float, diff_per_obs: float):
+    def create_level(self, obstacles: float, diff_per_obs: float) -> LevelDescription:
         """Create level with percentage of obstacles and percentual difficulty per obstacle."""
         n_obst = int(np.ceil(obstacles*self.max_number_of_obstacles))  # 0.0 -> 0, 1 -> max
         elements: List[Element] = []
-        available_positions = list(range(0,50,1))
+        available_positions = list(range(0,self.n_geoms))
+        last_absolute_height = 0
         for _ in range(0, n_obst):
-            element = self.pick_random_element()
-            height, number = self.get_element_params(element, diff_per_obs)
-            if element == LevelType.STUMP:
-                pos, available_positions = self.pick_random_location_stump(available_positions)
-            else:
-                pos, available_positions = self.pick_random_location(available_positions, number)
-            elements.append(Element(element, pos[0], height, number))
-        elements.sort(key=lambda x: x.pos)
+            element_t = self.pick_random_element()
+            elem = self.get_element_params(element_t, diff_per_obs, last_absolute_height)
+            elem.pos, available_positions = self.pick_random_location(available_positions, elem.n)
+            if elem.pos is not None:
+                elements.append(elem)
+                last_absolute_height += elem.height * elem.n
+        elements.sort(key=lambda x: x.pos[0])
         result = self.calculate_element_coords(elements)
         return result
 
-    def pick_random_element(self):
-        elements = list(LevelType)
-        return LevelType(self.rng.choice(elements))
+    def pick_random_element(self) -> ElementType:
+        elements = list(ElementType)
+        return ElementType(self.rng.choice(elements))
     
-    def get_element_params(self, element, difficulty):
+    def get_element_params(self, element_t: ElementType, difficulty: float, last_abs_height: float) -> Element:
+        """Returns the height of element with number of needed elements."""
         upper_border = difficulty
         lower_border = difficulty / 2
-        match element:
-            # height, number
-            case LevelType.SLAB:  # backwards
-                height = self.rng.uniform(lower_border, upper_border) * self.flip
-                params = height, self.margin_per_obst + 1
-            case LevelType.STAIRS:  # backwards
-                height = self.rng.uniform(lower_border, upper_border) * self.flip
+        match element_t:
+            case ElementType.SLAB:
+                n = 1
+                height = self.rng.uniform(lower_border, upper_border)
+                height = height * self.flip(height*n, last_abs_height)
+            case ElementType.STAIRS:
                 up_n = max(np.ceil(difficulty * self.max_step_n), 1)
                 low_n = max((up_n // 2), 1)
                 n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
-                params = height, n_stairs + self.margin_per_obst
-            case LevelType.STUMP:
-                height = self.rng.uniform(lower_border, upper_border) 
-                params = height, self.margin_per_obst + 1
-            case LevelType.GAP:
                 height = self.rng.uniform(lower_border, upper_border)
-                params = height, 1 + self.margin_per_obst
-        return params
+                height = height * self.flip(height*n_stairs, last_abs_height)
+                n = n_stairs
+            case ElementType.STUMP:
+                height = self.rng.uniform(lower_border, upper_border) 
+                n = 1
+            case ElementType.GAP:
+                height = self.rng.uniform(lower_border, upper_border)
+                n = 1
+        return Element(element_t, None, height, n)
     
-    def pick_random_location(self, available, n):
+    def pick_random_location(self, available, n_elements):
         """available is array of elements that are available. 
         n_of_elements is number of elements in obstacle that should fit. In search it is increased by 1 for margin."""
+        n = n_elements * self.element_size + self.margin_size  # from single number of elements to number of geoms with margin
         splits = np.where(np.diff(available) != 1)[0] + 1
         runs = np.split(available, splits)
         valid_runs = [r for r in runs if len(r) >= n]
@@ -125,70 +130,57 @@ class LevelGenerator():
             return None, available
         run = self.rng.choice(np.array(valid_runs, dtype=object))
         start_id = self.rng.integers(0, len(run) - n + 1)
+        start_id -= start_id % (self.element_size + self.margin_size)  # cutting of start to start of element
         # start_id = random.randint(0, len(run) - n)
-        selection = run[start_id : start_id + n]
+        selection = np.array(run[start_id : start_id + n], dtype=int)
         remaining = np.setdiff1d(available, selection)
         return selection, remaining
     
-    def pick_random_location_stump(self, available):
-        candidats = np.asarray([x for x in available if x % 5 == 0])
-        candidats = candidats[np.isin(candidats, available)]
-        valid = candidats[np.isin(candidats+1, available)]
-
-        if len(valid) == 0:
-            return None, available
-        choice = self.rng.choice(valid)
-        choice = [choice, choice + 1]
-        remaining = np.setdiff1d(available, choice)
-        return choice, remaining
-    
-    def calculate_element_coords(self, elements: List[Element]):
-        res: LevelDescription = LevelDescription(self.number_of_elements, self.max_number_of_stumps)
+    def calculate_element_coords(self, elements: List[Element]) -> LevelDescription:
+        res: LevelDescription = LevelDescription(self.n_geoms)
         last_height = 0
-        if elements[0].pos > 0:
-            res.elements[0:elements[0].pos] = 0
+        if elements[0].pos[0] > 0:
+            res.elements[0:elements[0].pos[0]] = 0
         for i, e in enumerate(elements):
             match e.type:
-                case LevelType.SLAB:
+                case ElementType.SLAB:
                     last_height = self._add_slab_position(e, last_height, res)
-                case LevelType.STAIRS:
+                case ElementType.STAIRS:
                     last_height = self._add_stairs_position(e, last_height, res)
-                case LevelType.STUMP:
+                case ElementType.STUMP:
                     last_height = self._add_stump_position(e, last_height, res)
-                case LevelType.GAP:
+                case ElementType.GAP:
                     last_height = self._add_gap_position(e, last_height, res)
             if i+1 < len(elements):
-                next_elem_pos = elements[i+1].pos
+                next_elem_pos = elements[i+1].pos[0]
             else:
-                next_elem_pos = self.level_size[0]
-            res.elements[e.pos + e.n : next_elem_pos] = last_height
-            res.types[e.pos : e.pos+e.n] = e.type
+                next_elem_pos = self.n_geoms
+            res.elements[e.pos[-1] + 1 : next_elem_pos] = last_height
+            res.types[e.pos] = e.type
         return res
 
     def _add_slab_position(self, element: Element, last_height: float, res: LevelDescription):
         slab_height = last_height + element.height
         res.elements[element.pos] = slab_height
-        res.elements[element.pos + 1] = slab_height
         return slab_height
     
     def _add_stairs_position(self, element: Element, last_height: float, res: LevelDescription):
-        last_element = element.pos + element.n - 1
         step_height = 0
-        for i, pos in enumerate(range(element.pos, last_element)):
+        for i in range(element.n):
             step_height = (i + 1) * element.height + last_height
+            pos = element.pos[i * self.element_size:(i+1) * self.element_size]
             res.elements[pos] = step_height
-        res.elements[last_element] = step_height  # margin at end of stairs
+        res.elements[element.pos[-self.element_size:]] = step_height  # margin at end of stairs is last three positions of obstacle
         return step_height
     
     def _add_stump_position(self, element: Element, last_height: float, res: LevelDescription):
-        res.stumps[element.pos // 5] = last_height + element.height
-        res.elements[element.pos] = last_height
-        res.elements[element.pos + 1] = last_height
+        res.elements[element.pos[0]] = element.height + last_height
+        res.elements[element.pos[1:]] = last_height
         return last_height
     
     def _add_gap_position(self, element: Element, last_height: float, res: LevelDescription):
         gap_height = last_height - element.height
-        res.elements[element.pos] = gap_height
-        res.elements[element.pos + 1] = last_height
+        res.elements[element.pos[:element.n*self.element_size]] = gap_height
+        res.elements[element.pos[element.n*self.element_size:]] = last_height
         return last_height
         

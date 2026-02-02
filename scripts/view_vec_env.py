@@ -28,7 +28,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     }
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=False,
                           default_camera_config=cam_config)
-    gen = LevelGenerator([50, 10], [5,0,-5])
+    gen = LevelGenerator(50, [-10,10], 150, 3, 1)
     level_des = gen.create_level(0.3, 0.1)
 
     # env.env_method("set_level_template", level=level_des)
@@ -36,6 +36,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     frames = []
     obs = env.reset()
     done = False
+    display_loop = 1 if export_gif else display_loop
     for i in range(display_loop):
         frames = []
         for step in range(display_steps):
