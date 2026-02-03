@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 56968038.0465968,
+    "n_eval_episodes": 5,
+    "timesteps": 30000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "30m lidar training, humanoid env with _plane.xml, verification of speed",
+    "running_time": "1 day, 19:00:52.590557"
+}
