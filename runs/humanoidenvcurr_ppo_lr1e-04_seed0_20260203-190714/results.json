@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 148731.78614679078,
+    "n_eval_episodes": 5,
+    "timesteps": 10000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "retraining base_lidar_running on level with 150 geoms to make it resilient against 1e-3 gap. Added plattform for infinite walking.",
+    "running_time": "3:56:58.835127",
+    "based_on": "runs/base_lidar_gait_running"
+}
