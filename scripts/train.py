@@ -40,14 +40,14 @@ ENV_CONFIG = {
     "render_lidar": True,  # NOTE: is disabled during training
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
+    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
     "n_points_y": 5,
     "y_width": 1.5,
     "x_forward": 4,
-    "x_start": -1,
+    "x_start": -1,  # TODO: change to 0
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
