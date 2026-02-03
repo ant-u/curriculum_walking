@@ -2,9 +2,8 @@ from envs.curriculum.level_generator import LevelDescription
 
 
 class GeomHandler:
-    def __init__(self):
-        self.x_gap = 1e-3
-        self.z_gap = 1e-3
+    def __init__(self, z_gap):
+        self.z_gap = z_gap
         self.default_color = [1,1,1,1]
 
     def activate_shape(self, model, name):

@@ -2,21 +2,24 @@ import os
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize
 from gymnasium.wrappers import TimeLimit
+import yaml
 from envs.humanoid_base import HumanoidEnvBase
 from envs.humanoid_curr import HumanoidEnvCurr
 from gymnasium.envs.mujoco.humanoid_v5 import HumanoidEnv as HumanoidEnvDefault  # NOTE: renaming to default for less confusion
-
 
 def make_env(cnfg):
     assert cnfg["env_id"] in ["HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"],\
     "env_id has to be HumanoidEnvDefault, HumanoidEnvBase or HumanoidEnvCurr"
     match cnfg["env_id"].lower():  # no case sensitivity
         case "humanoidenvdefault":
-            return make_env_default(cnfg)
+            vec_env = make_env_default(cnfg)
         case "humanoidenvbase":
-            return make_env_base(cnfg)
+            vec_env = make_env_base(cnfg)
         case "humanoidenvcurr":
-            return make_env_curr(cnfg)
+            vec_env = make_env_curr(cnfg)
+    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
+                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
+    return norm_env
 
 # TODO: refactor these into one function, add timelimit option for all of these
 
@@ -28,9 +31,7 @@ def make_env_default(cnfg):
         env_kwargs = {"xml_file": path}
     vec_env = make_vec_env(HumanoidEnvDefault, n_envs=cnfg["n_envs"], seed=cnfg["seed"],
                            env_kwargs=env_kwargs)
-    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
-                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
-    return norm_env
+    return vec_env
 
 
 def make_env_base(cnfg):
@@ -41,9 +42,7 @@ def make_env_base(cnfg):
         env_kwargs = {"xml_file": path}
     vec_env = make_vec_env(HumanoidEnvBase, n_envs=cnfg["n_envs"], seed=cnfg["seed"],
                            env_kwargs=env_kwargs)
-    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
-                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
-    return norm_env
+    return vec_env
 
 
 def make_env_curr(cnfg):
@@ -65,39 +64,29 @@ def make_env_curr(cnfg):
         wrapper_class=wrapper_class, 
         wrapper_kwargs=wrapper_kwargs,
         env_kwargs=env_kwargs)
-    
-    norm_env = VecNormalize(vec_env, clip_reward=cnfg["clip_reward"],
-                            norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
-    return norm_env
+    return vec_env
 
 
 def load_env(path: str, cnfg):
     """Load env as specified by config. picks env type from config, 
     please make sure obs space and act space are same size as in previous one.
     Also loads per default the 'last_vecnormalize_stats'."""
-    env_kwargs = None
-    if cnfg["xml_file"] != None and cnfg["xml_file"] != "":
-        xml_path = os.path.abspath(os.path.join("models", cnfg["xml_file"]))
-        env_kwargs = {"xml_file": xml_path}
-
-    previous_env_id = path.split('/')[1].split("_")[0]
+    yaml_path = os.path.join(path, "configs", "config_used.yaml")
+    with open(yaml_path, 'r') as f:
+        configs = list(yaml.safe_load_all(f))
+    previous_env_id = configs[1]['ENV_CONFIG']['env_id']
     assert previous_env_id.lower() == cnfg["env_id"].lower(), \
         "Previous env and new env differ! Use same env for continuing training."
-    
+
     match cnfg["env_id"].lower():
         case "humanoidenvdefault":
-            env_class = HumanoidEnvDefault
+            vec_env = make_env_default(cnfg)
         case "humanoidenvbase":
-            env_class = HumanoidEnvBase
+            vec_env = make_env_base(cnfg)
         case "humanoidenvcurr":
-            env_class = HumanoidEnvCurr
-            env_kwargs = {"cnfg": cnfg}
-
-    if "env_kwargs" in cnfg and cnfg["env_kwargs"] != {}:
-        env_kwargs.update(cnfg["env_kwargs"])
+            vec_env = make_env_curr(cnfg)
 
     joined_path = os.path.join(path, "checkpoints", "last_vecnormalize_stats.pkl")
-    vec_env = make_vec_env(env_class, n_envs=cnfg["n_envs"], seed=cnfg["seed"], env_kwargs=env_kwargs)
     norm_env = VecNormalize.load(joined_path, vec_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env
 

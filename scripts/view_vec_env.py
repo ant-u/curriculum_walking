@@ -3,7 +3,6 @@ import numpy as np
 from stable_baselines3 import PPO
 import imageio
 import os
-from stable_baselines3 import PPO
 import yaml
 from envs.vec_env import load_render_env
 from scripts.train import PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG

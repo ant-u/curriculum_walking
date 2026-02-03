@@ -26,7 +26,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 30e6,
+    "timesteps": 10e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -35,11 +35,12 @@ ENV_CONFIG = {
     "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 8,
-    "max_steps": 1500,  # 0 disables max steps
+    "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
     "use_levels": True,
-    "terminate_at_x_border": 0,  # 0 disables it
+    "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
+    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -64,7 +65,7 @@ CALLBACK_CONFIG = {
         "eval_freq": 500_000,
         "deterministic": True,
         "render": False,
-        "max_steps": 1500,
+        "max_steps": 50_000,
         "n_envs": 5,
         "n_eval_episodes": 5,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
     },

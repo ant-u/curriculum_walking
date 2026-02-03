@@ -17,7 +17,7 @@ class CurriculumCallback(BaseCallback):
         self.save_dir = save_dir
         self.env_cnfg = env_cnfg
         self.performance_est = PerformaneEstimator()
-        self.level_gen = LevelGenerator([50, 10], [5,0,-5])
+        self.level_gen = LevelGenerator(50, [-10,10], 150, 3, 1)
         self.regrets = []
         self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
                             ylabel="Regret", line_label="Avg rollout regret")
