@@ -1,4 +1,5 @@
 import os
+import time
 from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import VecNormalize
 from gymnasium.wrappers import TimeLimit
@@ -6,6 +7,37 @@ import yaml
 from envs.humanoid_base import HumanoidEnvBase
 from envs.humanoid_curr import HumanoidEnvCurr
 from gymnasium.envs.mujoco.humanoid_v5 import HumanoidEnv as HumanoidEnvDefault  # NOTE: renaming to default for less confusion
+
+
+class TimeLimitTerminate(TimeLimit):
+    def __init__(self, env, max_episode_steps):
+        super().__init__(env, max_episode_steps)
+        self._start_time = time.time()
+        self._episode_reward = 0.0
+        self._episode_length = 0
+
+    def reset(self, **kwargs):
+        self._episode_reward = 0.0
+        self._episode_length = 0
+        self._start_time = time.time()
+        return super().reset(**kwargs)
+    
+    def step(self, action):
+        obs, reward, terminated, truncated, info = super().step(action)
+        self._episode_reward += reward
+        self._episode_length += 1
+        if truncated:
+            terminated = True
+            truncated = False
+            # Inject Monitor-compatible episode info
+            info = dict(info)
+            info["episode"] = {
+                "r": float(self._episode_reward),
+                "l": self._episode_length,
+                "t": time.time() - self._start_time,
+            }
+        return obs, reward, terminated, truncated, info
+
 
 def make_env(cnfg):
     assert cnfg["env_id"] in ["HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"],\
@@ -21,7 +53,6 @@ def make_env(cnfg):
                             norm_reward=cnfg["norm_reward"], norm_obs=cnfg["norm_obs"])
     return norm_env
 
-# TODO: refactor these into one function, add timelimit option for all of these
 
 def make_env_default(cnfg):
     """Generates the default gymnasium humnanoid_v5 env with no extras whatsoever."""
@@ -54,7 +85,7 @@ def make_env_curr(cnfg):
     wrapper_class = None
     wrapper_kwargs = None
     if cnfg["max_steps"] > 0:
-        wrapper_class = TimeLimit
+        wrapper_class = TimeLimitTerminate
         wrapper_kwargs = {"max_episode_steps": cnfg["max_steps"]}
     
     vec_env = make_vec_env(

@@ -31,6 +31,8 @@ class GeomHandler:
     def deactivate_all_elements(self, model):
         for i in range((model.geom_group == 2).sum()):
             self.deactivate_shape(model, f"element_{i}")
+            geom = model.geom(f"element_{i}")
+            model.geom_pos[geom.id][2] = -7.5 - model.geom_size[geom.id][2]
 
     def set_no_level(self, model):
         self.deactivate_all_elements(model)

@@ -65,7 +65,7 @@ CALLBACK_CONFIG = {
         "eval_freq": 500_000,
         "deterministic": True,
         "render": False,
-        "max_steps": 50_000,
+        "max_steps": 20_000,
         "n_envs": 5,
         "n_eval_episodes": 5,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
     },

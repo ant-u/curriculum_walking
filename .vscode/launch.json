@@ -18,7 +18,8 @@
             "request": "launch",
             "module": "scripts.train",
             "cwd": "${workspaceFolder}",
-            "args": "${command:pickArgs}"
+            "args": "${command:pickArgs}",
+            "justMyCode": false
         },
         {
             "name": "view_vec_env as module",

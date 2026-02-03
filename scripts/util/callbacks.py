@@ -137,7 +137,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
         eval_env = load_env(train_on, env_cnfg_tmp)
     else:
         eval_env = make_env(env_cnfg_tmp)
-    eval_env.training = False  # TODO: add time limit to eval env??
+    eval_env.training = False
 
     eval_callback = EvalCallback(
         eval_env,
