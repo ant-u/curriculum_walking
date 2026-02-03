@@ -22,6 +22,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
         self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
+        self.terminate_on_x = cnfg["terminate_at_x_border"] if "terminate_at_x_border" in cnfg.keys() else 60
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
             
@@ -66,7 +67,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
-            # heightmap = np.zeros(len(heightmap))
+            heightmap = np.zeros(len(heightmap))
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     
@@ -119,6 +120,19 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             if self.render_lidar:
                 self.data.site_xpos[i] = [point[0], point[1], absolute_point_height]  # updating pos of sites
         return heights
+
+    def step(self, action):
+        obs, reward, terminated, done, info  = super().step(action)
+        x = info["x_position"]
+        if self.terminate_on_x:
+            if x >= self.terminate_on_x:
+                reward += 100
+                terminated = True
+                info['success'] = True
+                info['terminated_reason'] = 'goal_reached'
+            else:
+                info['sucess'] = False
+        return obs, reward, terminated, done, info
     
     def set_level_template(self, level: LevelDescription):
         self.current_level = level
@@ -131,10 +145,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             self.geom_handler.set_custom_level(self.model, level)
 
     def reset_model(self):
-        # self.init_qpos[0] = -8
+        print("reset")
         if self.using_levels and self.change_level_flag:
             self._create_level(self.current_level)
             self.change_level_flag = False
         return super().reset_model()
-
-# TODO: add successfull finish option when reaching end of level

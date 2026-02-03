@@ -46,8 +46,8 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
             if export_gif:
                 frame = env.render()
                 frames.append(frame)
-            # if done:
-            #     break
+            if done:
+                break
         obs = env.reset()
     env.close()
     return frames
