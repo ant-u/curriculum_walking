@@ -47,7 +47,7 @@ ENV_CONFIG = {
     "n_points_y": 5,
     "y_width": 1.5,
     "x_forward": 4,
-    "x_start": -1,  # TODO: change to 0
+    "x_start": 0,
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10

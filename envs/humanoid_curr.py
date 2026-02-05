@@ -68,7 +68,6 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
-            # heightmap = np.zeros(len(heightmap))
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
     

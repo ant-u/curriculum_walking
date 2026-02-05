@@ -92,5 +92,3 @@ class CurriculumManager:
 
     def _mutate_level(self, level: LevelDescription) -> LevelDescription:
         return None
-
-    
