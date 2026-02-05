@@ -26,7 +26,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 10e6,
+    "timesteps": 20e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -34,13 +34,13 @@ PPO_CONFIG = {
 ENV_CONFIG = {
     "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
-    "n_envs": 8,
+    "n_envs": 10,
     "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
+    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
