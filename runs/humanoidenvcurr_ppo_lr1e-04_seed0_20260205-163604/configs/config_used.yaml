@@ -1,0 +1,59 @@
+PPO_CONFIG:
+    algo: PPO
+    batch_size: 256
+    clip_range: 0.15
+    device: cpu
+    ent_coef: 0.01
+    gae_lambda: 0.9
+    gamma: 0.99
+    learning_rate: 0.0001
+    max_grad_norm: 0.3
+    n_epochs: 15
+    n_steps: 8192
+    normalize_advantage: true
+    partition: Krater
+    policy: MlpPolicy
+    seed: 0
+    tensorboard_log: true
+    timesteps: 20000000.0
+    verbose: 1
+    vf_coef: 1.0
+---
+ENV_CONFIG:
+    clip_reward: 10
+    env_id: HumanoidEnvCurr
+    env_kwargs: {}
+    geom_z_gap: 0.001
+    max_steps: 0
+    n_envs: 10
+    n_points_x: 6
+    n_points_y: 5
+    norm_obs: true
+    norm_reward: true
+    render_lidar: true
+    seed: 0
+    terminate_at_x_border: 0
+    use_levels: true
+    use_lidar: true
+    use_relative_height: false
+    x_forward: 4
+    x_start: 0
+    xml_file: humanoid_plane.xml
+    y_width: 1.5
+---
+CALLBACK_CONFIG:
+    checkpoint_cb_conf:
+        name_prefix: ckpt
+        save_freq: 3000000
+        save_vecnormalize: true
+    eval_env_conf:
+        deterministic: true
+        env_seed: 0
+        eval_freq: 500000
+        max_steps: 20000
+        n_envs: 5
+        n_eval_episodes: 5
+        render: false
+    plot_callback:
+        log_level: 2
+        window: 100

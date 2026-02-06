@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 165713.9134314373,
+    "n_eval_episodes": 5,
+    "timesteps": 30000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "one longer run from scrath, increased n_envs",
+    "running_time": "9:10:08.394429"
+}
