@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List, Tuple
 from envs.curriculum.performance_estimator import PerformaneEstimator
-from envs.curriculum.level_generator import LevelDescription, LevelGenerator
+from envs.curriculum.level_generator import LevelDescription, LevelGenerator, Element, Level
 import numpy as np
 from envs.humanoid_curr import HumanoidEnvCurr
 
@@ -16,7 +16,7 @@ class CurriculumManager:
         self.buff_ratio = buff_ratio
         self.adding_threshold = adding_threshold  # lower threshold for regret-based buffer adding
         self.regret_diff_threshold = regret_diff_threshold  # upper border for regret deviation of a mutation level from parent
-        self.buffer: List[LevelDescription] = [None] * self.buff_size
+        self.buffer: List[Level] = [None] * self.buff_size
         self.level_gen = LevelGenerator
         self.rng = np.random.default_rng()
         self.replay_decision: bool | None = None
@@ -66,17 +66,18 @@ class CurriculumManager:
             level = self.envs[i].current_level  # enum
         # self.env.env_method()
 
-    def get_level(self, n: float, d: float) -> LevelDescription:
-        return self.level_gen.create_level(n, d)
+    def get_level(self, n: float, d: float) -> List[Element]:
+        return self.level_gen.create_level_elements(n, d)
     
     def sample_level_params(self) -> Tuple[float]:
         n = self.rng.random()
         d = self.rng.random()
         return n, d
     
-    def _set_level(self, level: LevelDescription):
+    def _set_level(self, level: Level):
+        level_des = self.level_gen.calculate_element_coords(level)
         for e in self.envs:
-            e.set_level_template(level)
+            e.set_level_template(level_des)
         self.reset_envs()
         # NOTE: important for accurate GAE values, wihtout reset env, one rollout can contain
         # data from different levels, which is very suboptimal for GAE
@@ -85,10 +86,12 @@ class CurriculumManager:
         for e in self.envs:
             e.reset()
 
-    def _update_buffer(self, level: LevelDescription):
+    def _update_buffer(self, level: Level):
         if len(self.buffer) >= self.buff_size:
             self.buffer.pop(0)  # TODO: FIFO strategie, not ideal, ADAPT
         self.buffer.append(level)
 
-    def _mutate_level(self, level: LevelDescription) -> LevelDescription:
+    def _mutate_level(self, level: Level) -> Level:
+        elem = self.rng.choice(level.elements)
+        # param = 
         return None

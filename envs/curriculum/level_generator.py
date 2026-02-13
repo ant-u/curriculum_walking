@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 import numpy as np
 import random
 
@@ -9,7 +9,7 @@ class ElementType(Enum):
     SLAB = [0.5, 1, 0.5]  # green
     STAIRS = [1, 0.5, 0.5]  # red
     STUMP = [0.5, 0.5, 1]  # blue
-    GAP = [0.5, 1, 1]  # pink
+    GAP = [0.5, 1, 1]  # turquoise
 
 
 @dataclass
@@ -18,12 +18,22 @@ class Element():
     pos: int  # number of geom (0..n_geoms) at which element is positioned
     height: float  # for slab, stump and gap height difference to surrounding, for stairs step height
     n: int  # number of elements involved in structure (without margin), slab stump and gap 1, stairs n_steps
+    gap_width: Optional[int] = None  # number of geoms used for gap width
+
+
+@dataclass
+class Level():
+    elements: List[Element] = field(init=False)
+
+    def __post_init__(self):
+        self.elements = []
+
 
 @dataclass
 class LevelDescription():
     n_elements: int
     elements: List[float] = field(init=False)
-    types: List[ElementType | None] = field(init=False)
+    types: List[Optional[ElementType]] = field(init=False)
 
     def __post_init__(self):
         self.elements = np.zeros(self.n_elements)
@@ -53,7 +63,7 @@ class LevelGenerator():
         self.element_size = element_size  # how many geoms are grouped together
         self.n_margin_elems = n_margin_elems
         self.margin_size = self.element_size * self.n_margin_elems
-        self.rng = np.random.default_rng()
+        self.rng = np.random.default_rng()  # use with seed
 
         space_per_element = self.geom_length * self.element_size
         space_per_obst = space_per_element + self.n_margin_elems * space_per_element
@@ -65,6 +75,7 @@ class LevelGenerator():
         self.max_step_n = 5
         self.max_stump_height = 1.0
         self.max_gap_depth = 1.0
+        self.max_gap_size = 1.0
 
     def flip(self, elem_total_height: float, last_abs_height: float) -> int:
         """Flips element z_direction by 50/50. Checks if z_range of level allows it and flips again if not."""
@@ -73,50 +84,54 @@ class LevelGenerator():
         if self.level_range_in_z[0] <= new_height <= self.level_range_in_z[1]:
             return choice
         return choice * -1  # NOTE: Assertion here is that individual element cannot be higher than half z_range
-
-    def create_level(self, obstacles: float, diff_per_obs: float) -> LevelDescription:
+    
+    def create_level_elements(self, obstacles: float, diff_slab: float, diff_stairs: float, diff_stump: float, diff_gap: float) -> Level:
         """Create level with percentage of obstacles and percentual difficulty per obstacle."""
         n_obst = int(np.ceil(obstacles*self.max_number_of_obstacles))  # 0.0 -> 0, 1 -> max
-        elements: List[Element] = []
+        level: Level = Level()
         available_positions = list(range(0,self.n_geoms))
         last_absolute_height = 0
         for _ in range(0, n_obst):
             element_t = self.pick_random_element()
-            elem = self.get_element_params(element_t, diff_per_obs, last_absolute_height)
+            elem = self.get_element_params(element_t, diff_slab, diff_stairs, diff_stump, diff_gap, last_absolute_height)
             elem.pos, available_positions = self.pick_random_location(available_positions, elem.n)
             if elem.pos is not None:
-                elements.append(elem)
+                level.elements.append(elem)
                 last_absolute_height += elem.height * elem.n
-        elements.sort(key=lambda x: x.pos[0])
-        result = self.calculate_element_coords(elements)
-        return result
+        level.elements.sort(key=lambda x: x.pos[0])
+        return level
 
     def pick_random_element(self) -> ElementType:
         elements = list(ElementType)
         return ElementType(self.rng.choice(elements))
     
-    def get_element_params(self, element_t: ElementType, difficulty: float, last_abs_height: float) -> Element:
+    def get_element_params(self, element_t: ElementType, diff_slab: float, diff_stairs: float, 
+                           diff_stump: float, diff_gap: float, last_abs_height: float) -> Element:
         """Returns the height of element with number of needed elements."""
-        upper_border = difficulty
-        lower_border = difficulty / 2
+        upper_borders = np.array([diff_slab, diff_stairs, diff_stump, diff_gap])
+        lower_borders = upper_borders / 2
         match element_t:
             case ElementType.SLAB:
                 n = 1
-                height = self.rng.uniform(lower_border, upper_border)
+                height = self.rng.uniform(lower_borders[0], upper_borders[0])
                 height = height * self.flip(height*n, last_abs_height)
             case ElementType.STAIRS:
-                up_n = max(np.ceil(difficulty * self.max_step_n), 1)
+                up_n = max(np.ceil(upper_borders[1] * self.max_step_n), 1)
                 low_n = max((up_n // 2), 1)
                 n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
-                height = self.rng.uniform(lower_border, upper_border)
+                height = self.rng.uniform(lower_borders[1], upper_borders[1])
                 height = height * self.flip(height*n_stairs, last_abs_height)
                 n = n_stairs
             case ElementType.STUMP:
-                height = self.rng.uniform(lower_border, upper_border) 
+                height = self.rng.uniform(lower_borders[2], upper_borders[2]) 
                 n = 1
             case ElementType.GAP:
-                height = self.rng.uniform(lower_border, upper_border)
+                height = self.rng.uniform(lower_borders[3], upper_borders[3])
+                up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
+                low_n = np.ceil(upper_borders[3] * (self.element_size - 1))
+                gap_width = self.rng.integers(low_n, up_n + 1)  # upper boarder not included
                 n = 1
+                return Element(element_t, None, height, n, gap_width)
         return Element(element_t, None, height, n)
     
     def pick_random_location(self, available, n_elements):
@@ -136,12 +151,16 @@ class LevelGenerator():
         remaining = np.setdiff1d(available, selection)
         return selection, remaining
     
-    def calculate_element_coords(self, elements: List[Element]) -> LevelDescription:
+    def calculate_element_coords(self, level: Level) -> LevelDescription:
+        """Converts level from type Level (list of elements) to actual positions of each geom.
+        Used in env to set geom z_coords accordingly."""
         res: LevelDescription = LevelDescription(self.n_geoms)
+        if len(level.elements) == 0:
+            return res  # for no elements, return default level description
         last_height = 0
-        if elements[0].pos[0] > 0:
-            res.elements[0:elements[0].pos[0]] = 0
-        for i, e in enumerate(elements):
+        if level.elements[0].pos[0] > 0:
+            res.elements[0:level.elements[0].pos[0]] = 0
+        for i, e in enumerate(level.elements):
             match e.type:
                 case ElementType.SLAB:
                     last_height = self._add_slab_position(e, last_height, res)
@@ -151,8 +170,8 @@ class LevelGenerator():
                     last_height = self._add_stump_position(e, last_height, res)
                 case ElementType.GAP:
                     last_height = self._add_gap_position(e, last_height, res)
-            if i+1 < len(elements):
-                next_elem_pos = elements[i+1].pos[0]
+            if i+1 < len(level.elements):
+                next_elem_pos = level.elements[i+1].pos[0]
             else:
                 next_elem_pos = self.n_geoms
             res.elements[e.pos[-1] + 1 : next_elem_pos] = last_height
@@ -180,7 +199,7 @@ class LevelGenerator():
     
     def _add_gap_position(self, element: Element, last_height: float, res: LevelDescription):
         gap_height = last_height - element.height
-        res.elements[element.pos[:element.n*self.element_size]] = gap_height
-        res.elements[element.pos[element.n*self.element_size:]] = last_height
+        res.elements[element.pos[:element.gap_width]] = gap_height
+        res.elements[element.pos[element.gap_width:]] = last_height
         return last_height
         

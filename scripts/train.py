@@ -41,6 +41,7 @@ ENV_CONFIG = {
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
     "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
+    "min_diff_torso_feet": 0.2,  # reset if height diff of feet (averaged) and torso lower than this
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,

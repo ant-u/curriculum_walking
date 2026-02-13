@@ -25,12 +25,13 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
         "lookat": np.array((30.0, 0.0, 2.0)),
         "elevation": -10.0,
     }
-    env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=False,
+    env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=True,
                           default_camera_config=cam_config)
     gen = LevelGenerator(50, [-10,10], 150, 3, 1)
-    level_des = gen.create_level(0.3, 0.1)
+    level_elems = gen.create_level_elements(0.3, 0.1, 0.1, 0.1, 0.5)
+    level_des = gen.calculate_element_coords(level_elems)
 
-    # env.env_method("set_level_template", level=level_des)
+    env.env_method("set_level_template", level=level_des)
     
     frames = []
     obs = env.reset()

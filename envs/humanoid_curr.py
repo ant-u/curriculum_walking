@@ -18,11 +18,18 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             path = os.path.abspath(f"./models/{cnfg["xml_file"]}")
         else:
             path = os.path.abspath(f"./models/{xml_file}")
-        super().__init__(xml_file=path, **kwargs)
+        healthy_z_range = (-10.0, 10.0)
+        super().__init__(xml_file=path, healthy_z_range=healthy_z_range, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
         self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
         self.terminate_on_x = cnfg["terminate_at_x_border"] if "terminate_at_x_border" in cnfg.keys() else 0
+
+        self._torso_id = self.model.body("torso").id
+        self._left_foot_id = self.model.body("left_foot").id
+        self._right_foot_id = self.model.body("right_foot").id
+        self.min_diff_torso_feet = cnfg["min_diff_torso_feet"] if "min_diff_torso_feet" in cnfg.keys() else 0.2
+
         if self.render_lidar:
             assert self.use_lidar == True, "If render_lidar is True, use_lidar has to be true too."
         
@@ -70,6 +77,17 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             heightmap = self._get_heightmap()
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
         return base_obs
+    
+    @property
+    def is_healthy(self):
+        min_z, max_z = self._healthy_z_range
+        if not (min_z < self.data.qpos[2] < max_z):
+            return False
+        torso_z = self.data.xpos[self._torso_id][2]
+        avg_foot_z = (self.data.xpos[self._left_foot_id][2] + self.data.xpos[self._right_foot_id][2]) / 2
+        if (torso_z - avg_foot_z) < self.min_diff_torso_feet:  # tune threshold
+            return False
+        return True
     
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
@@ -149,5 +167,4 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             self._create_level(self.current_level)
             self.change_level_flag = False
         return super().reset_model()
-    
-    # TODO: add new is_healthy method to account for new height options
+
