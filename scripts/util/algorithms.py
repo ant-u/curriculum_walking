@@ -1,9 +1,9 @@
 import os
-from stable_baselines3 import PPO
+from scripts.util.skipable_ppo import SkippablePPO
 
 def get_PPO(cnfg, env, run_dir):
     LOG_PATH = os.path.join(run_dir, "logs")
-    model = PPO(
+    model = SkippablePPO(
         policy              = cnfg["policy"],
         env                 = env,
         device              = cnfg["device"],
@@ -29,7 +29,7 @@ def load_PPO(cnfg, env, ppo_dir, run_dir):
     """Loading PPO from the 'last_model' found under checkpoints of given ppo_dir location."""
     LOG_PATH = os.path.join(run_dir, "logs")
     ppo_path = os.path.join(ppo_dir, 'checkpoints', 'last_model.zip')
-    model = PPO.load(
+    model = SkippablePPO.load(
         path=ppo_path,
         env=env,
         device=cnfg["device"],

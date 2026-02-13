@@ -40,7 +40,7 @@ class LevelDescription():
         self.types = np.array([None] * self.n_elements)
 
 
-class LevelGenerator():
+class LevelGenerator:
     """generates levels for agent training. Levels created as height
     map for the mujoco environment. Options for types of levels are:
     - step
@@ -51,7 +51,7 @@ class LevelGenerator():
     - slippery surface
     """
     
-    def __init__(self, level_length_in_m: int, level_range_z: Tuple[int] = [-10,10], 
+    def __init__(self, level_length_in_m: int=50, level_range_z: Tuple[int] = [-10,10], 
                  n_geoms: int=150, element_size: int = 3, n_margin_elems: int=1) -> None:
         """Name-clarification: a single geom is a geom. when geoms are grouped together and moved as one, they become an element.
         Several elements can form an obstacle, e.g. for a slab: one lower element and another raised element become together an obstacle."""
@@ -85,8 +85,9 @@ class LevelGenerator():
             return choice
         return choice * -1  # NOTE: Assertion here is that individual element cannot be higher than half z_range
     
-    def create_level_elements(self, obstacles: float, diff_slab: float, diff_stairs: float, diff_stump: float, diff_gap: float) -> Level:
+    def create_level_elements(self, obstacles: float, diff_slab: float, diff_stairs: float, diff_stump: float, diff_gap: float, seed=None) -> Level:
         """Create level with percentage of obstacles and percentual difficulty per obstacle."""
+        self.rng = np.random.default_rng(seed)
         n_obst = int(np.ceil(obstacles*self.max_number_of_obstacles))  # 0.0 -> 0, 1 -> max
         level: Level = Level()
         available_positions = list(range(0,self.n_geoms))

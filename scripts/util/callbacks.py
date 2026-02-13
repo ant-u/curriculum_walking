@@ -23,21 +23,26 @@ class CurriculumCallback(BaseCallback):
                             ylabel="Regret", line_label="Avg rollout regret")
         self.rollout_counter = 0
 
-    # def _on_training_start(self):
-    #     self.curriculum_manr = CurriculumManager(self.training_env)
+    def _on_training_start(self):
+        self.curriculum_manr = CurriculumManager(self.training_env, 2000, 0.1, 0.1, 0.05, 42)
         
     def _on_step(self):
         return True
+    
+    def _on_rollout_start(self):
+        self.curriculum_manr.before_rollout()
         
     def _on_rollout_end(self) -> None:
         # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
         regrets = self.performance_est.estimate(self.model)
-        self.regrets.append(np.mean(regrets))
+        mean_regret = np.mean(regrets)
+        self.regrets.append(mean_regret)
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
 
-        # self.curriculum_manr.update(regrets)
-        # self.level_gen
+        update_policy = self.curriculum_manr.after_rollout(mean_regret)
+        if not update_policy:
+            self.model.skip_training = True
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)

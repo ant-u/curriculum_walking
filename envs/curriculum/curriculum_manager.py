@@ -1,80 +1,105 @@
+from dataclasses import dataclass
 import numpy as np
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.level_generator import LevelDescription, LevelGenerator, Element, Level
 import numpy as np
 from envs.humanoid_curr import HumanoidEnvCurr
 
 
+@dataclass
+class BufferLevel():
+    """Representing a level based on params and seed, used for buffer. 
+    With all params and seed given, level can be identically reconstruced by LevelGenerator.
+    Also, level regret is saved here since needed in Buffer."""
+    seed: int
+    obstacles: float
+    diff_slab: float
+    diff_stairs: float
+    diff_stump: float
+    diff_gap: float
+    regret: Optional[float] = None
+
+    def sample_attribute(self): 
+        choices = [self.obstacles, self.diff_slab, self.diff_stairs, self.diff_stump, self.diff_gap]
+        return np.random.choice(choices)
+
+
+
 class CurriculumManager:
     """"""
     
-    def __init__(self, env, buff_size, buff_ratio, adding_threshold, regret_diff_threshold) -> None:
+    def __init__(self, env, buff_size, buff_ratio, adding_threshold, regret_diff_threshold, seed=None) -> None:
         """buff size is general buffer size, buff_ratio is inital fill ratio of buffer."""
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
         self.buff_size = buff_size
         self.buff_ratio = buff_ratio
         self.adding_threshold = adding_threshold  # lower threshold for regret-based buffer adding
         self.regret_diff_threshold = regret_diff_threshold  # upper border for regret deviation of a mutation level from parent
-        self.buffer: List[Level] = [None] * self.buff_size
-        self.level_gen = LevelGenerator
-        self.rng = np.random.default_rng()
-        self.replay_decision: bool | None = None
-        self.current_level: LevelDescription | None = None
+        self.buffer: List[Optional[BufferLevel]] = [None] * self.buff_size
+        self.level_gen = LevelGenerator()
+        self.rng = np.random.default_rng(seed)
+        self.replay_decision: Optional[bool] = None
+        self.current_level: Optional[BufferLevel] = None
         self.muation_level: bool = False
-        self.parent_level_regret: float | None = None
+        self.parent_level_regret: Optional[float] = None
         self._init_buffer()
 
     def _init_buffer(self):
-        for _ in range(self.buff_ratio * self.buff_size):
-            n, d = self.sample_level_params()  # cap params for easy init
-            self.buffer.append(self.get_level(n, d))
+        lower_cap = [0,0,0,0,0]
+        upper_cap = [0.3, 0.1, 0.1, 0.1, 0.1]
+        for _ in range(int(self.buff_ratio * self.buff_size)):
+            buffer_level = self.sample_level(min_params=lower_cap, max_params=upper_cap)  # cap params for easy init
+            self._update_buffer(buffer_level)
 
     def before_rollout(self):
         self.replay_decision = bool(self.rng.choice([0,1]))
         if self.muation_level:  # discover mutated replay level
             self.current_level = self._mutate_level(self.current_level)
         elif self.replay_decision:  # learn on buffer level
-            buffer_not_none = np.where(self.buffer != None)[0]
+            buffer_not_none = list(filter(None, self.buffer))
             self.current_level = self.rng.choice(buffer_not_none)
         else:  # discover new level
-            n, d = self.sample_level_params()
-            self.current_level = self.get_level(n, d)
+            self.current_level = self.sample_level()
         self._set_level(self.current_level)
 
-    def after_rollout(self, regrets) -> bool:
+    def after_rollout(self, regret) -> bool:
         """Takes regrets for level, decides wether policy update shall be applied or not."""
+        self.current_level.regret = regret
         if self.muation_level:
-            eval_value = self.parent_level_regret - regrets  # use absolut value, compare with other levels
+            eval_value = self.parent_level_regret - regret  # use absolut value, compare with other levels
             if eval_value <= self.regret_diff_threshold:
                 self._update_buffer(self.current_level)
             return False
         elif self.replay_decision:  # level from buffer was used
-            if regrets >= self.adding_threshold:
+            if regret >= self.adding_threshold:
                 self._update_buffer(self.current_level)
                 self.muation_level = True  # Next level is mutation level
-                self.parent_level_regret = regrets
+                self.parent_level_regret = regret
             return True
         else:  # new level sample was used
-            if regrets >= self.adding_threshold:
+            if regret >= self.adding_threshold:
                 self._update_buffer(self.current_level)
             return False
 
-    def update(self, regrets):
-        """Called on every rollout end with regerets from every venv"""
-        for i, r in enumerate(regrets):
-            level = self.envs[i].current_level  # enum
-        # self.env.env_method()
-
-    def get_level(self, n: float, d: float) -> List[Element]:
-        return self.level_gen.create_level_elements(n, d)
+    def sample_level(self, min_params=[0,0,0,0,0], max_params=[1,1,1,1,1], seed=None) -> BufferLevel:
+        """Sample level params in order: obstacles, slab, stairs, stump, gap. 
+        If seed is not given, it is assigned randomly. If given, it is saved in buffer level."""
+        if not seed:
+            seed = self.rng.integers(np.iinfo(np.int64).max)  # ~[0, max_int_64]
+        params = []
+        for min, max in zip(min_params, max_params):
+            params.append(self.rng.uniform(min, max))
+        b_level = BufferLevel(seed, params[0], params[1], params[2], params[3], params[4])
+        return b_level
     
-    def sample_level_params(self) -> Tuple[float]:
-        n = self.rng.random()
-        d = self.rng.random()
-        return n, d
+    def _buffer_level_to_level(self, bl: BufferLevel) -> Level:
+        """Convert buffer level into Level (description of elemens), based on seed. """
+        return self.level_gen.create_level_elements(bl.obstacles, bl.diff_slab, bl.diff_stairs, bl.diff_stump, bl.diff_gap, bl.seed)
     
-    def _set_level(self, level: Level):
+    def _set_level(self, buffer_level: BufferLevel):
+        """Set a buffer level in the envs, therefore converts to Level and then LevelDescription, uses env set_level_template."""
+        level = self._buffer_level_to_level(buffer_level)
         level_des = self.level_gen.calculate_element_coords(level)
         for e in self.envs:
             e.set_level_template(level_des)
@@ -83,6 +108,7 @@ class CurriculumManager:
         # data from different levels, which is very suboptimal for GAE
     
     def reset_envs(self):
+        """Resets all venvs"""
         for e in self.envs:
             e.reset()
 
@@ -91,7 +117,8 @@ class CurriculumManager:
             self.buffer.pop(0)  # TODO: FIFO strategie, not ideal, ADAPT
         self.buffer.append(level)
 
-    def _mutate_level(self, level: Level) -> Level:
+    def _mutate_level(self, buffer_level: BufferLevel) -> BufferLevel:
+        """Randomly pick some parameters (obstacles, difficulites) and mutate them by given range"""
         elem = self.rng.choice(level.elements)
         # param = 
         return None
