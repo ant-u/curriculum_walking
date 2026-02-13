@@ -22,6 +22,15 @@
             "justMyCode": false
         },
         {
+            "name": "train as module with best_gait_running",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.train",
+            "cwd": "${workspaceFolder}",
+            "args": "-t runs/base_lidar_gait_running",
+            "justMyCode": false
+        },
+        {
             "name": "view_vec_env as module",
             "type": "debugpy",
             "request": "launch",

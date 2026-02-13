@@ -21,21 +21,36 @@ class BufferLevel():
     regret: Optional[float] = None
 
     def sample_attribute(self): 
-        choices = [self.obstacles, self.diff_slab, self.diff_stairs, self.diff_stump, self.diff_gap]
+        choices = ["obstacles", "diff_slab", "diff_stairs", "diff_stump", "diff_gap"]
         return np.random.choice(choices)
+    
+    def copy(self):
+        return BufferLevel(seed=self.seed,obstacles=self.obstacles,diff_slab=self.diff_slab,
+            diff_stairs=self.diff_stairs,diff_stump=self.diff_stump,diff_gap=self.diff_gap,regret=self.regret)
+    
+    def __str__(self):
+        s = f"BufferLevel with seed={self.seed}, obst={self.obstacles:.5f}, slab={self.diff_slab:.5f}, " +\
+            f"stairs={self.diff_stairs:.5f}, stump={self.diff_stump:.5f}, gap={self.diff_stump:.5f}"
+        if self.regret:
+            s += f", regeret={self.regret:.5f}"
+        else:
+            s += f", regret={self.regret}"
+        return s
 
 
 
 class CurriculumManager:
     """"""
     
-    def __init__(self, env, buff_size, buff_ratio, adding_threshold, regret_diff_threshold, seed=None) -> None:
+    def __init__(self, env, buff_size, buff_ratio, adding_threshold, regret_diff_threshold, mutation_edit_size, seed=None) -> None:
         """buff size is general buffer size, buff_ratio is inital fill ratio of buffer."""
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
         self.buff_size = buff_size
         self.buff_ratio = buff_ratio
         self.adding_threshold = adding_threshold  # lower threshold for regret-based buffer adding
         self.regret_diff_threshold = regret_diff_threshold  # upper border for regret deviation of a mutation level from parent
+        self.mutation_edit_size = mutation_edit_size
+
         self.buffer: List[Optional[BufferLevel]] = [None] * self.buff_size
         self.level_gen = LevelGenerator()
         self.rng = np.random.default_rng(seed)
@@ -62,10 +77,12 @@ class CurriculumManager:
         else:  # discover new level
             self.current_level = self.sample_level()
         self._set_level(self.current_level)
+        print(f"using level: {self.current_level}")
 
     def after_rollout(self, regret) -> bool:
         """Takes regrets for level, decides wether policy update shall be applied or not."""
         self.current_level.regret = regret
+        print(f"after rollout level: {self.current_level}")
         if self.muation_level:
             eval_value = self.parent_level_regret - regret  # use absolut value, compare with other levels
             if eval_value <= self.regret_diff_threshold:
@@ -73,7 +90,6 @@ class CurriculumManager:
             return False
         elif self.replay_decision:  # level from buffer was used
             if regret >= self.adding_threshold:
-                self._update_buffer(self.current_level)
                 self.muation_level = True  # Next level is mutation level
                 self.parent_level_regret = regret
             return True
@@ -114,11 +130,19 @@ class CurriculumManager:
 
     def _update_buffer(self, level: Level):
         if len(self.buffer) >= self.buff_size:
-            self.buffer.pop(0)  # TODO: FIFO strategie, not ideal, ADAPT
+            if None in self.buffer:
+                self.buffer.remove(None)
+            else:
+                self.buffer.sort(key=lambda x: (x.regret is not None, x.regret))
+                self.buffer.pop(0)  # TODO: FIFO strategie, not ideal, ADAPT
         self.buffer.append(level)
 
     def _mutate_level(self, buffer_level: BufferLevel) -> BufferLevel:
         """Randomly pick some parameters (obstacles, difficulites) and mutate them by given range"""
-        elem = self.rng.choice(level.elements)
-        # param = 
-        return None
+        mutation = buffer_level.copy()
+        param_str = buffer_level.sample_attribute()
+        param = getattr(buffer_level, param_str)
+        adaption = self.rng.uniform(-self.mutation_edit_size, self.mutation_edit_size)
+        updated_param = np.clip(param+adaption, 0, 1)  # making sure [0..1] is never left
+        setattr(mutation, param_str, updated_param)
+        return mutation

@@ -24,7 +24,7 @@ class CurriculumCallback(BaseCallback):
         self.rollout_counter = 0
 
     def _on_training_start(self):
-        self.curriculum_manr = CurriculumManager(self.training_env, 2000, 0.1, 0.1, 0.05, 42)
+        self.curriculum_manr = CurriculumManager(self.training_env, 100, 1, 0.05, 0.05, 0.05, 42)
         
     def _on_step(self):
         return True
