@@ -7,74 +7,10 @@ import time
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
 from envs.vec_env import load_env, make_env
+from envs.config import PPO_CONFIG, ENV_CONFIG, CURR_CONFIG, CALLBACK_CONFIG
 import yaml
 
-PPO_CONFIG = {
-    "algo": "PPO",
-    "policy": "MlpPolicy",
-    "device": "cpu",
-    "learning_rate": 1e-4,
-    "n_steps": 8192,
-    "batch_size": 256,
-    "clip_range": 0.15,
-    "ent_coef": 0.01,
-    "vf_coef": 1.0,
-    "gamma": 0.99,  # default
-    "gae_lambda": 0.90,
-    "max_grad_norm": 0.3,
-    "n_epochs": 15,
-    "normalize_advantage": True,
-    "verbose": 1,
-    "tensorboard_log": True,
-    "timesteps": 30e6,
-    "seed": 0,
-    "partition": "Krater",  # e.g. NvidiaAll or Krater
-}
 
-ENV_CONFIG = {
-    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
-    "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
-    "n_envs": 12,
-    "max_steps": 0,  # 0 disables max steps
-    "use_lidar": True,
-    "render_lidar": True,  # NOTE: is disabled during training
-    "use_levels": True,
-    "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
-    "min_diff_torso_feet": 0.2,  # reset if height diff of feet (averaged) and torso lower than this
-    "use_relative_height": False,
-    "seed": 0,
-    "n_points_x": 6,
-    "n_points_y": 5,
-    "y_width": 1.5,
-    "x_forward": 4,
-    "x_start": 0,
-    "norm_reward": True,
-    "norm_obs": True,
-    "clip_reward": 10,  # default: 10
-    "env_kwargs": {},
-}
-
-CALLBACK_CONFIG = {
-    "checkpoint_cb_conf": {
-        "save_freq": 3_000_000,
-        "save_vecnormalize": True,
-        "name_prefix": "ckpt"
-    },
-    "eval_env_conf": {
-        "env_seed": 0,
-        "eval_freq": 500_000,
-        "deterministic": True,
-        "render": False,
-        "max_steps": 20_000,
-        "n_envs": 5,
-        "n_eval_episodes": 5,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
-    },
-    "plot_callback": {
-        "window": 100,
-        "log_level": 2
-    }
-}
 
 
 def main(RUN_DIR: str, train_on_path: str, message: str):
@@ -95,7 +31,7 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
 
     # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
     checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(
-        CALLBACK_CONFIG, ENV_CONFIG, RUN_DIR, train_on_path)
+        CALLBACK_CONFIG, ENV_CONFIG, CURR_CONFIG, RUN_DIR, train_on_path)
     
     start_time = time.monotonic()
     model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, eval_cb, plot_cb, curr_cb])
@@ -130,7 +66,7 @@ def dump_summary(eval_cb, timesteps, model, message, timedelta, train_on_path, R
         json.dump(results_summary, f, indent=4)
 
 
-def make_run_dir(ppo_cnfg, env_cnfg, callback_cnfg):
+def make_run_dir(ppo_cnfg, env_cnfg, curr_cnfg, callback_cnfg):
     """Make directory for new training. Includes subdirectories and also saves snapshot of config."""
     folder_name = f"{env_cnfg['env_id'].lower()}_{ppo_cnfg['algo'].lower()}_lr{ppo_cnfg['learning_rate']:.0e}_seed{ppo_cnfg['seed']}"
     timestamp = time.strftime("%Y%m%d-%H%M%S")
@@ -145,6 +81,7 @@ def make_run_dir(ppo_cnfg, env_cnfg, callback_cnfg):
         cnfg_list = [
             {'PPO_CONFIG': ppo_cnfg},
             {'ENV_CONFIG': env_cnfg},
+            {'CURR_CONFIG': curr_cnfg},
             {'CALLBACK_CONFIG': callback_cnfg},
         ]
         yaml.dump_all(cnfg_list, f, indent=4)
@@ -174,5 +111,5 @@ if __name__ == '__main__':
     if args.path != None:  # run_dir path given in call
         run_dir = args.path
     else:
-        run_dir = make_run_dir(PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG)
+        run_dir = make_run_dir(PPO_CONFIG, ENV_CONFIG, CURR_CONFIG, CALLBACK_CONFIG)
     main(run_dir, args.train, args.message)

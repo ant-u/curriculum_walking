@@ -12,10 +12,11 @@ from scripts.util.plot import Plot, IQRPlot
 
 
 class CurriculumCallback(BaseCallback):
-    def __init__(self, save_dir: str, env_cnfg: dict, verbose: int = 0):
+    def __init__(self, save_dir: str, env_cnfg: dict, curr_cnfg: dict, verbose: int = 0):
         super().__init__(verbose)
         self.save_dir = save_dir
         self.env_cnfg = env_cnfg
+        self.curr_cnfg = curr_cnfg
         self.performance_est = PerformaneEstimator()
         self.level_gen = LevelGenerator(50, [-10,10], 150, 3, 1)
         self.regrets = []
@@ -24,7 +25,7 @@ class CurriculumCallback(BaseCallback):
         self.rollout_counter = 0
 
     def _on_training_start(self):
-        self.curriculum_manr = CurriculumManager(self.training_env, 100, 1, 0.05, 0.05, 0.05, 42)
+        self.curriculum_manr = CurriculumManager(self.training_env, self.curr_cnfg)
         
     def _on_step(self):
         return True
@@ -123,7 +124,7 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
+def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
     save_vec_norm = SaveVecNormalizeOnNewBest(CHECKPOINT_PATH)
@@ -159,7 +160,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, run_dir, train_on) -> tuple:
         window=callback_cnfg["plot_callback"]["window"],
         log_level=callback_cnfg["plot_callback"]["log_level"],
     )
-    curr_callback = CurriculumCallback(save_dir=LOG_PATH, env_cnfg=env_cnfg)
+    curr_callback = CurriculumCallback(save_dir=LOG_PATH, env_cnfg=env_cnfg, curr_cnfg=curr_cnfg)
     return checkpoint_callback, eval_callback, plot_callback, curr_callback
 
 

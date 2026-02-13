@@ -42,18 +42,20 @@ class BufferLevel():
 class CurriculumManager:
     """"""
     
-    def __init__(self, env, buff_size, buff_ratio, adding_threshold, regret_diff_threshold, mutation_edit_size, seed=None) -> None:
+    def __init__(self, env, cnfg) -> None:
         """buff size is general buffer size, buff_ratio is inital fill ratio of buffer."""
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
-        self.buff_size = buff_size
-        self.buff_ratio = buff_ratio
-        self.adding_threshold = adding_threshold  # lower threshold for regret-based buffer adding
-        self.regret_diff_threshold = regret_diff_threshold  # upper border for regret deviation of a mutation level from parent
-        self.mutation_edit_size = mutation_edit_size
+        self.buff_size = cnfg["buffer_size"]
+        self.buff_ratio = cnfg["buffer_init_fill_ratio"]
+        self.buffer_init_lower_cap = cnfg["buffer_init_lower_cap"]
+        self.buffer_init_upper_cap = cnfg["buffer_init_upper_cap"]
+        self.mutation_edit_size = cnfg["mutation_edit_size"]
+        self.adding_threshold = cnfg["regret_threshold_buffer"]  # lower threshold for regret-based buffer adding
+        self.replay_dec_distrib = cnfg["replay_decision_distribution"]
 
         self.buffer: List[Optional[BufferLevel]] = [None] * self.buff_size
         self.level_gen = LevelGenerator()
-        self.rng = np.random.default_rng(seed)
+        self.rng = np.random.default_rng(cnfg["seed"])
         self.replay_decision: Optional[bool] = None
         self.current_level: Optional[BufferLevel] = None
         self.muation_level: bool = False
@@ -61,14 +63,13 @@ class CurriculumManager:
         self._init_buffer()
 
     def _init_buffer(self):
-        lower_cap = [0,0,0,0,0]
-        upper_cap = [0.3, 0.1, 0.1, 0.1, 0.1]
         for _ in range(int(self.buff_ratio * self.buff_size)):
-            buffer_level = self.sample_level(min_params=lower_cap, max_params=upper_cap)  # cap params for easy init
+            # cap params for easy init
+            buffer_level = self.sample_level(self.buffer_init_lower_cap, self.buffer_init_upper_cap)  
             self._update_buffer(buffer_level)
 
     def before_rollout(self):
-        self.replay_decision = bool(self.rng.choice([0,1]))
+        self.replay_decision = bool(self.rng.choice([0,1], p=self.replay_dec_distrib))
         if self.muation_level:  # discover mutated replay level
             self.current_level = self._mutate_level(self.current_level)
         elif self.replay_decision:  # learn on buffer level
@@ -84,8 +85,7 @@ class CurriculumManager:
         self.current_level.regret = regret
         print(f"after rollout level: {self.current_level}")
         if self.muation_level:
-            eval_value = self.parent_level_regret - regret  # use absolut value, compare with other levels
-            if eval_value <= self.regret_diff_threshold:
+            if regret >= self.adding_threshold:
                 self._update_buffer(self.current_level)
             return False
         elif self.replay_decision:  # level from buffer was used
@@ -134,7 +134,7 @@ class CurriculumManager:
                 self.buffer.remove(None)
             else:
                 self.buffer.sort(key=lambda x: (x.regret is not None, x.regret))
-                self.buffer.pop(0)  # TODO: FIFO strategie, not ideal, ADAPT
+                self.buffer.pop(0)
         self.buffer.append(level)
 
     def _mutate_level(self, buffer_level: BufferLevel) -> BufferLevel:
