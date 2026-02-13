@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 30e6,
+    "timesteps": 50e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -31,7 +31,7 @@ ENV_CONFIG = {
     "render_lidar": True,  # NOTE: is disabled during training
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
+    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
     "min_diff_torso_feet": 0.2,  # reset if height diff of feet (averaged) and torso lower than this
     "use_relative_height": False,
     "seed": 0,
@@ -47,7 +47,7 @@ ENV_CONFIG = {
 }
 
 CURR_CONFIG = {
-    "buffer_size": 200,
+    "buffer_size": 300,
     "buffer_init_fill_ratio": 0.1,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.3, 0.1, 0.1, 0.1, 0.1],
