@@ -73,6 +73,7 @@ class CurriculumManager:
 
     def before_rollout(self) -> bool:
         """Decides whether training may start or only a value estimation rollout is done. True indicates training can start."""
+        # TODO: sometimes on default level to prevent catastrophic forgetting?
         self.replay_decision = bool(self.rng.choice([0,1], p=self.replay_dec_distrib))
         if self.muation_level:  # discover mutated replay level
             self.current_level = self._mutate_level(self.current_level)

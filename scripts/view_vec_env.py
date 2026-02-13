@@ -58,10 +58,15 @@ def load_configs(run_dir: str):
     with open(path, 'r') as f:
         doc = yaml.safe_load_all(f)
         configs = list(doc)
-    if len(configs) >= 3:
+    if len(configs) == 3:
         PPO_config = configs[0]['PPO_CONFIG']
         env_config = configs[1]['ENV_CONFIG']
         callback_config = configs[2]['CALLBACK_CONFIG']
+    elif len(configs) == 4:
+        PPO_config = configs[0]['PPO_CONFIG']
+        env_config = configs[1]['ENV_CONFIG']
+        curr_config = configs[2]['CURR_CONFIG']
+        callback_config = configs[3]['CALLBACK_CONFIG']
     else:
         PPO_config = PPO_CONFIG
         env_config = ENV_CONFIG
