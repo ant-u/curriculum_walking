@@ -20,23 +20,24 @@ class BufferLevel():
     diff_gap: float
     regret: Optional[float] = None
 
-    def sample_attribute(self): 
+    def sample_attributes(self, n):
         choices = ["obstacles", "diff_slab", "diff_stairs", "diff_stump", "diff_gap"]
-        return np.random.choice(choices)
+        return np.random.choice(choices, n, replace=False)
     
     def copy(self):
         return BufferLevel(seed=self.seed,obstacles=self.obstacles,diff_slab=self.diff_slab,
-            diff_stairs=self.diff_stairs,diff_stump=self.diff_stump,diff_gap=self.diff_gap,regret=self.regret)
+            diff_stairs=self.diff_stairs,diff_stump=self.diff_stump,diff_gap=self.diff_gap,regret=None)
     
     def __str__(self):
         s = f"BufferLevel with seed={self.seed}, obst={self.obstacles:.5f}, slab={self.diff_slab:.5f}, " +\
             f"stairs={self.diff_stairs:.5f}, stump={self.diff_stump:.5f}, gap={self.diff_stump:.5f}"
-        if self.regret:
-            s += f", regeret={self.regret:.5f}"
-        else:
-            s += f", regret={self.regret}"
+        s += f", regeret={self.regret:.5f}" if self.regret else f", regret={self.regret}"
         return s
-
+    
+    def _long_string(self) -> str:
+        """returns unshortened string of level for reproducability in logs"""
+        return f"BufferLevel with seed={self.seed}, obst={self.obstacles}, slab={self.diff_slab}, " +\
+            f"stairs={self.diff_stairs}, stump={self.diff_stump}, gap={self.diff_stump} regret={self.regret}"
 
 
 class CurriculumManager:
@@ -49,8 +50,10 @@ class CurriculumManager:
         self.buff_ratio = cnfg["buffer_init_fill_ratio"]
         self.buffer_init_lower_cap = cnfg["buffer_init_lower_cap"]
         self.buffer_init_upper_cap = cnfg["buffer_init_upper_cap"]
-        self.mutation_edit_size = cnfg["mutation_edit_size"]
+        self.mutation_edit_range = cnfg["mutation_edit_size"]
+        self.mutation_number = cnfg["mutation_number"]
         self.adding_threshold = cnfg["regret_threshold_buffer"]  # lower threshold for regret-based buffer adding
+        self.keeping_threshold = cnfg["regret_threshold_replay"]
         self.replay_dec_distrib = cnfg["replay_decision_distribution"]
 
         self.buffer: List[Optional[BufferLevel]] = [None] * self.buff_size
@@ -68,35 +71,54 @@ class CurriculumManager:
             buffer_level = self.sample_level(self.buffer_init_lower_cap, self.buffer_init_upper_cap)  
             self._update_buffer(buffer_level)
 
-    def before_rollout(self):
+    def before_rollout(self) -> bool:
+        """Decides whether training may start or only a value estimation rollout is done. True indicates training can start."""
         self.replay_decision = bool(self.rng.choice([0,1], p=self.replay_dec_distrib))
         if self.muation_level:  # discover mutated replay level
             self.current_level = self._mutate_level(self.current_level)
+            start_training = False
+            mode = "MUTATION"
         elif self.replay_decision:  # learn on buffer level
             buffer_not_none = list(filter(None, self.buffer))
             self.current_level = self.rng.choice(buffer_not_none)
+            start_training = True
+            mode = "REPLAY - TRAINING"
         else:  # discover new level
             self.current_level = self.sample_level()
-        self._set_level(self.current_level)
-        print(f"using level: {self.current_level}")
+            start_training = False
+            mode = "DISCOVER"
 
-    def after_rollout(self, regret) -> bool:
+        self._set_level(self.current_level)
+        print(f"{mode} using level: {self.current_level}")
+        return start_training
+
+    def after_rollout(self, regret, lengths=None):
         """Takes regrets for level, decides wether policy update shall be applied or not."""
         self.current_level.regret = regret
-        print(f"after rollout level: {self.current_level}")
+        acceptance_str = "ACCEPTED" if regret >= self.adding_threshold else "DENIED"
+        print_threshold = self.adding_threshold
+
         if self.muation_level:
             if regret >= self.adding_threshold:
                 self._update_buffer(self.current_level)
-            return False
+            self.muation_level = False
         elif self.replay_decision:  # level from buffer was used
-            if regret >= self.adding_threshold:
-                self.muation_level = True  # Next level is mutation level
-                self.parent_level_regret = regret
-            return True
+            print_threshold = self.keeping_threshold
+            acceptance_str = "DONE - KEEPING LEVEL"
+            if regret <= self.keeping_threshold:
+                self.buffer.remove(self.current_level)
+                acceptance_str = "DONE - REMOVED LEVEL"
+            self.muation_level = True  # Next level is mutation level
+            self.parent_level_regret = regret
         else:  # new level sample was used
             if regret >= self.adding_threshold:
                 self._update_buffer(self.current_level)
-            return False
+        
+        to_print = f"  {acceptance_str}:  regret score was {regret}, threshold at {print_threshold}."
+        if lengths:
+            lengths.sort()
+            to_print += f" Avg. length at {np.mean(lengths):.3f}, top 3 runs {lengths[-3:]}"
+        print(to_print)
 
     def sample_level(self, min_params=[0,0,0,0,0], max_params=[1,1,1,1,1], seed=None) -> BufferLevel:
         """Sample level params in order: obstacles, slab, stairs, stump, gap. 
@@ -140,9 +162,19 @@ class CurriculumManager:
     def _mutate_level(self, buffer_level: BufferLevel) -> BufferLevel:
         """Randomly pick some parameters (obstacles, difficulites) and mutate them by given range"""
         mutation = buffer_level.copy()
-        param_str = buffer_level.sample_attribute()
-        param = getattr(buffer_level, param_str)
-        adaption = self.rng.uniform(-self.mutation_edit_size, self.mutation_edit_size)
-        updated_param = np.clip(param+adaption, 0, 1)  # making sure [0..1] is never left
-        setattr(mutation, param_str, updated_param)
+        param_str = buffer_level.sample_attributes(self.mutation_number)
+        for elem in param_str:
+            param = getattr(buffer_level, elem)
+            adaption = self.rng.uniform(self.mutation_edit_range[0], self.mutation_edit_range[1])
+            updated_param = np.clip(param+adaption, 0, 1)  # making sure [0..1] is never left
+            setattr(mutation, elem, updated_param)
         return mutation
+    
+    def dump_buffer_to_file(self, path):
+        reduced_buffer = list(filter(None, self.buffer))
+        n_nones = sum(x is None for x in self.buffer)
+        with open(path, "a") as f:
+            f.write(f"None * {n_nones}\n")
+            for level in reduced_buffer:
+                f.write(level._long_string() + "\n")
+            f.write("\n---------------------------------------\n\n")

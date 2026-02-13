@@ -11,10 +11,16 @@ from scripts.util.plot import Plot, IQRPlot
 # from scripts.train import ENV_CONFIG
 
 
+class DummyCallback(BaseCallback):
+    def _on_step(self):
+        return True
+
+
 class CurriculumCallback(BaseCallback):
     def __init__(self, save_dir: str, env_cnfg: dict, curr_cnfg: dict, verbose: int = 0):
         super().__init__(verbose)
         self.save_dir = save_dir
+        self.save_buffer_path = os.path.join(self.save_dir, "buffer_logs.txt")
         self.env_cnfg = env_cnfg
         self.curr_cnfg = curr_cnfg
         self.performance_est = PerformaneEstimator()
@@ -23,27 +29,43 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot = Plot(title="Regret", xlabel="Steps", 
                             ylabel="Regret", line_label="Avg rollout regret")
         self.rollout_counter = 0
+        self.eval_rollout_length = curr_cnfg["evaluation_episode_steps"]
+        self.dummy_callback = None
+
+    def _reset_last_obs(self):
+        self.model._last_obs = self.model.env.reset()
+        self.model._last_episode_starts = np.ones((self.model.n_envs,), dtype=bool)
 
     def _on_training_start(self):
         self.curriculum_manr = CurriculumManager(self.training_env, self.curr_cnfg)
+        self.dummy_callback = DummyCallback()
+        self.dummy_callback.init_callback(self.model)
         
     def _on_step(self):
         return True
     
     def _on_rollout_start(self):
-        self.curriculum_manr.before_rollout()
+        start_training = self.curriculum_manr.before_rollout()
+        self._reset_last_obs()
+        while not start_training:
+            buffer = self.performance_est.collect_scoring_rollout(self.model, self.dummy_callback, self.eval_rollout_length)
+            regrets = self.performance_est.estimate(buffer)
+            lengths = self.performance_est.get_rollout_lenghts(buffer)
+            _ = self.curriculum_manr.after_rollout(np.mean(regrets), lengths)
+            start_training = self.curriculum_manr.before_rollout()
+            self._reset_last_obs()
+
         
     def _on_rollout_end(self) -> None:
         # self.training_env.env_method("set_env_level_slab", height=1, x_ratio=0.7)  # for calling a method
-        regrets = self.performance_est.estimate(self.model)
+        regrets = self.performance_est.estimate(self.model.rollout_buffer)
+        lengths = self.performance_est.get_rollout_lenghts(self.model.rollout_buffer)
         mean_regret = np.mean(regrets)
         self.regrets.append(mean_regret)
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
-
-        update_policy = self.curriculum_manr.after_rollout(mean_regret)
-        if not update_policy:
-            self.model.skip_training = True
+        self.curriculum_manr.after_rollout(mean_regret, lengths)
+        self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)

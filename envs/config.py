@@ -51,10 +51,13 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.1,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.3, 0.1, 0.1, 0.1, 0.1],
-    "mutation_edit_size": 0.05,  # range for one param to be mutated
-    "regret_threshold_buffer": 0.05,  # Lower border for adding levels based on regret. If higher, then added to buffer,
+    "mutation_edit_size": [-0.02, 0.05],  # range for one param to be mutated
+    "mutation_number": 2,  # number of params that can be mutated at once
+    "regret_threshold_buffer": 0.05,  # Lower border for adding levels based on regret. If higher, then added to buffer
+    "regret_threshold_replay": 0.045,  # Lower regret border for keeping a replayed level. if lower, level is removed from buffer.
     "replay_decision_distribution": [0.1, 0.9],  # [no replay, replay]
     "seed": None,  # Seed for CurrManager
+    "evaluation_episode_steps": 1500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 
 CALLBACK_CONFIG = {
