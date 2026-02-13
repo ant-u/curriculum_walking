@@ -15,15 +15,13 @@ PPO_CONFIG:
     policy: MlpPolicy
     seed: 0
     tensorboard_log: true
-    timesteps: 10000000.0
+    timesteps: 40000000.0
     verbose: 1
     vf_coef: 1.0
 ---
 ENV_CONFIG:
     clip_reward: 10
     env_id: HumanoidEnvCurr
-    env_kwargs: {}
-    geom_z_gap: 0.001
     max_steps: 0
     n_envs: 8
     n_points_x: 6
@@ -32,13 +30,11 @@ ENV_CONFIG:
     norm_reward: true
     render_lidar: true
     seed: 0
-    terminate_at_x_border: 0
-    use_levels: true
     use_lidar: true
     use_relative_height: false
     x_forward: 4
-    x_start: 0
-    xml_file: humanoid_plane.xml
+    x_start: -1
+    xml_file: humanoid_plane.xml  # during training: humanoid.xml
     y_width: 1.5
 ---
 CALLBACK_CONFIG:
@@ -50,9 +46,6 @@ CALLBACK_CONFIG:
         deterministic: true
         env_seed: 0
         eval_freq: 500000
-        max_steps: 20000
-        n_envs: 5
-        n_eval_episodes: 5
         render: false
     plot_callback:
         log_level: 2
