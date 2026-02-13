@@ -92,7 +92,7 @@ class CurriculumManager:
         print(f"{mode} using level: {self.current_level}")
         return start_training
 
-    def after_rollout(self, regret, lengths=None):
+    def after_rollout(self, regret, lengths=None, all_runs: Tuple=None):
         """Takes regrets for level, decides wether policy update shall be applied or not."""
         self.current_level.regret = regret
         acceptance_str = "ACCEPTED" if regret >= self.adding_threshold else "DENIED"
@@ -118,6 +118,8 @@ class CurriculumManager:
         if lengths:
             lengths.sort()
             to_print += f" Avg. length at {np.mean(lengths):.3f}, top 3 runs {lengths[-3:]}"
+        if all_runs:
+            to_print += f" - Successfull runs: {all_runs[0]} / {all_runs[1]} ({(100*all_runs[0]/all_runs[1]):.3f} %)"
         print(to_print)
 
     def sample_level(self, min_params=[0,0,0,0,0], max_params=[1,1,1,1,1], seed=None) -> BufferLevel:

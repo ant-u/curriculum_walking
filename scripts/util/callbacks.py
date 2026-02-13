@@ -12,7 +12,22 @@ from scripts.util.plot import Plot, IQRPlot
 
 
 class DummyCallback(BaseCallback):
+    def __init__(self, verbose = 0):
+        super().__init__(verbose)
+        self.reset()
+
+    def reset(self):
+        self.total_runs_completed = 0
+        self.successfull_runs = 0
+
+    def get_run_metrics(self):
+        return (self.successfull_runs, self.total_runs_completed)
+
     def _on_step(self):
+        if any(self.locals["dones"]):
+            self.total_runs_completed += sum(self.locals["dones"])
+            if any([x["success"] for x in self.locals["infos"]]):
+                self.successfull_runs += sum([x["success"] for x in self.locals["infos"]])
         return True
 
 
@@ -31,10 +46,14 @@ class CurriculumCallback(BaseCallback):
         self.rollout_counter = 0
         self.eval_rollout_length = curr_cnfg["evaluation_episode_steps"]
         self.dummy_callback = None
+        self.successfull_runs = 0
+        self.total_runs_completed = 0
 
     def _reset_last_obs(self):
         self.model._last_obs = self.model.env.reset()
         self.model._last_episode_starts = np.ones((self.model.n_envs,), dtype=bool)
+        self.total_runs_completed = self.successfull_runs = 0
+        self.dummy_callback.reset()
 
     def _on_training_start(self):
         self.curriculum_manr = CurriculumManager(self.training_env, self.curr_cnfg)
@@ -42,6 +61,10 @@ class CurriculumCallback(BaseCallback):
         self.dummy_callback.init_callback(self.model)
         
     def _on_step(self):
+        if any(self.locals["dones"]):
+            self.total_runs_completed += sum(self.locals["dones"])
+            if any([x["success"] for x in self.locals["infos"]]):
+                self.successfull_runs += sum([x["success"] for x in self.locals["infos"]])
         return True
     
     def _on_rollout_start(self):
@@ -49,9 +72,10 @@ class CurriculumCallback(BaseCallback):
         self._reset_last_obs()
         while not start_training:
             buffer = self.performance_est.collect_scoring_rollout(self.model, self.dummy_callback, self.eval_rollout_length)
+            succ_metrics = self.dummy_callback.get_run_metrics()
             regrets = self.performance_est.estimate(buffer)
             lengths = self.performance_est.get_rollout_lenghts(buffer)
-            _ = self.curriculum_manr.after_rollout(np.mean(regrets), lengths)
+            _ = self.curriculum_manr.after_rollout(np.mean(regrets), lengths, succ_metrics)
             start_training = self.curriculum_manr.before_rollout()
             self._reset_last_obs()
 
@@ -64,7 +88,7 @@ class CurriculumCallback(BaseCallback):
         self.regrets.append(mean_regret)
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
-        self.curriculum_manr.after_rollout(mean_regret, lengths)
+        self.curriculum_manr.after_rollout(mean_regret, lengths, (self.successfull_runs, self.total_runs_completed))
         self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
         
     def _on_training_end(self):

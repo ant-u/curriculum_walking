@@ -149,7 +149,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
                 info['success'] = True
                 info['terminated_reason'] = 'goal_reached'
             else:
-                info['sucess'] = False
+                info['success'] = False
         return obs, reward, terminated, done, info
     
     def set_level_template(self, level: LevelDescription):
