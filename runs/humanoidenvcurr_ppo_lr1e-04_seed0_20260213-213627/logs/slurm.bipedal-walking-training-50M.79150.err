@@ -1,0 +1,31 @@
+slurmstepd-krater40: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-krater40: error: Setting TMPDIR to /tmp
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/u/utz/source/curriculum_walking/scripts/train.py", line 115, in <module>
+    main(run_dir, args.train, args.message)
+  File "/home/u/utz/source/curriculum_walking/scripts/train.py", line 37, in main
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, eval_cb, plot_cb, curr_cb])
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/ppo/ppo.py", line 311, in learn
+    return super().learn(
+           ^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 324, in learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 192, in collect_rollouts
+    callback.on_rollout_start()
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/callbacks.py", line 90, in on_rollout_start
+    self._on_rollout_start()
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/callbacks.py", line 217, in _on_rollout_start
+    callback.on_rollout_start()
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/stable_baselines3/common/callbacks.py", line 90, in on_rollout_start
+    self._on_rollout_start()
+  File "/home/u/utz/source/curriculum_walking/scripts/util/callbacks.py", line 79, in _on_rollout_start
+    start_training = self.curriculum_manr.before_rollout()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/envs/curriculum/curriculum_manager.py", line 83, in before_rollout
+    self.current_level = self.rng.choice(buffer_not_none)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "numpy/random/_generator.pyx", line 869, in numpy.random._generator.Generator.choice
+ValueError: a cannot be empty unless no samples are taken
