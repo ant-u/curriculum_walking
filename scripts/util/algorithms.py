@@ -35,5 +35,5 @@ def load_PPO(cnfg, env, ppo_dir, run_dir):
         device=cnfg["device"],
         tensorboard_log= (LOG_PATH if cnfg["tensorboard_log"] else None)
     )
-    print(f"using pretrained model from: {ppo_dir}")
+    print(f"using pretrained model from: {ppo_path}")
     return model

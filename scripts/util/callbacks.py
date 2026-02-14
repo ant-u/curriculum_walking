@@ -190,7 +190,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> 
     else:
         eval_env = make_env(env_cnfg_tmp)
     eval_env.training = False
-
+    # TODO: Adapt eval level to something meaningfull
     eval_callback = EvalCallback(
         eval_env,
         n_eval_episodes=callback_cnfg["eval_env_conf"]["n_eval_episodes"],

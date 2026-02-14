@@ -141,6 +141,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
 
     def step(self, action):
         obs, reward, terminated, done, info  = super().step(action)
+        # TODO: add how far in % the agent has gotten at reset, evaluate in curriculum_manager
         x = info["x_position"]
         if self.terminate_on_x:
             if x >= self.terminate_on_x:
