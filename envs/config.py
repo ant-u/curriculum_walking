@@ -5,7 +5,7 @@ PPO_CONFIG = {
     "policy": "MlpPolicy",
     "device": "cpu",
     "learning_rate": 1e-4,
-    "n_steps": 2048,
+    "n_steps": 8192,
     "batch_size": 256,
     "clip_range": 0.15,
     "ent_coef": 0.01,
@@ -47,7 +47,7 @@ ENV_CONFIG = {
 }
 
 CURR_CONFIG = {
-    "buffer_size": 300,
+    "buffer_size": 200,
     "buffer_init_fill_ratio": 0.1,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.3, 0.1, 0.1, 0.1, 0.1],
@@ -57,7 +57,7 @@ CURR_CONFIG = {
     "regret_threshold_replay": 0.045,  # Lower regret border for keeping a replayed level. if lower, level is removed from buffer.
     "replay_decision_distribution": [0.1, 0.9],  # [no replay, replay]
     "seed": None,  # Seed for CurrManager
-    "evaluation_episode_steps": 1500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
+    "evaluation_episode_steps": 1800,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 
 CALLBACK_CONFIG = {

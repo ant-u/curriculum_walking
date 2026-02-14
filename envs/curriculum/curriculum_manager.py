@@ -106,9 +106,9 @@ class CurriculumManager:
         elif self.replay_decision:  # level from buffer was used
             print_threshold = self.keeping_threshold
             acceptance_str = "DONE - KEEPING LEVEL"
-            if regret <= self.keeping_threshold:
-                self.buffer.remove(self.current_level)
-                acceptance_str = "DONE - REMOVED LEVEL"
+            # if regret <= self.keeping_threshold:
+            #     self.buffer.remove(self.current_level)
+            #     acceptance_str = "DONE - REMOVED LEVEL"
             self.muation_level = True  # Next level is mutation level
             self.parent_level_regret = regret
         else:  # new level sample was used
