@@ -110,7 +110,7 @@ class LevelGenerator:
                            diff_stump: float, diff_gap: float, last_abs_height: float) -> Element:
         """Returns the height of element with number of needed elements."""
         upper_borders = np.array([diff_slab, diff_stairs, diff_stump, diff_gap])
-        lower_borders = upper_borders / 2
+        lower_borders = upper_borders # / 2
         match element_t:
             case ElementType.SLAB:
                 n = 1
@@ -119,7 +119,8 @@ class LevelGenerator:
             case ElementType.STAIRS:
                 up_n = max(np.ceil(upper_borders[1] * self.max_step_n), 1)
                 low_n = max((up_n // 2), 1)
-                n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
+                # n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
+                n_stairs = np.ceil(upper_borders[1] * up_n)
                 height = self.rng.uniform(lower_borders[1], upper_borders[1])
                 height = height * self.flip(height*n_stairs, last_abs_height)
                 n = n_stairs
@@ -130,7 +131,8 @@ class LevelGenerator:
                 height = self.rng.uniform(lower_borders[3], upper_borders[3])
                 up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
                 low_n = np.ceil(upper_borders[3] * (self.element_size - 1))
-                gap_width = self.rng.integers(low_n, up_n + 1)  # upper boarder not included
+                # gap_width = self.rng.integers(low_n, up_n + 1)  # upper boarder not included
+                gap_width = np.ceil(upper_borders[3] * up_n)
                 n = 1
                 return Element(element_t, None, height, n, gap_width)
         return Element(element_t, None, height, n)

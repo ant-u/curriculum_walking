@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 50e6,
+    "timesteps": 100e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -50,8 +50,8 @@ CURR_CONFIG = {
     "buffer_size": 200,
     "buffer_init_fill_ratio": 0.5,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
-    "buffer_init_upper_cap": [0.5, 0.2, 0.2, 0.2, 0.2],
-    "mutation_edit_size": [-0.02, 0.08],  # range for one param to be mutated
+    "buffer_init_upper_cap": [0.3, 0.1, 0.1, 0.1, 0.1],
+    "mutation_edit_size": [-0.02, 0.05],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
     "regret_threshold_buffer": 0.042,  # Lower border for adding levels based on regret. If higher, then added to buffer
     "regret_threshold_replay": 0.045,  # Lower regret border for keeping a replayed level. if lower, level is removed from buffer.
