@@ -48,9 +48,9 @@ ENV_CONFIG = {
 
 CURR_CONFIG = {
     "buffer_size": 200,
-    "buffer_init_fill_ratio": 0.1,
+    "buffer_init_fill_ratio": 0.5,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
-    "buffer_init_upper_cap": [0.5, 0.1, 0.1, 0.1, 0.1],
+    "buffer_init_upper_cap": [0.5, 0.2, 0.2, 0.2, 0.2],
     "mutation_edit_size": [-0.02, 0.08],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
     "regret_threshold_buffer": 0.042,  # Lower border for adding levels based on regret. If higher, then added to buffer
