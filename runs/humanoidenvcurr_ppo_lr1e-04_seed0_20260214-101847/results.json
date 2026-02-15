@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 4320.277137,
+    "n_eval_episodes": 5,
+    "timesteps": 50000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "curriculum training with 4096 r_steps, 200 buffer, 1800 evalsteps",
+    "running_time": "15:18:45.697681",
+    "based_on": "runs/base_lidar_gait_running"
+}

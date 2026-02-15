@@ -1,0 +1,2536 @@
+==== CPU INFO ====
+SLURM_CPUS_ON_NODE: 14
+SLURM_CPUS_PER_TASK: 12
+CPU affinity: [0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14]
+Usable cores: 14
+os.cpu_count(): 16
+===================
+using pretrained model from: runs/humanoid_env_curr/humanoidenvcurr_ppo_lr1e-04_seed0_20260205-164120/checkpoints/last_model.zip
+Logging to runs/humanoidenvcurr_ppo_lr1e-04_seed0_20260215-011743/logs/PPO_1
+REPLAY - TRAINING using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.05993, stump=0.04988, gap=0.04988, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.05203818902373314, threshold at 0.045. Avg. length at 491.520, top 3 runs [1327, 1343, 1436] - Successfull runs: 1 / 188 (0.532 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 493      |
+|    ep_rew_mean     | 3.8e+03  |
+| time/              |          |
+|    fps             | 1021     |
+|    iterations      | 1        |
+|    time_elapsed    | 96       |
+|    total_timesteps | 98304    |
+---------------------------------
+MUTATION using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.10414, stump=0.05237, gap=0.05237, regret=None
+  DENIED:  regret score was 0.0382516048848629, threshold at 0.042. Avg. length at 290.323, top 3 runs [472, np.int64(475), 580] - Successfull runs: 0 / 50 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3123628295651398072, obst=0.10354, slab=0.13753, stairs=0.15778, stump=0.09010, gap=0.09010, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.02923898585140705, threshold at 0.045. Avg. length at 349.836, top 3 runs [444, 448, 471] - Successfull runs: 0 / 269 (0.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 368        |
+|    ep_rew_mean          | 2.72e+03   |
+| time/                   |            |
+|    fps                  | 969        |
+|    iterations           | 2          |
+|    time_elapsed         | 221        |
+|    total_timesteps      | 214608     |
+| train/                  |            |
+|    approx_kl            | 0.02132188 |
+|    clip_fraction        | 0.333      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -51.3      |
+|    explained_variance   | 0.919      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.523     |
+|    n_updates            | 4605       |
+|    policy_gradient_loss | -0.0201    |
+|    std                  | 5.53       |
+|    value_loss           | 0.0268     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=3123628295651398072, obst=0.10354, slab=0.19675, stairs=0.15778, stump=0.09010, gap=0.09010, regret=None
+  DENIED:  regret score was 0.02970697730779648, threshold at 0.042. Avg. length at 315.789, top 3 runs [415, 428, 432] - Successfull runs: 0 / 45 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2526394818705186273, obst=0.05183, slab=0.16130, stairs=0.08516, stump=0.06290, gap=0.06290, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03852058947086334, threshold at 0.045. Avg. length at 786.432, top 3 runs [np.int64(1532), 1546, 1550] - Successfull runs: 29 / 113 (25.664 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 833        |
+|    ep_rew_mean          | 6.41e+03   |
+| time/                   |            |
+|    fps                  | 952        |
+|    iterations           | 3          |
+|    time_elapsed         | 347        |
+|    total_timesteps      | 330912     |
+| train/                  |            |
+|    approx_kl            | 0.01938115 |
+|    clip_fraction        | 0.323      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -51.4      |
+|    explained_variance   | 0.917      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.517     |
+|    n_updates            | 4620       |
+|    policy_gradient_loss | -0.0185    |
+|    std                  | 5.56       |
+|    value_loss           | 0.0302     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=2526394818705186273, obst=0.05183, slab=0.15811, stairs=0.08176, stump=0.06290, gap=0.06290, regret=None
+  DENIED:  regret score was 0.03310710936784744, threshold at 0.042. Avg. length at 750.000, top 3 runs [1196, 1466, np.int64(1500)] - Successfull runs: 1 / 12 (8.333 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4034549056856325334, obst=0.49119, slab=0.09452, stairs=0.11830, stump=0.15386, gap=0.15386, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04561316594481468, threshold at 0.045. Avg. length at 401.241, top 3 runs [1484, 1484, 1602] - Successfull runs: 2 / 233 (0.858 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 401         |
+|    ep_rew_mean          | 2.92e+03    |
+| time/                   |             |
+|    fps                  | 945         |
+|    iterations           | 4           |
+|    time_elapsed         | 472         |
+|    total_timesteps      | 447216      |
+| train/                  |             |
+|    approx_kl            | 0.020578815 |
+|    clip_fraction        | 0.336       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.5       |
+|    explained_variance   | 0.891       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.523      |
+|    n_updates            | 4635        |
+|    policy_gradient_loss | -0.0188     |
+|    std                  | 5.6         |
+|    value_loss           | 0.0232      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4034549056856325334, obst=0.49119, slab=0.09452, stairs=0.11502, stump=0.15386, gap=0.15386, regret=None
+  DENIED:  regret score was 0.039717938750982285, threshold at 0.042. Avg. length at 346.154, top 3 runs [864, 878, np.int64(931)] - Successfull runs: 0 / 40 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4034549056856325334, obst=0.49119, slab=0.09452, stairs=0.11830, stump=0.15386, gap=0.15386, regeret=0.04561
+  DONE - KEEPING LEVEL:  regret score was 0.03856496140360832, threshold at 0.045. Avg. length at 385.506, top 3 runs [1056, 1129, 1147] - Successfull runs: 0 / 243 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 406         |
+|    ep_rew_mean          | 2.95e+03    |
+| time/                   |             |
+|    fps                  | 940         |
+|    iterations           | 5           |
+|    time_elapsed         | 598         |
+|    total_timesteps      | 563520      |
+| train/                  |             |
+|    approx_kl            | 0.020440387 |
+|    clip_fraction        | 0.323       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.6       |
+|    explained_variance   | 0.906       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.513      |
+|    n_updates            | 4650        |
+|    policy_gradient_loss | -0.0199     |
+|    std                  | 5.63        |
+|    value_loss           | 0.0362      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4034549056856325334, obst=0.49119, slab=0.09452, stairs=0.18409, stump=0.20593, gap=0.20593, regret=None
+  DENIED:  regret score was 0.032394278794527054, threshold at 0.042. Avg. length at 276.923, top 3 runs [452, np.int64(474), 508] - Successfull runs: 0 / 53 (0.000 %)
+DISCOVER using level: BufferLevel with seed=6019288043227020547, obst=0.44836, slab=0.86997, stairs=0.56517, stump=0.62864, gap=0.62864, regret=None
+  ACCEPTED:  regret score was 0.04978718236088753, threshold at 0.042. Avg. length at 253.521, top 3 runs [610, 693, 829] - Successfull runs: 0 / 59 (0.000 %)
+DISCOVER using level: BufferLevel with seed=3852560450745368947, obst=0.58780, slab=0.96944, stairs=0.31918, stump=0.12169, gap=0.12169, regret=None
+  DENIED:  regret score was 0.031728558242321014, threshold at 0.042. Avg. length at 211.765, top 3 runs [288, 297, 317] - Successfull runs: 0 / 73 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2613935295113902242, obst=0.28153, slab=0.11756, stairs=0.07457, stump=0.06843, gap=0.06843, regret=None
+Eval num_timesteps=625992, episode_reward=10950.87 +/- 623.65
+Episode length: 1338.20 +/- 67.02
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.34e+03    |
+|    mean_reward          | 1.1e+04     |
+| time/                   |             |
+|    total_timesteps      | 625992      |
+| train/                  |             |
+|    approx_kl            | 0.019327134 |
+|    clip_fraction        | 0.315       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.7       |
+|    explained_variance   | 0.928       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.524      |
+|    n_updates            | 4665        |
+|    policy_gradient_loss | -0.0199     |
+|    std                  | 5.66        |
+|    value_loss           | 0.0316      |
+-----------------------------------------
+New best mean reward!
+  DONE - KEEPING LEVEL:  regret score was 0.043627526611089706, threshold at 0.045. Avg. length at 618.264, top 3 runs [1722, 1722, 1731] - Successfull runs: 0 / 147 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 620      |
+|    ep_rew_mean     | 4.33e+03 |
+| time/              |          |
+|    fps             | 931      |
+|    iterations      | 6        |
+|    time_elapsed    | 768      |
+|    total_timesteps | 715824   |
+---------------------------------
+MUTATION using level: BufferLevel with seed=2613935295113902242, obst=0.28153, slab=0.11756, stairs=0.14614, stump=0.06843, gap=0.06843, regret=None
+  DENIED:  regret score was 0.03886131942272186, threshold at 0.042. Avg. length at 339.623, top 3 runs [685, 687, 698] - Successfull runs: 0 / 41 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=454534296830838288, obst=0.34784, slab=0.03439, stairs=0.19267, stump=0.11229, gap=0.11229, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.031885433942079544, threshold at 0.045. Avg. length at 310.107, top 3 runs [556, 558, 580] - Successfull runs: 0 / 305 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 318         |
+|    ep_rew_mean          | 2.31e+03    |
+| time/                   |             |
+|    fps                  | 930         |
+|    iterations           | 7           |
+|    time_elapsed         | 893         |
+|    total_timesteps      | 832128      |
+| train/                  |             |
+|    approx_kl            | 0.018895736 |
+|    clip_fraction        | 0.311       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.8       |
+|    explained_variance   | 0.928       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.529      |
+|    n_updates            | 4680        |
+|    policy_gradient_loss | -0.0202     |
+|    std                  | 5.68        |
+|    value_loss           | 0.0198      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=454534296830838288, obst=0.34784, slab=0.03116, stairs=0.19267, stump=0.11229, gap=0.11229, regret=None
+  DENIED:  regret score was 0.029486509039998055, threshold at 0.042. Avg. length at 272.727, top 3 runs [486, 505, 513] - Successfull runs: 0 / 54 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5601656357936266029, obst=0.31143, slab=0.03395, stairs=0.07073, stump=0.08932, gap=0.08932, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04189441725611687, threshold at 0.045. Avg. length at 416.542, top 3 runs [np.int64(895), 903, 1396] - Successfull runs: 1 / 224 (0.446 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 442         |
+|    ep_rew_mean          | 3.37e+03    |
+| time/                   |             |
+|    fps                  | 929         |
+|    iterations           | 8           |
+|    time_elapsed         | 1020        |
+|    total_timesteps      | 948432      |
+| train/                  |             |
+|    approx_kl            | 0.018303579 |
+|    clip_fraction        | 0.308       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.8       |
+|    explained_variance   | 0.934       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.524      |
+|    n_updates            | 4695        |
+|    policy_gradient_loss | -0.0193     |
+|    std                  | 5.72        |
+|    value_loss           | 0.0277      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5601656357936266029, obst=0.31143, slab=0.03395, stairs=0.07073, stump=0.16417, gap=0.16417, regret=None
+  DENIED:  regret score was 0.038124147802591324, threshold at 0.042. Avg. length at 450.000, top 3 runs [765, 767, np.int64(803)] - Successfull runs: 0 / 29 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4022774877688707620, obst=0.17465, slab=0.01283, stairs=0.07371, stump=0.03546, gap=0.03546, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04207019880414009, threshold at 0.045. Avg. length at 901.872, top 3 runs [1476, 1492, 1540] - Successfull runs: 19 / 97 (19.588 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 940         |
+|    ep_rew_mean          | 7.37e+03    |
+| time/                   |             |
+|    fps                  | 927         |
+|    iterations           | 9           |
+|    time_elapsed         | 1148        |
+|    total_timesteps      | 1064736     |
+| train/                  |             |
+|    approx_kl            | 0.018190773 |
+|    clip_fraction        | 0.306       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.9       |
+|    explained_variance   | 0.942       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.534      |
+|    n_updates            | 4710        |
+|    policy_gradient_loss | -0.02       |
+|    std                  | 5.74        |
+|    value_loss           | 0.0164      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4022774877688707620, obst=0.22828, slab=0.01283, stairs=0.12070, stump=0.03546, gap=0.03546, regret=None
+  DENIED:  regret score was 0.03539447486400604, threshold at 0.042. Avg. length at 666.667, top 3 runs [1420, 1424, 1468] - Successfull runs: 3 / 15 (20.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3830569662459069576, obst=0.37365, slab=0.01333, stairs=0.13993, stump=0.08826, gap=0.08826, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0362359881401062, threshold at 0.045. Avg. length at 668.735, top 3 runs [1131, 1302, 1433] - Successfull runs: 1 / 135 (0.741 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 717         |
+|    ep_rew_mean          | 5.53e+03    |
+| time/                   |             |
+|    fps                  | 925         |
+|    iterations           | 10          |
+|    time_elapsed         | 1275        |
+|    total_timesteps      | 1181040     |
+| train/                  |             |
+|    approx_kl            | 0.018924858 |
+|    clip_fraction        | 0.317       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -51.9       |
+|    explained_variance   | 0.912       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.532      |
+|    n_updates            | 4725        |
+|    policy_gradient_loss | -0.0188     |
+|    std                  | 5.76        |
+|    value_loss           | 0.013       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3830569662459069576, obst=0.37365, slab=0.01333, stairs=0.19621, stump=0.14471, gap=0.14471, regret=None
+  DENIED:  regret score was 0.03160921111702919, threshold at 0.042. Avg. length at 418.605, top 3 runs [864, 919, 962] - Successfull runs: 0 / 31 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3945364252867631665, obst=0.01527, slab=0.14499, stairs=0.18558, stump=0.08840, gap=0.08840, regret=None
+Eval num_timesteps=1215984, episode_reward=10768.18 +/- 1020.68
+Episode length: 1355.40 +/- 117.57
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.36e+03    |
+|    mean_reward          | 1.08e+04    |
+| time/                   |             |
+|    total_timesteps      | 1215984     |
+| train/                  |             |
+|    approx_kl            | 0.019368729 |
+|    clip_fraction        | 0.326       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52         |
+|    explained_variance   | 0.946       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.544      |
+|    n_updates            | 4740        |
+|    policy_gradient_loss | -0.0195     |
+|    std                  | 5.78        |
+|    value_loss           | 0.0117      |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.031913284212350845, threshold at 0.045. Avg. length at 1045.787, top 3 runs [1540, 1562, 1579] - Successfull runs: 39 / 82 (47.561 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 1e+03    |
+|    ep_rew_mean     | 7.77e+03 |
+| time/              |          |
+|    fps             | 921      |
+|    iterations      | 11       |
+|    time_elapsed    | 1408     |
+|    total_timesteps | 1297344  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=3945364252867631665, obst=0.01513, slab=0.14499, stairs=0.18962, stump=0.08840, gap=0.08840, regret=None
+  DENIED:  regret score was 0.02901533804833889, threshold at 0.042. Avg. length at 857.143, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 4 / 9 (44.444 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1127745340225739600, obst=0.43104, slab=0.11376, stairs=0.16649, stump=0.14677, gap=0.14677, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.032801710069179535, threshold at 0.045. Avg. length at 337.814, top 3 runs [795, 805, 832] - Successfull runs: 0 / 279 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 358         |
+|    ep_rew_mean          | 2.63e+03    |
+| time/                   |             |
+|    fps                  | 920         |
+|    iterations           | 12          |
+|    time_elapsed         | 1534        |
+|    total_timesteps      | 1413648     |
+| train/                  |             |
+|    approx_kl            | 0.019643242 |
+|    clip_fraction        | 0.336       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.1       |
+|    explained_variance   | 0.858       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.52       |
+|    n_updates            | 4755        |
+|    policy_gradient_loss | -0.0166     |
+|    std                  | 5.82        |
+|    value_loss           | 0.0156      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=1127745340225739600, obst=0.42504, slab=0.11376, stairs=0.16649, stump=0.14677, gap=0.14677, regret=None
+  DENIED:  regret score was 0.03242296352982521, threshold at 0.042. Avg. length at 305.085, top 3 runs [659, 683, 748] - Successfull runs: 0 / 47 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1849108389399773260, obst=0.22887, slab=0.15342, stairs=0.03400, stump=0.18815, gap=0.18815, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03609178587794304, threshold at 0.045. Avg. length at 819.200, top 3 runs [1252, 1399, 1917] - Successfull runs: 1 / 108 (0.926 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 852        |
+|    ep_rew_mean          | 6.26e+03   |
+| time/                   |            |
+|    fps                  | 920        |
+|    iterations           | 13         |
+|    time_elapsed         | 1662       |
+|    total_timesteps      | 1529952    |
+| train/                  |            |
+|    approx_kl            | 0.01891817 |
+|    clip_fraction        | 0.313      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -52.2      |
+|    explained_variance   | 0.94       |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.535     |
+|    n_updates            | 4770       |
+|    policy_gradient_loss | -0.0204    |
+|    std                  | 5.85       |
+|    value_loss           | 0.0204     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=1849108389399773260, obst=0.25546, slab=0.15342, stairs=0.03400, stump=0.18882, gap=0.18882, regret=None
+  DENIED:  regret score was 0.02965133637189865, threshold at 0.042. Avg. length at 666.667, top 3 runs [1006, 1035, 1064] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4049939075026210996, obst=0.07582, slab=0.13861, stairs=0.10063, stump=0.19360, gap=0.19360, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03217788413167, threshold at 0.045. Avg. length at 728.178, top 3 runs [1488, 1495, 1555] - Successfull runs: 12 / 123 (9.756 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 782         |
+|    ep_rew_mean          | 6.02e+03    |
+| time/                   |             |
+|    fps                  | 919         |
+|    iterations           | 14          |
+|    time_elapsed         | 1790        |
+|    total_timesteps      | 1646256     |
+| train/                  |             |
+|    approx_kl            | 0.019056506 |
+|    clip_fraction        | 0.318       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.3       |
+|    explained_variance   | 0.936       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.54       |
+|    n_updates            | 4785        |
+|    policy_gradient_loss | -0.0203     |
+|    std                  | 5.88        |
+|    value_loss           | 0.0107      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4049939075026210996, obst=0.10342, slab=0.14385, stairs=0.10063, stump=0.19360, gap=0.19360, regret=None
+  DENIED:  regret score was 0.02201015315949917, threshold at 0.042. Avg. length at 782.609, top 3 runs [np.int64(1201), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 11 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=7567400625404402013, obst=0.07220, slab=0.12118, stairs=0.04362, stump=0.09606, gap=0.09606, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03715326264500618, threshold at 0.045. Avg. length at 664.216, top 3 runs [1228, 1316, 1402] - Successfull runs: 1 / 136 (0.735 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 660         |
+|    ep_rew_mean          | 5.15e+03    |
+| time/                   |             |
+|    fps                  | 919         |
+|    iterations           | 15          |
+|    time_elapsed         | 1917        |
+|    total_timesteps      | 1762560     |
+| train/                  |             |
+|    approx_kl            | 0.019670883 |
+|    clip_fraction        | 0.328       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.4       |
+|    explained_variance   | 0.927       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.539      |
+|    n_updates            | 4800        |
+|    policy_gradient_loss | -0.0178     |
+|    std                  | 5.92        |
+|    value_loss           | 0.0154      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=7567400625404402013, obst=0.07220, slab=0.10876, stairs=0.04362, stump=0.07747, gap=0.07747, regret=None
+  DENIED:  regret score was 0.034809697419404984, threshold at 0.042. Avg. length at 580.645, top 3 runs [1156, 1211, 1287] - Successfull runs: 0 / 19 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1856534905661540943, obst=0.04006, slab=0.01921, stairs=0.18006, stump=0.15294, gap=0.15294, regret=None
+Eval num_timesteps=1805976, episode_reward=10690.80 +/- 1203.92
+Episode length: 1345.60 +/- 137.64
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.35e+03    |
+|    mean_reward          | 1.07e+04    |
+| time/                   |             |
+|    total_timesteps      | 1805976     |
+| train/                  |             |
+|    approx_kl            | 0.019002752 |
+|    clip_fraction        | 0.318       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.4       |
+|    explained_variance   | 0.944       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.534      |
+|    n_updates            | 4815        |
+|    policy_gradient_loss | -0.0192     |
+|    std                  | 5.96        |
+|    value_loss           | 0.0101      |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.04114304110407829, threshold at 0.045. Avg. length at 634.219, top 3 runs [1011, 1107, 1108] - Successfull runs: 0 / 143 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 667      |
+|    ep_rew_mean     | 4.64e+03 |
+| time/              |          |
+|    fps             | 915      |
+|    iterations      | 16       |
+|    time_elapsed    | 2052     |
+|    total_timesteps | 1878864  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=1856534905661540943, obst=0.04986, slab=0.01921, stairs=0.18006, stump=0.14509, gap=0.14509, regret=None
+  DENIED:  regret score was 0.03394031152129173, threshold at 0.042. Avg. length at 600.000, top 3 runs [977, 988, 1139] - Successfull runs: 0 / 18 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6276217547768411489, obst=0.08428, slab=0.08146, stairs=0.13679, stump=0.03286, gap=0.03286, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.026116156950592995, threshold at 0.045. Avg. length at 1184.386, top 3 runs [1744, 1752, 1754] - Successfull runs: 23 / 71 (32.394 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.1e+03     |
+|    ep_rew_mean          | 8.11e+03    |
+| time/                   |             |
+|    fps                  | 915         |
+|    iterations           | 17          |
+|    time_elapsed         | 2178        |
+|    total_timesteps      | 1995168     |
+| train/                  |             |
+|    approx_kl            | 0.019048361 |
+|    clip_fraction        | 0.311       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.5       |
+|    explained_variance   | 0.93        |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.546      |
+|    n_updates            | 4830        |
+|    policy_gradient_loss | -0.0204     |
+|    std                  | 5.99        |
+|    value_loss           | 0.0149      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6276217547768411489, obst=0.08428, slab=0.08146, stairs=0.15832, stump=0.03286, gap=0.03286, regret=None
+  DENIED:  regret score was 0.0222293883562088, threshold at 0.042. Avg. length at 1200.000, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 3 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5712715852872711491, obst=0.42816, slab=0.03367, stairs=0.12044, stump=0.15411, gap=0.15411, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.02772931568324566, threshold at 0.045. Avg. length at 440.825, top 3 runs [1632, 1656, 1671] - Successfull runs: 8 / 211 (3.791 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 485         |
+|    ep_rew_mean          | 3.58e+03    |
+| time/                   |             |
+|    fps                  | 916         |
+|    iterations           | 18          |
+|    time_elapsed         | 2303        |
+|    total_timesteps      | 2111472     |
+| train/                  |             |
+|    approx_kl            | 0.018600944 |
+|    clip_fraction        | 0.316       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.6       |
+|    explained_variance   | 0.921       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.545      |
+|    n_updates            | 4845        |
+|    policy_gradient_loss | -0.0185     |
+|    std                  | 6.03        |
+|    value_loss           | 0.00848     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5712715852872711491, obst=0.42816, slab=0.05866, stairs=0.12044, stump=0.15411, gap=0.15411, regret=None
+  DENIED:  regret score was 0.03216494992375374, threshold at 0.042. Avg. length at 473.684, top 3 runs [869, np.int64(1220), np.int64(1234)] - Successfull runs: 0 / 26 (0.000 %)
+DISCOVER using level: BufferLevel with seed=1275940545286674751, obst=0.39851, slab=0.21651, stairs=0.93707, stump=0.77257, gap=0.77257, regret=None
+  ACCEPTED:  regret score was 0.044585566967725754, threshold at 0.042. Avg. length at 375.000, top 3 runs [539, 545, 554] - Successfull runs: 0 / 36 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6822527025218495344, obst=0.39251, slab=0.18117, stairs=0.03368, stump=0.14864, gap=0.14864, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03259001299738884, threshold at 0.045. Avg. length at 369.564, top 3 runs [1687, 1730, 1791] - Successfull runs: 4 / 254 (1.575 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 393         |
+|    ep_rew_mean          | 2.85e+03    |
+| time/                   |             |
+|    fps                  | 918         |
+|    iterations           | 19          |
+|    time_elapsed         | 2446        |
+|    total_timesteps      | 2245776     |
+| train/                  |             |
+|    approx_kl            | 0.018871592 |
+|    clip_fraction        | 0.315       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.7       |
+|    explained_variance   | 0.934       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.544      |
+|    n_updates            | 4860        |
+|    policy_gradient_loss | -0.0189     |
+|    std                  | 6.07        |
+|    value_loss           | 0.0191      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6822527025218495344, obst=0.39251, slab=0.19902, stairs=0.03368, stump=0.14864, gap=0.14864, regret=None
+  DENIED:  regret score was 0.03492032364010811, threshold at 0.042. Avg. length at 339.623, top 3 runs [748, np.int64(889), np.int64(1500)] - Successfull runs: 0 / 42 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3374310598545150833, obst=0.00948, slab=0.11249, stairs=0.19039, stump=0.11892, gap=0.11892, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0345476008951664, threshold at 0.045. Avg. length at 927.396, top 3 runs [1512, 1521, 1527] - Successfull runs: 36 / 94 (38.298 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 948         |
+|    ep_rew_mean          | 7.39e+03    |
+| time/                   |             |
+|    fps                  | 918         |
+|    iterations           | 20          |
+|    time_elapsed         | 2570        |
+|    total_timesteps      | 2362080     |
+| train/                  |             |
+|    approx_kl            | 0.019188004 |
+|    clip_fraction        | 0.313       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.8       |
+|    explained_variance   | 0.933       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.528      |
+|    n_updates            | 4875        |
+|    policy_gradient_loss | -0.0198     |
+|    std                  | 6.1         |
+|    value_loss           | 0.0246      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3374310598545150833, obst=0.01332, slab=0.11249, stairs=0.19039, stump=0.11892, gap=0.11892, regret=None
+  DENIED:  regret score was 0.032443568110466, threshold at 0.042. Avg. length at 720.000, top 3 runs [1472, 1485, 1494] - Successfull runs: 5 / 13 (38.462 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.05375, stairs=0.15228, stump=0.05481, gap=0.05481, regret=None
+Eval num_timesteps=2413968, episode_reward=9423.44 +/- 1117.64
+Episode length: 1190.80 +/- 129.30
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.19e+03    |
+|    mean_reward          | 9.42e+03    |
+| time/                   |             |
+|    total_timesteps      | 2413968     |
+| train/                  |             |
+|    approx_kl            | 0.018321091 |
+|    clip_fraction        | 0.32        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -52.9       |
+|    explained_variance   | 0.879       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.522      |
+|    n_updates            | 4890        |
+|    policy_gradient_loss | -0.0166     |
+|    std                  | 6.14        |
+|    value_loss           | 0.016       |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.0322224460542202, threshold at 0.045. Avg. length at 963.765, top 3 runs [1620, 1632, 1632] - Successfull runs: 30 / 90 (33.333 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 1.04e+03 |
+|    ep_rew_mean     | 7.91e+03 |
+| time/              |          |
+|    fps             | 916      |
+|    iterations      | 21       |
+|    time_elapsed    | 2704     |
+|    total_timesteps | 2478384  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.05149, stairs=0.16344, stump=0.05481, gap=0.05481, regret=None
+  DENIED:  regret score was 0.029379436746239662, threshold at 0.042. Avg. length at 857.143, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 9 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=211927644350166104, obst=0.41577, slab=0.07913, stairs=0.05080, stump=0.19462, gap=0.19462, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.029634753242135048, threshold at 0.045. Avg. length at 697.191, top 3 runs [1532, 1540, 1542] - Successfull runs: 5 / 129 (3.876 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 741         |
+|    ep_rew_mean          | 5.58e+03    |
+| time/                   |             |
+|    fps                  | 915         |
+|    iterations           | 22          |
+|    time_elapsed         | 2834        |
+|    total_timesteps      | 2594688     |
+| train/                  |             |
+|    approx_kl            | 0.018822646 |
+|    clip_fraction        | 0.319       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53         |
+|    explained_variance   | 0.892       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.545      |
+|    n_updates            | 4905        |
+|    policy_gradient_loss | -0.0176     |
+|    std                  | 6.19        |
+|    value_loss           | 0.0139      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=211927644350166104, obst=0.41577, slab=0.15273, stairs=0.05080, stump=0.24682, gap=0.24682, regret=None
+  DENIED:  regret score was 0.027221689000725746, threshold at 0.042. Avg. length at 327.273, top 3 runs [752, 914, 1410] - Successfull runs: 0 / 43 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5601656357936266029, obst=0.31143, slab=0.03395, stairs=0.07073, stump=0.08932, gap=0.08932, regeret=0.04189
+  DONE - KEEPING LEVEL:  regret score was 0.03499742969870567, threshold at 0.045. Avg. length at 468.114, top 3 runs [1474, 1488, 1501] - Successfull runs: 4 / 198 (2.020 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 460         |
+|    ep_rew_mean          | 3.54e+03    |
+| time/                   |             |
+|    fps                  | 914         |
+|    iterations           | 23          |
+|    time_elapsed         | 2963        |
+|    total_timesteps      | 2710992     |
+| train/                  |             |
+|    approx_kl            | 0.018614568 |
+|    clip_fraction        | 0.315       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.1       |
+|    explained_variance   | 0.933       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.54       |
+|    n_updates            | 4920        |
+|    policy_gradient_loss | -0.0183     |
+|    std                  | 6.23        |
+|    value_loss           | 0.0117      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5601656357936266029, obst=0.31143, slab=0.02952, stairs=0.14732, stump=0.08932, gap=0.08932, regret=None
+  DENIED:  regret score was 0.021893130615353584, threshold at 0.042. Avg. length at 230.769, top 3 runs [437, 464, 487] - Successfull runs: 0 / 66 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4049939075026210996, obst=0.07582, slab=0.13861, stairs=0.10063, stump=0.19360, gap=0.19360, regeret=0.03218
+  DONE - KEEPING LEVEL:  regret score was 0.03238273784518242, threshold at 0.045. Avg. length at 733.612, top 3 runs [1507, 1509, 1525] - Successfull runs: 15 / 122 (12.295 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 790        |
+|    ep_rew_mean          | 6.1e+03    |
+| time/                   |            |
+|    fps                  | 914        |
+|    iterations           | 24         |
+|    time_elapsed         | 3090       |
+|    total_timesteps      | 2827296    |
+| train/                  |            |
+|    approx_kl            | 0.01883781 |
+|    clip_fraction        | 0.312      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -53.2      |
+|    explained_variance   | 0.946      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.539     |
+|    n_updates            | 4935       |
+|    policy_gradient_loss | -0.0191    |
+|    std                  | 6.26       |
+|    value_loss           | 0.0132     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=4049939075026210996, obst=0.07582, slab=0.15359, stairs=0.10063, stump=0.21546, gap=0.21546, regret=None
+  DENIED:  regret score was 0.028114745393395424, threshold at 0.042. Avg. length at 580.645, top 3 runs [911, np.int64(1187), 1488] - Successfull runs: 1 / 19 (5.263 %)
+DISCOVER using level: BufferLevel with seed=345207067969226149, obst=0.69159, slab=0.33771, stairs=0.74700, stump=0.86036, gap=0.86036, regret=None
+  DENIED:  regret score was 0.020772071555256844, threshold at 0.042. Avg. length at 200.000, top 3 runs [390, 397, 489] - Successfull runs: 0 / 78 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.09798, stairs=0.13834, stump=0.07307, gap=0.07307, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.02869456820189953, threshold at 0.045. Avg. length at 983.040, top 3 runs [1610, 1610, 1623] - Successfull runs: 30 / 88 (34.091 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 947         |
+|    ep_rew_mean          | 7.16e+03    |
+| time/                   |             |
+|    fps                  | 915         |
+|    iterations           | 25          |
+|    time_elapsed         | 3234        |
+|    total_timesteps      | 2961600     |
+| train/                  |             |
+|    approx_kl            | 0.019199014 |
+|    clip_fraction        | 0.325       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.3       |
+|    explained_variance   | 0.925       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.522      |
+|    n_updates            | 4950        |
+|    policy_gradient_loss | -0.0176     |
+|    std                  | 6.3         |
+|    value_loss           | 0.0147      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.09798, stairs=0.19470, stump=0.07307, gap=0.07307, regret=None
+  DENIED:  regret score was 0.029085354879498482, threshold at 0.042. Avg. length at 720.000, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 13 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8640474949496423246, obst=0.31533, slab=0.17331, stairs=0.16683, stump=0.00353, gap=0.00353, regret=None
+Eval num_timesteps=3021960, episode_reward=10039.70 +/- 984.76
+Episode length: 1269.20 +/- 111.28
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.27e+03    |
+|    mean_reward          | 1e+04       |
+| time/                   |             |
+|    total_timesteps      | 3021960     |
+| train/                  |             |
+|    approx_kl            | 0.019652449 |
+|    clip_fraction        | 0.325       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.4       |
+|    explained_variance   | 0.897       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.537      |
+|    n_updates            | 4965        |
+|    policy_gradient_loss | -0.0171     |
+|    std                  | 6.35        |
+|    value_loss           | 0.0138      |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.03561386093497276, threshold at 0.045. Avg. length at 427.409, top 3 runs [786, 827, 852] - Successfull runs: 0 / 218 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 443      |
+|    ep_rew_mean     | 3.11e+03 |
+| time/              |          |
+|    fps             | 913      |
+|    iterations      | 26       |
+|    time_elapsed    | 3369     |
+|    total_timesteps | 3077904  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=8640474949496423246, obst=0.31533, slab=0.18563, stairs=0.16683, stump=0.00353, gap=0.00353, regret=None
+  DENIED:  regret score was 0.03615075722336769, threshold at 0.042. Avg. length at 391.304, top 3 runs [np.int64(608), 728, 759] - Successfull runs: 0 / 34 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3639063994536555543, obst=0.44894, slab=0.11171, stairs=0.04193, stump=0.03102, gap=0.03102, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03448623791337013, threshold at 0.045. Avg. length at 555.390, top 3 runs [817, 831, 845] - Successfull runs: 0 / 165 (0.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 570        |
+|    ep_rew_mean          | 4.38e+03   |
+| time/                   |            |
+|    fps                  | 914        |
+|    iterations           | 27         |
+|    time_elapsed         | 3494       |
+|    total_timesteps      | 3194208    |
+| train/                  |            |
+|    approx_kl            | 0.01869041 |
+|    clip_fraction        | 0.302      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -53.5      |
+|    explained_variance   | 0.939      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.55      |
+|    n_updates            | 4980       |
+|    policy_gradient_loss | -0.0207    |
+|    std                  | 6.38       |
+|    value_loss           | 0.0177     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=3639063994536555543, obst=0.44894, slab=0.14465, stairs=0.04193, stump=0.03102, gap=0.03102, regret=None
+  DENIED:  regret score was 0.02745443768799305, threshold at 0.042. Avg. length at 486.486, top 3 runs [721, 736, 762] - Successfull runs: 0 / 25 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.02307, stairs=0.15442, stump=0.09577, gap=0.09577, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03471489995718002, threshold at 0.045. Avg. length at 983.040, top 3 runs [1568, 1578, 1589] - Successfull runs: 22 / 88 (25.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 991        |
+|    ep_rew_mean          | 7.64e+03   |
+| time/                   |            |
+|    fps                  | 913        |
+|    iterations           | 28         |
+|    time_elapsed         | 3622       |
+|    total_timesteps      | 3310512    |
+| train/                  |            |
+|    approx_kl            | 0.01888756 |
+|    clip_fraction        | 0.31       |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -53.6      |
+|    explained_variance   | 0.949      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.559     |
+|    n_updates            | 4995       |
+|    policy_gradient_loss | -0.0189    |
+|    std                  | 6.42       |
+|    value_loss           | 0.0111     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.03078, stairs=0.21247, stump=0.09577, gap=0.09577, regret=None
+  DENIED:  regret score was 0.03406393900513649, threshold at 0.042. Avg. length at 642.857, top 3 runs [1068, 1137, 1239] - Successfull runs: 0 / 16 (0.000 %)
+DISCOVER using level: BufferLevel with seed=7907857845944429585, obst=0.57937, slab=0.96311, stairs=0.93327, stump=0.44299, gap=0.44299, regret=None
+  ACCEPTED:  regret score was 0.06580717116594315, threshold at 0.042. Avg. length at 268.657, top 3 runs [427, 445, 592] - Successfull runs: 0 / 55 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1127745340225739600, obst=0.43104, slab=0.11376, stairs=0.16649, stump=0.14677, gap=0.14677, regeret=0.03280
+  DONE - KEEPING LEVEL:  regret score was 0.0387013740837574, threshold at 0.045. Avg. length at 385.506, top 3 runs [966, 1005, 1075] - Successfull runs: 0 / 243 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 418         |
+|    ep_rew_mean          | 3.04e+03    |
+| time/                   |             |
+|    fps                  | 914         |
+|    iterations           | 29          |
+|    time_elapsed         | 3766        |
+|    total_timesteps      | 3444816     |
+| train/                  |             |
+|    approx_kl            | 0.019504733 |
+|    clip_fraction        | 0.325       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.7       |
+|    explained_variance   | 0.917       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.559      |
+|    n_updates            | 5010        |
+|    policy_gradient_loss | -0.0189     |
+|    std                  | 6.46        |
+|    value_loss           | 0.0107      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=1127745340225739600, obst=0.43859, slab=0.10642, stairs=0.16649, stump=0.14677, gap=0.14677, regret=None
+  DENIED:  regret score was 0.03131663426756859, threshold at 0.042. Avg. length at 339.623, top 3 runs [648, 800, 834] - Successfull runs: 0 / 41 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=536307368987055297, obst=0.47888, slab=0.03050, stairs=0.01736, stump=0.09452, gap=0.09452, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.030829831957817078, threshold at 0.045. Avg. length at 1013.443, top 3 runs [1542, 1547, 1550] - Successfull runs: 34 / 85 (40.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 965         |
+|    ep_rew_mean          | 7.46e+03    |
+| time/                   |             |
+|    fps                  | 915         |
+|    iterations           | 30          |
+|    time_elapsed         | 3890        |
+|    total_timesteps      | 3561120     |
+| train/                  |             |
+|    approx_kl            | 0.018127816 |
+|    clip_fraction        | 0.3         |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.8       |
+|    explained_variance   | 0.946       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.549      |
+|    n_updates            | 5025        |
+|    policy_gradient_loss | -0.0207     |
+|    std                  | 6.48        |
+|    value_loss           | 0.017       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=536307368987055297, obst=0.49588, slab=0.06682, stairs=0.01736, stump=0.09452, gap=0.09452, regret=None
+  DENIED:  regret score was 0.02752884291112423, threshold at 0.042. Avg. length at 1000.000, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 6 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3567629417853033992, obst=0.35382, slab=0.04079, stairs=0.01843, stump=0.15524, gap=0.15524, regret=None
+Eval num_timesteps=3629952, episode_reward=10902.56 +/- 1056.68
+Episode length: 1366.80 +/- 124.33
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.37e+03    |
+|    mean_reward          | 1.09e+04    |
+| time/                   |             |
+|    total_timesteps      | 3629952     |
+| train/                  |             |
+|    approx_kl            | 0.019031359 |
+|    clip_fraction        | 0.33        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -53.9       |
+|    explained_variance   | 0.875       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.547      |
+|    n_updates            | 5040        |
+|    policy_gradient_loss | -0.0167     |
+|    std                  | 6.53        |
+|    value_loss           | 0.016       |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.030297035351395607, threshold at 0.045. Avg. length at 936.229, top 3 runs [1527, 1529, 1573] - Successfull runs: 28 / 93 (30.108 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 928      |
+|    ep_rew_mean     | 7.15e+03 |
+| time/              |          |
+|    fps             | 913      |
+|    iterations      | 31       |
+|    time_elapsed    | 4024     |
+|    total_timesteps | 3677424  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=3567629417853033992, obst=0.35382, slab=0.03291, stairs=0.01843, stump=0.15524, gap=0.15524, regret=None
+  DENIED:  regret score was 0.02709544450044632, threshold at 0.042. Avg. length at 947.368, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 3 / 7 (42.857 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6071147130302999030, obst=0.02885, slab=0.13628, stairs=0.01861, stump=0.12860, gap=0.12860, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.027957556769251823, threshold at 0.045. Avg. length at 1117.091, top 3 runs [1546, 1549, 1571] - Successfull runs: 44 / 76 (57.895 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 1.13e+03   |
+|    ep_rew_mean          | 8.82e+03   |
+| time/                   |            |
+|    fps                  | 913        |
+|    iterations           | 32         |
+|    time_elapsed         | 4152       |
+|    total_timesteps      | 3793728    |
+| train/                  |            |
+|    approx_kl            | 0.01893734 |
+|    clip_fraction        | 0.32       |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -54        |
+|    explained_variance   | 0.9        |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.555     |
+|    n_updates            | 5055       |
+|    policy_gradient_loss | -0.0168    |
+|    std                  | 6.58       |
+|    value_loss           | 0.0137     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=6071147130302999030, obst=0.02885, slab=0.13628, stairs=0.04651, stump=0.19441, gap=0.19441, regret=None
+  DENIED:  regret score was 0.026584791019558907, threshold at 0.042. Avg. length at 947.368, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 7 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4049939075026210996, obst=0.07582, slab=0.13861, stairs=0.10063, stump=0.19360, gap=0.19360, regeret=0.03238
+  DONE - KEEPING LEVEL:  regret score was 0.028814448043704033, threshold at 0.045. Avg. length at 768.000, top 3 runs [1519, 1526, 1555] - Successfull runs: 16 / 116 (13.793 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 833         |
+|    ep_rew_mean          | 6.43e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 33          |
+|    time_elapsed         | 4279        |
+|    total_timesteps      | 3910032     |
+| train/                  |             |
+|    approx_kl            | 0.019508032 |
+|    clip_fraction        | 0.335       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.1       |
+|    explained_variance   | 0.825       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.553      |
+|    n_updates            | 5070        |
+|    policy_gradient_loss | -0.015      |
+|    std                  | 6.64        |
+|    value_loss           | 0.016       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4049939075026210996, obst=0.12068, slab=0.13861, stairs=0.12665, stump=0.19360, gap=0.19360, regret=None
+  DENIED:  regret score was 0.025860778987407684, threshold at 0.042. Avg. length at 562.500, top 3 runs [1148, 1372, np.int64(1500)] - Successfull runs: 0 / 20 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5559777894169240065, obst=0.34629, slab=0.12053, stairs=0.15983, stump=0.05463, gap=0.05463, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.029343895614147186, threshold at 0.045. Avg. length at 869.947, top 3 runs [1381, 1475, 1528] - Successfull runs: 0 / 101 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 932         |
+|    ep_rew_mean          | 6.65e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 34          |
+|    time_elapsed         | 4406        |
+|    total_timesteps      | 4026336     |
+| train/                  |             |
+|    approx_kl            | 0.018732078 |
+|    clip_fraction        | 0.317       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.3       |
+|    explained_variance   | 0.924       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.556      |
+|    n_updates            | 5085        |
+|    policy_gradient_loss | -0.0172     |
+|    std                  | 6.69        |
+|    value_loss           | 0.0124      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5559777894169240065, obst=0.34629, slab=0.12053, stairs=0.17411, stump=0.05463, gap=0.05463, regret=None
+  DENIED:  regret score was 0.022186286747455597, threshold at 0.042. Avg. length at 642.857, top 3 runs [1104, 1125, 1303] - Successfull runs: 0 / 16 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.05993, stump=0.04988, gap=0.04988, regeret=0.05204
+  DONE - KEEPING LEVEL:  regret score was 0.03177037835121155, threshold at 0.045. Avg. length at 585.143, top 3 runs [1417, 1426, 1452] - Successfull runs: 4 / 157 (2.548 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 592         |
+|    ep_rew_mean          | 4.61e+03    |
+| time/                   |             |
+|    fps                  | 914         |
+|    iterations           | 35          |
+|    time_elapsed         | 4532        |
+|    total_timesteps      | 4142640     |
+| train/                  |             |
+|    approx_kl            | 0.019581942 |
+|    clip_fraction        | 0.313       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.4       |
+|    explained_variance   | 0.944       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.556      |
+|    n_updates            | 5100        |
+|    policy_gradient_loss | -0.0203     |
+|    std                  | 6.73        |
+|    value_loss           | 0.00835     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.08941, stump=0.12732, gap=0.12732, regret=None
+  DENIED:  regret score was 0.026089342311024666, threshold at 0.042. Avg. length at 321.429, top 3 runs [622, 628, np.int64(859)] - Successfull runs: 0 / 44 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.02307, stairs=0.15442, stump=0.09577, gap=0.09577, regeret=0.03471
+Eval num_timesteps=4219944, episode_reward=11150.14 +/- 448.06
+Episode length: 1389.00 +/- 48.20
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.39e+03    |
+|    mean_reward          | 1.12e+04    |
+| time/                   |             |
+|    total_timesteps      | 4219944     |
+| train/                  |             |
+|    approx_kl            | 0.019477272 |
+|    clip_fraction        | 0.318       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.5       |
+|    explained_variance   | 0.948       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.557      |
+|    n_updates            | 5115        |
+|    policy_gradient_loss | -0.0194     |
+|    std                  | 6.78        |
+|    value_loss           | 0.00933     |
+-----------------------------------------
+New best mean reward!
+  DONE - KEEPING LEVEL:  regret score was 0.02862934023141861, threshold at 0.045. Avg. length at 819.200, top 3 runs [1538, 1539, 1545] - Successfull runs: 21 / 108 (19.444 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 887      |
+|    ep_rew_mean     | 6.89e+03 |
+| time/              |          |
+|    fps             | 913      |
+|    iterations      | 36       |
+|    time_elapsed    | 4664     |
+|    total_timesteps | 4258944  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.07841, stairs=0.15442, stump=0.13529, gap=0.13529, regret=None
+  DENIED:  regret score was 0.031428609043359756, threshold at 0.042. Avg. length at 666.667, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1127745340225739600, obst=0.43104, slab=0.11376, stairs=0.16649, stump=0.14677, gap=0.14677, regeret=0.03870
+  DONE - KEEPING LEVEL:  regret score was 0.035394925624132156, threshold at 0.045. Avg. length at 362.745, top 3 runs [1066, 1079, 1363] - Successfull runs: 0 / 259 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 380         |
+|    ep_rew_mean          | 2.79e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 37          |
+|    time_elapsed         | 4790        |
+|    total_timesteps      | 4375248     |
+| train/                  |             |
+|    approx_kl            | 0.019459514 |
+|    clip_fraction        | 0.323       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.6       |
+|    explained_variance   | 0.931       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.57       |
+|    n_updates            | 5130        |
+|    policy_gradient_loss | -0.0184     |
+|    std                  | 6.83        |
+|    value_loss           | 0.0104      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=1127745340225739600, obst=0.43104, slab=0.11613, stairs=0.20383, stump=0.14677, gap=0.14677, regret=None
+  DENIED:  regret score was 0.024306131526827812, threshold at 0.042. Avg. length at 216.867, top 3 runs [300, 321, 403] - Successfull runs: 0 / 71 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8099729000622308078, obst=0.11075, slab=0.06715, stairs=0.08005, stump=0.03329, gap=0.03329, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0303471852093935, threshold at 0.045. Avg. length at 901.872, top 3 runs [1493, 1500, 1519] - Successfull runs: 29 / 97 (29.897 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 924         |
+|    ep_rew_mean          | 7.21e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 38          |
+|    time_elapsed         | 4917        |
+|    total_timesteps      | 4491552     |
+| train/                  |             |
+|    approx_kl            | 0.018307662 |
+|    clip_fraction        | 0.303       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.7       |
+|    explained_variance   | 0.945       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.566      |
+|    n_updates            | 5145        |
+|    policy_gradient_loss | -0.0202     |
+|    std                  | 6.86        |
+|    value_loss           | 0.0186      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=8099729000622308078, obst=0.18268, slab=0.06715, stairs=0.08005, stump=0.03193, gap=0.03193, regret=None
+  DENIED:  regret score was 0.028370728716254234, threshold at 0.042. Avg. length at 666.667, top 3 runs [np.int64(1285), np.int64(1287), np.int64(1500)] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.09798, stairs=0.13834, stump=0.07307, gap=0.07307, regeret=0.02869
+  DONE - KEEPING LEVEL:  regret score was 0.030076364055275917, threshold at 0.045. Avg. length at 1045.787, top 3 runs [1592, 1607, 1609] - Successfull runs: 30 / 82 (36.585 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.03e+03    |
+|    ep_rew_mean          | 7.88e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 39          |
+|    time_elapsed         | 5045        |
+|    total_timesteps      | 4607856     |
+| train/                  |             |
+|    approx_kl            | 0.018977584 |
+|    clip_fraction        | 0.321       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.8       |
+|    explained_variance   | 0.906       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.567      |
+|    n_updates            | 5160        |
+|    policy_gradient_loss | -0.0175     |
+|    std                  | 6.91        |
+|    value_loss           | 0.0146      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.09798, stairs=0.13834, stump=0.15084, gap=0.15084, regret=None
+  DENIED:  regret score was 0.02857171557843685, threshold at 0.042. Avg. length at 666.667, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=566998623374318788, obst=0.18720, slab=0.14953, stairs=0.11200, stump=0.07167, gap=0.07167, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0363638773560524, threshold at 0.045. Avg. length at 288.282, top 3 runs [744, 761, 843] - Successfull runs: 0 / 329 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 292         |
+|    ep_rew_mean          | 2.18e+03    |
+| time/                   |             |
+|    fps                  | 913         |
+|    iterations           | 40          |
+|    time_elapsed         | 5170        |
+|    total_timesteps      | 4724160     |
+| train/                  |             |
+|    approx_kl            | 0.018705262 |
+|    clip_fraction        | 0.32        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.9       |
+|    explained_variance   | 0.881       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.576      |
+|    n_updates            | 5175        |
+|    policy_gradient_loss | -0.017      |
+|    std                  | 6.96        |
+|    value_loss           | 0.0152      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=566998623374318788, obst=0.18720, slab=0.19837, stairs=0.11253, stump=0.07167, gap=0.07167, regret=None
+  DENIED:  regret score was 0.035209450870752335, threshold at 0.042. Avg. length at 276.923, top 3 runs [486, np.int64(532), 544] - Successfull runs: 0 / 53 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6796525567002085182, obst=0.13389, slab=0.05509, stairs=0.09306, stump=0.10549, gap=0.10549, regret=None
+Eval num_timesteps=4809936, episode_reward=11430.53 +/- 66.45
+Episode length: 1411.40 +/- 17.58
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.41e+03    |
+|    mean_reward          | 1.14e+04    |
+| time/                   |             |
+|    total_timesteps      | 4809936     |
+| train/                  |             |
+|    approx_kl            | 0.018070264 |
+|    clip_fraction        | 0.297       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -54.9       |
+|    explained_variance   | 0.939       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.569      |
+|    n_updates            | 5190        |
+|    policy_gradient_loss | -0.02       |
+|    std                  | 6.99        |
+|    value_loss           | 0.0208      |
+-----------------------------------------
+New best mean reward!
+  DONE - KEEPING LEVEL:  regret score was 0.03471261262893677, threshold at 0.045. Avg. length at 1003.102, top 3 runs [1785, 1803, 1815] - Successfull runs: 0 / 86 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 940      |
+|    ep_rew_mean     | 6.84e+03 |
+| time/              |          |
+|    fps             | 912      |
+|    iterations      | 41       |
+|    time_elapsed    | 5302     |
+|    total_timesteps | 4840464  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=6796525567002085182, obst=0.15928, slab=0.12212, stairs=0.09306, stump=0.10549, gap=0.10549, regret=None
+  DENIED:  regret score was 0.027324097231030464, threshold at 0.042. Avg. length at 692.308, top 3 runs [1262, 1298, 1357] - Successfull runs: 0 / 14 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8111290600892572332, obst=0.31037, slab=0.07709, stairs=0.11543, stump=0.17110, gap=0.17110, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03165062516927719, threshold at 0.045. Avg. length at 655.360, top 3 runs [1549, 1580, 1594] - Successfull runs: 8 / 138 (5.797 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 662        |
+|    ep_rew_mean          | 5.05e+03   |
+| time/                   |            |
+|    fps                  | 913        |
+|    iterations           | 42         |
+|    time_elapsed         | 5429       |
+|    total_timesteps      | 4956768    |
+| train/                  |            |
+|    approx_kl            | 0.01812912 |
+|    clip_fraction        | 0.301      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -55        |
+|    explained_variance   | 0.944      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.571     |
+|    n_updates            | 5205       |
+|    policy_gradient_loss | -0.0211    |
+|    std                  | 7.03       |
+|    value_loss           | 0.0077     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=8111290600892572332, obst=0.30162, slab=0.11777, stairs=0.11543, stump=0.17110, gap=0.17110, regret=None
+  DENIED:  regret score was 0.031413689255714417, threshold at 0.042. Avg. length at 600.000, top 3 runs [985, np.int64(1190), np.int64(1500)] - Successfull runs: 0 / 18 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4022774877688707620, obst=0.17465, slab=0.01283, stairs=0.07371, stump=0.03546, gap=0.03546, regeret=0.04207
+  DONE - KEEPING LEVEL:  regret score was 0.03355195000767708, threshold at 0.045. Avg. length at 877.714, top 3 runs [1474, 1485, 1501] - Successfull runs: 29 / 100 (29.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 920         |
+|    ep_rew_mean          | 7.22e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 43          |
+|    time_elapsed         | 5557        |
+|    total_timesteps      | 5073072     |
+| train/                  |             |
+|    approx_kl            | 0.020015163 |
+|    clip_fraction        | 0.322       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.1       |
+|    explained_variance   | 0.939       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.568      |
+|    n_updates            | 5220        |
+|    policy_gradient_loss | -0.0191     |
+|    std                  | 7.07        |
+|    value_loss           | 0.0138      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4022774877688707620, obst=0.17465, slab=0.01283, stairs=0.07371, stump=0.10586, gap=0.10586, regret=None
+  DENIED:  regret score was 0.0328904427587986, threshold at 0.042. Avg. length at 692.308, top 3 runs [1437, 1451, 1459] - Successfull runs: 5 / 14 (35.714 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8446080068956387685, obst=0.37478, slab=0.00287, stairs=0.09918, stump=0.08900, gap=0.08900, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.026010742411017418, threshold at 0.045. Avg. length at 1045.787, top 3 runs [1565, 1603, 1607] - Successfull runs: 32 / 82 (39.024 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.07e+03    |
+|    ep_rew_mean          | 8.24e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 44          |
+|    time_elapsed         | 5686        |
+|    total_timesteps      | 5189376     |
+| train/                  |             |
+|    approx_kl            | 0.018598933 |
+|    clip_fraction        | 0.315       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.2       |
+|    explained_variance   | 0.908       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.558      |
+|    n_updates            | 5235        |
+|    policy_gradient_loss | -0.0175     |
+|    std                  | 7.12        |
+|    value_loss           | 0.014       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=8446080068956387685, obst=0.37478, slab=0.00287, stairs=0.09035, stump=0.08900, gap=0.08900, regret=None
+  DENIED:  regret score was 0.027957668527960777, threshold at 0.042. Avg. length at 720.000, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 13 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6796525567002085182, obst=0.13389, slab=0.05509, stairs=0.09306, stump=0.10549, gap=0.10549, regeret=0.03471
+  DONE - KEEPING LEVEL:  regret score was 0.038247156888246536, threshold at 0.045. Avg. length at 1104.539, top 3 runs [1854, 1911, 1935] - Successfull runs: 2 / 77 (2.597 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.13e+03    |
+|    ep_rew_mean          | 8.22e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 45          |
+|    time_elapsed         | 5811        |
+|    total_timesteps      | 5305680     |
+| train/                  |             |
+|    approx_kl            | 0.018731907 |
+|    clip_fraction        | 0.321       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.3       |
+|    explained_variance   | 0.893       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.571      |
+|    n_updates            | 5250        |
+|    policy_gradient_loss | -0.017      |
+|    std                  | 7.17        |
+|    value_loss           | 0.013       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6796525567002085182, obst=0.13389, slab=0.05509, stairs=0.09306, stump=0.14167, gap=0.14167, regret=None
+  DENIED:  regret score was 0.027386823669075966, threshold at 0.042. Avg. length at 947.368, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 8 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8927204760089901161, obst=0.07642, slab=0.18191, stairs=0.13951, stump=0.16965, gap=0.16965, regret=None
+Eval num_timesteps=5399928, episode_reward=10944.66 +/- 524.54
+Episode length: 1350.40 +/- 55.84
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 1.35e+03   |
+|    mean_reward          | 1.09e+04   |
+| time/                   |            |
+|    total_timesteps      | 5399928    |
+| train/                  |            |
+|    approx_kl            | 0.01873426 |
+|    clip_fraction        | 0.301      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -55.4      |
+|    explained_variance   | 0.942      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.57      |
+|    n_updates            | 5265       |
+|    policy_gradient_loss | -0.0205    |
+|    std                  | 7.21       |
+|    value_loss           | 0.00786    |
+----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.028795549646019936, threshold at 0.045. Avg. length at 697.191, top 3 runs [1477, 1484, 1500] - Successfull runs: 10 / 129 (7.752 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 707      |
+|    ep_rew_mean     | 5.47e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 46       |
+|    time_elapsed    | 5948     |
+|    total_timesteps | 5421984  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=8927204760089901161, obst=0.07491, slab=0.24209, stairs=0.13951, stump=0.16965, gap=0.16965, regret=None
+  DENIED:  regret score was 0.02815091609954834, threshold at 0.042. Avg. length at 642.857, top 3 runs [1413, 1436, 1472] - Successfull runs: 3 / 16 (18.750 %)
+REPLAY - TRAINING using level: BufferLevel with seed=321461093735014061, obst=0.03792, slab=0.07661, stairs=0.04036, stump=0.14391, gap=0.14391, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0349089577794075, threshold at 0.045. Avg. length at 717.547, top 3 runs [1347, 1384, 1416] - Successfull runs: 4 / 125 (3.200 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 731         |
+|    ep_rew_mean          | 5.72e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 47          |
+|    time_elapsed         | 6075        |
+|    total_timesteps      | 5538288     |
+| train/                  |             |
+|    approx_kl            | 0.018972877 |
+|    clip_fraction        | 0.32        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.5       |
+|    explained_variance   | 0.938       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.575      |
+|    n_updates            | 5280        |
+|    policy_gradient_loss | -0.0186     |
+|    std                  | 7.26        |
+|    value_loss           | 0.0124      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=321461093735014061, obst=0.03792, slab=0.07869, stairs=0.04036, stump=0.14391, gap=0.14391, regret=None
+  DENIED:  regret score was 0.029503637924790382, threshold at 0.042. Avg. length at 600.000, top 3 runs [943, 1014, 1354] - Successfull runs: 1 / 18 (5.556 %)
+DISCOVER using level: BufferLevel with seed=5816602948717608913, obst=0.82815, slab=0.38589, stairs=0.66122, stump=0.91240, gap=0.91240, regret=None
+  ACCEPTED:  regret score was 0.04550953581929207, threshold at 0.042. Avg. length at 257.143, top 3 runs [571, np.int64(1126), np.int64(1500)] - Successfull runs: 0 / 58 (0.000 %)
+DISCOVER using level: BufferLevel with seed=6919740172084119303, obst=0.95846, slab=0.41636, stairs=0.13579, stump=0.13536, gap=0.13536, regret=None
+  DENIED:  regret score was 0.01845395192503929, threshold at 0.042. Avg. length at 185.567, top 3 runs [239, 246, 247] - Successfull runs: 0 / 85 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1111431464620705426, obst=0.16695, slab=0.13997, stairs=0.04766, stump=0.18393, gap=0.18393, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.02580946497619152, threshold at 0.045. Avg. length at 250.137, top 3 runs [385, 386, 389] - Successfull runs: 0 / 381 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 251         |
+|    ep_rew_mean          | 1.81e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 48          |
+|    time_elapsed         | 6235        |
+|    total_timesteps      | 5690592     |
+| train/                  |             |
+|    approx_kl            | 0.019264894 |
+|    clip_fraction        | 0.312       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.6       |
+|    explained_variance   | 0.948       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.581      |
+|    n_updates            | 5295        |
+|    policy_gradient_loss | -0.0199     |
+|    std                  | 7.3         |
+|    value_loss           | 0.00923     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=1111431464620705426, obst=0.16695, slab=0.21156, stairs=0.04766, stump=0.18393, gap=0.18393, regret=None
+  DENIED:  regret score was 0.023485226556658745, threshold at 0.042. Avg. length at 222.222, top 3 runs [305, 320, 341] - Successfull runs: 0 / 69 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5853511868832573202, obst=0.13708, slab=0.00878, stairs=0.18376, stump=0.08249, gap=0.08249, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04069814085960388, threshold at 0.045. Avg. length at 901.872, top 3 runs [1392, 1400, 1448] - Successfull runs: 3 / 97 (3.093 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 916         |
+|    ep_rew_mean          | 7.17e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 49          |
+|    time_elapsed         | 6363        |
+|    total_timesteps      | 5806896     |
+| train/                  |             |
+|    approx_kl            | 0.016813671 |
+|    clip_fraction        | 0.283       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.7       |
+|    explained_variance   | 0.941       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.569      |
+|    n_updates            | 5310        |
+|    policy_gradient_loss | -0.0201     |
+|    std                  | 7.33        |
+|    value_loss           | 0.0248      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5853511868832573202, obst=0.13708, slab=0.00265, stairs=0.18376, stump=0.08249, gap=0.08249, regret=None
+  DENIED:  regret score was 0.034366194158792496, threshold at 0.042. Avg. length at 692.308, top 3 runs [1126, 1146, 1185] - Successfull runs: 0 / 14 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=326694984350737251, obst=0.23270, slab=0.03665, stairs=0.14653, stump=0.19553, gap=0.19553, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.029383061453700066, threshold at 0.045. Avg. length at 1003.102, top 3 runs [1851, 1858, 1867] - Successfull runs: 11 / 86 (12.791 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.02e+03    |
+|    ep_rew_mean          | 7.56e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 50          |
+|    time_elapsed         | 6492        |
+|    total_timesteps      | 5923200     |
+| train/                  |             |
+|    approx_kl            | 0.017384106 |
+|    clip_fraction        | 0.29        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.7       |
+|    explained_variance   | 0.947       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.57       |
+|    n_updates            | 5325        |
+|    policy_gradient_loss | -0.0202     |
+|    std                  | 7.36        |
+|    value_loss           | 0.00747     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=326694984350737251, obst=0.29809, slab=0.03665, stairs=0.14653, stump=0.17679, gap=0.17679, regret=None
+  DENIED:  regret score was 0.027988635003566742, threshold at 0.042. Avg. length at 580.645, top 3 runs [1435, np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 19 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=93886339274151386, obst=0.18039, slab=0.10783, stairs=0.18984, stump=0.14120, gap=0.14120, regret=None
+Eval num_timesteps=6025920, episode_reward=11296.11 +/- 48.09
+Episode length: 1384.00 +/- 11.17
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.38e+03    |
+|    mean_reward          | 1.13e+04    |
+| time/                   |             |
+|    total_timesteps      | 6025920     |
+| train/                  |             |
+|    approx_kl            | 0.017885583 |
+|    clip_fraction        | 0.301       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.8       |
+|    explained_variance   | 0.932       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.566      |
+|    n_updates            | 5340        |
+|    policy_gradient_loss | -0.02       |
+|    std                  | 7.4         |
+|    value_loss           | 0.00854     |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.031224379315972328, threshold at 0.045. Avg. length at 453.014, top 3 runs [1509, 1513, 1529] - Successfull runs: 8 / 205 (3.902 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 417      |
+|    ep_rew_mean     | 3.13e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 51       |
+|    time_elapsed    | 6627     |
+|    total_timesteps | 6039504  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=93886339274151386, obst=0.18496, slab=0.11787, stairs=0.18984, stump=0.14120, gap=0.14120, regret=None
+  DENIED:  regret score was 0.03717563673853874, threshold at 0.042. Avg. length at 400.000, top 3 runs [1072, 1110, np.int64(1183)] - Successfull runs: 0 / 33 (0.000 %)
+DISCOVER using level: BufferLevel with seed=3436557059604752487, obst=0.34732, slab=0.01316, stairs=0.91199, stump=0.99205, gap=0.99205, regret=None
+  DENIED:  regret score was 0.031118787825107574, threshold at 0.042. Avg. length at 580.645, top 3 runs [1038, 1047, np.int64(1047)] - Successfull runs: 0 / 19 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5816602948717608913, obst=0.82815, slab=0.38589, stairs=0.66122, stump=0.91240, gap=0.91240, regeret=0.04551
+  DONE - KEEPING LEVEL:  regret score was 0.03873101994395256, threshold at 0.045. Avg. length at 250.137, top 3 runs [1456, 1692, 1725] - Successfull runs: 0 / 381 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 258         |
+|    ep_rew_mean          | 1.64e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 52          |
+|    time_elapsed         | 6772        |
+|    total_timesteps      | 6173808     |
+| train/                  |             |
+|    approx_kl            | 0.019021777 |
+|    clip_fraction        | 0.309       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -55.9       |
+|    explained_variance   | 0.938       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.575      |
+|    n_updates            | 5355        |
+|    policy_gradient_loss | -0.0197     |
+|    std                  | 7.45        |
+|    value_loss           | 0.0182      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5816602948717608913, obst=0.82815, slab=0.39059, stairs=0.69352, stump=0.91240, gap=0.91240, regret=None
+  DENIED:  regret score was 0.026244087144732475, threshold at 0.042. Avg. length at 216.867, top 3 runs [380, 395, 636] - Successfull runs: 0 / 72 (0.000 %)
+DISCOVER using level: BufferLevel with seed=5356890946574636692, obst=0.02442, slab=0.69549, stairs=0.35196, stump=0.14103, gap=0.14103, regret=None
+  ACCEPTED:  regret score was 0.05914584919810295, threshold at 0.042. Avg. length at 720.000, top 3 runs [1468, 1477, np.int64(1500)] - Successfull runs: 7 / 13 (53.846 %)
+REPLAY - TRAINING using level: BufferLevel with seed=7907857845944429585, obst=0.57937, slab=0.96311, stairs=0.93327, stump=0.44299, gap=0.44299, regeret=0.06581
+  DONE - KEEPING LEVEL:  regret score was 0.05986100435256958, threshold at 0.045. Avg. length at 281.673, top 3 runs [467, 488, 529] - Successfull runs: 0 / 337 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 288         |
+|    ep_rew_mean          | 1.63e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 53          |
+|    time_elapsed         | 6915        |
+|    total_timesteps      | 6308112     |
+| train/                  |             |
+|    approx_kl            | 0.019701859 |
+|    clip_fraction        | 0.31        |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56         |
+|    explained_variance   | 0.946       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.576      |
+|    n_updates            | 5370        |
+|    policy_gradient_loss | -0.0199     |
+|    std                  | 7.51        |
+|    value_loss           | 0.0137      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=7907857845944429585, obst=0.57937, slab=1.00000, stairs=0.93327, stump=0.44299, gap=0.44299, regret=None
+  DENIED:  regret score was 0.032421644777059555, threshold at 0.042. Avg. length at 253.521, top 3 runs [420, 464, 468] - Successfull runs: 0 / 59 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5114330400976323004, obst=0.13686, slab=0.17420, stairs=0.00680, stump=0.14588, gap=0.14588, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.05968722701072693, threshold at 0.045. Avg. length at 450.936, top 3 runs [818, 835, 871] - Successfull runs: 0 / 206 (0.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 460        |
+|    ep_rew_mean          | 3.49e+03   |
+| time/                   |            |
+|    fps                  | 912        |
+|    iterations           | 54         |
+|    time_elapsed         | 7041       |
+|    total_timesteps      | 6424416    |
+| train/                  |            |
+|    approx_kl            | 0.01827556 |
+|    clip_fraction        | 0.291      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -56.1      |
+|    explained_variance   | 0.936      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.579     |
+|    n_updates            | 5385       |
+|    policy_gradient_loss | -0.0237    |
+|    std                  | 7.54       |
+|    value_loss           | 0.018      |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=5114330400976323004, obst=0.13686, slab=0.23251, stairs=0.00680, stump=0.21177, gap=0.21177, regret=None
+  DENIED:  regret score was 0.034296367317438126, threshold at 0.042. Avg. length at 346.154, top 3 runs [614, 634, 684] - Successfull runs: 0 / 40 (0.000 %)
+DISCOVER using level: BufferLevel with seed=2727665285166643268, obst=0.98465, slab=0.31656, stairs=0.16177, stump=0.71798, gap=0.71798, regret=None
+  ACCEPTED:  regret score was 0.04236878082156181, threshold at 0.042. Avg. length at 333.333, top 3 runs [604, 763, np.int64(772)] - Successfull runs: 0 / 43 (0.000 %)
+DISCOVER using level: BufferLevel with seed=5066868156707421625, obst=0.63231, slab=0.57224, stairs=0.26909, stump=0.93935, gap=0.93935, regret=None
+  DENIED:  regret score was 0.01358445081859827, threshold at 0.042. Avg. length at 191.489, top 3 runs [260, 269, 338] - Successfull runs: 0 / 82 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4049939075026210996, obst=0.07582, slab=0.13861, stairs=0.10063, stump=0.19360, gap=0.19360, regeret=0.02881
+  DONE - KEEPING LEVEL:  regret score was 0.04746793210506439, threshold at 0.045. Avg. length at 655.360, top 3 runs [1485, 1491, 1497] - Successfull runs: 9 / 138 (6.522 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 669         |
+|    ep_rew_mean          | 5.18e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 55          |
+|    time_elapsed         | 7205        |
+|    total_timesteps      | 6576720     |
+| train/                  |             |
+|    approx_kl            | 0.016719041 |
+|    clip_fraction        | 0.281       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.2       |
+|    explained_variance   | 0.907       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.582      |
+|    n_updates            | 5400        |
+|    policy_gradient_loss | -0.021      |
+|    std                  | 7.57        |
+|    value_loss           | 0.0115      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4049939075026210996, obst=0.09095, slab=0.13861, stairs=0.10063, stump=0.19978, gap=0.19978, regret=None
+  DENIED:  regret score was 0.03007618524134159, threshold at 0.042. Avg. length at 782.609, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 11 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3830569662459069576, obst=0.37365, slab=0.01333, stairs=0.13993, stump=0.08826, gap=0.08826, regeret=0.03624
+Eval num_timesteps=6687912, episode_reward=11163.90 +/- 72.69
+Episode length: 1359.20 +/- 14.32
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.36e+03    |
+|    mean_reward          | 1.12e+04    |
+| time/                   |             |
+|    total_timesteps      | 6687912     |
+| train/                  |             |
+|    approx_kl            | 0.016000321 |
+|    clip_fraction        | 0.279       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.2       |
+|    explained_variance   | 0.937       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.582      |
+|    n_updates            | 5415        |
+|    policy_gradient_loss | -0.0201     |
+|    std                  | 7.6         |
+|    value_loss           | 0.00993     |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.04559338465332985, threshold at 0.045. Avg. length at 697.191, top 3 runs [1259, 1370, 1384] - Successfull runs: 2 / 129 (1.550 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 704      |
+|    ep_rew_mean     | 5.47e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 56       |
+|    time_elapsed    | 7340     |
+|    total_timesteps | 6693024  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=3830569662459069576, obst=0.40807, slab=0.01333, stairs=0.14105, stump=0.08826, gap=0.08826, regret=None
+  DENIED:  regret score was 0.040930043905973434, threshold at 0.042. Avg. length at 473.684, top 3 runs [959, 1182, 1418] - Successfull runs: 1 / 26 (3.846 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4162582889952654370, obst=0.10238, slab=0.07296, stairs=0.07918, stump=0.07746, gap=0.07746, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03549250587821007, threshold at 0.045. Avg. length at 303.407, top 3 runs [644, 714, 735] - Successfull runs: 0 / 312 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 312         |
+|    ep_rew_mean          | 2.35e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 57          |
+|    time_elapsed         | 7466        |
+|    total_timesteps      | 6809328     |
+| train/                  |             |
+|    approx_kl            | 0.016518915 |
+|    clip_fraction        | 0.284       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.3       |
+|    explained_variance   | 0.955       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.587      |
+|    n_updates            | 5430        |
+|    policy_gradient_loss | -0.02       |
+|    std                  | 7.63        |
+|    value_loss           | 0.00712     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4162582889952654370, obst=0.10238, slab=0.06455, stairs=0.09733, stump=0.07746, gap=0.07746, regret=None
+  DENIED:  regret score was 0.023712927475571632, threshold at 0.042. Avg. length at 246.575, top 3 runs [365, 367, 394] - Successfull runs: 0 / 61 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=93886339274151386, obst=0.18039, slab=0.10783, stairs=0.18984, stump=0.14120, gap=0.14120, regeret=0.03122
+  DONE - KEEPING LEVEL:  regret score was 0.03946954384446144, threshold at 0.045. Avg. length at 465.896, top 3 runs [1497, 1505, 1536] - Successfull runs: 10 / 199 (5.025 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 488         |
+|    ep_rew_mean          | 3.69e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 58          |
+|    time_elapsed         | 7591        |
+|    total_timesteps      | 6925632     |
+| train/                  |             |
+|    approx_kl            | 0.017094217 |
+|    clip_fraction        | 0.289       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.3       |
+|    explained_variance   | 0.968       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.576      |
+|    n_updates            | 5445        |
+|    policy_gradient_loss | -0.0209     |
+|    std                  | 7.66        |
+|    value_loss           | 0.00988     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=93886339274151386, obst=0.18039, slab=0.17605, stairs=0.19448, stump=0.14120, gap=0.14120, regret=None
+  DENIED:  regret score was 0.040700171142816544, threshold at 0.042. Avg. length at 391.304, top 3 runs [np.int64(812), 1074, 1284] - Successfull runs: 0 / 34 (0.000 %)
+DISCOVER using level: BufferLevel with seed=6023393192775880733, obst=0.86119, slab=0.54992, stairs=0.85150, stump=0.92836, gap=0.92836, regret=None
+  DENIED:  regret score was 0.035427242517471313, threshold at 0.042. Avg. length at 240.000, top 3 runs [506, 599, 614] - Successfull runs: 0 / 63 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6037672530825402297, obst=0.18847, slab=0.09476, stairs=0.14343, stump=0.05010, gap=0.05010, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03610682487487793, threshold at 0.045. Avg. length at 945.231, top 3 runs [1830, 1837, 1861] - Successfull runs: 8 / 92 (8.696 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 910         |
+|    ep_rew_mean          | 6.53e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 59          |
+|    time_elapsed         | 7738        |
+|    total_timesteps      | 7059936     |
+| train/                  |             |
+|    approx_kl            | 0.018508038 |
+|    clip_fraction        | 0.303       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.4       |
+|    explained_variance   | 0.939       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.567      |
+|    n_updates            | 5460        |
+|    policy_gradient_loss | -0.02       |
+|    std                  | 7.7         |
+|    value_loss           | 0.0149      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6037672530825402297, obst=0.18847, slab=0.09476, stairs=0.20399, stump=0.05010, gap=0.05010, regret=None
+  ACCEPTED:  regret score was 0.04388779401779175, threshold at 0.042. Avg. length at 666.667, top 3 runs [1260, 1269, np.int64(1500)] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3124531412713408402, obst=0.34908, slab=0.09933, stairs=0.02850, stump=0.11260, gap=0.11260, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.046098072081804276, threshold at 0.045. Avg. length at 588.647, top 3 runs [1463, 1468, 1468] - Successfull runs: 7 / 155 (4.516 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 627         |
+|    ep_rew_mean          | 4.84e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 60          |
+|    time_elapsed         | 7863        |
+|    total_timesteps      | 7176240     |
+| train/                  |             |
+|    approx_kl            | 0.017699376 |
+|    clip_fraction        | 0.298       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.5       |
+|    explained_variance   | 0.935       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.576      |
+|    n_updates            | 5475        |
+|    policy_gradient_loss | -0.0203     |
+|    std                  | 7.74        |
+|    value_loss           | 0.00969     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3124531412713408402, obst=0.34908, slab=0.09933, stairs=0.02850, stump=0.13317, gap=0.13317, regret=None
+  DENIED:  regret score was 0.03503341227769852, threshold at 0.042. Avg. length at 439.024, top 3 runs [958, 966, np.int64(1036)] - Successfull runs: 0 / 29 (0.000 %)
+DISCOVER using level: BufferLevel with seed=7317621711609806563, obst=0.33751, slab=0.55973, stairs=0.55154, stump=0.95141, gap=0.95141, regret=None
+  DENIED:  regret score was 0.014941374771296978, threshold at 0.042. Avg. length at 191.489, top 3 runs [249, 265, 281] - Successfull runs: 0 / 83 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6276217547768411489, obst=0.08428, slab=0.08146, stairs=0.13679, stump=0.03286, gap=0.03286, regeret=0.02612
+  DONE - KEEPING LEVEL:  regret score was 0.02993828058242798, threshold at 0.045. Avg. length at 1013.443, top 3 runs [1625, 1639, 1655] - Successfull runs: 28 / 85 (32.941 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 940         |
+|    ep_rew_mean          | 7.14e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 61          |
+|    time_elapsed         | 8007        |
+|    total_timesteps      | 7310544     |
+| train/                  |             |
+|    approx_kl            | 0.018068343 |
+|    clip_fraction        | 0.296       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.6       |
+|    explained_variance   | 0.941       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.579      |
+|    n_updates            | 5490        |
+|    policy_gradient_loss | -0.0205     |
+|    std                  | 7.78        |
+|    value_loss           | 0.0118      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6276217547768411489, obst=0.08428, slab=0.09404, stairs=0.13679, stump=0.03286, gap=0.03286, regret=None
+  DENIED:  regret score was 0.029597138985991478, threshold at 0.042. Avg. length at 818.182, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 0 / 10 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1275940545286674751, obst=0.39851, slab=0.21651, stairs=0.93707, stump=0.77257, gap=0.77257, regeret=0.04459
+Eval num_timesteps=7331904, episode_reward=10680.65 +/- 927.97
+Episode length: 1318.60 +/- 102.17
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.32e+03    |
+|    mean_reward          | 1.07e+04    |
+| time/                   |             |
+|    total_timesteps      | 7331904     |
+| train/                  |             |
+|    approx_kl            | 0.017817216 |
+|    clip_fraction        | 0.309       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.7       |
+|    explained_variance   | 0.915       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.554      |
+|    n_updates            | 5505        |
+|    policy_gradient_loss | -0.0175     |
+|    std                  | 7.84        |
+|    value_loss           | 0.0104      |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.04238361120223999, threshold at 0.045. Avg. length at 416.542, top 3 runs [629, 737, 849] - Successfull runs: 0 / 225 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 417      |
+|    ep_rew_mean     | 2.65e+03 |
+| time/              |          |
+|    fps             | 912      |
+|    iterations      | 62       |
+|    time_elapsed    | 8141     |
+|    total_timesteps | 7426848  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=1275940545286674751, obst=0.45333, slab=0.21651, stairs=0.94893, stump=0.77257, gap=0.77257, regret=None
+  DENIED:  regret score was 0.028748424723744392, threshold at 0.042. Avg. length at 360.000, top 3 runs [519, 578, 640] - Successfull runs: 0 / 38 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.05993, stump=0.04988, gap=0.04988, regeret=0.03177
+  DONE - KEEPING LEVEL:  regret score was 0.05095377564430237, threshold at 0.045. Avg. length at 682.667, top 3 runs [1410, 1425, 1431] - Successfull runs: 13 / 132 (9.848 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 746         |
+|    ep_rew_mean          | 5.86e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 63          |
+|    time_elapsed         | 8269        |
+|    total_timesteps      | 7543152     |
+| train/                  |             |
+|    approx_kl            | 0.019016178 |
+|    clip_fraction        | 0.299       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.8       |
+|    explained_variance   | 0.972       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.593      |
+|    n_updates            | 5520        |
+|    policy_gradient_loss | -0.0237     |
+|    std                  | 7.88        |
+|    value_loss           | 0.00941     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.16396, stairs=0.05993, stump=0.04988, gap=0.04988, regret=None
+  DENIED:  regret score was 0.03975176811218262, threshold at 0.042. Avg. length at 486.486, top 3 runs [1087, 1113, 1411] - Successfull runs: 1 / 25 (4.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8642103896315511165, obst=0.24694, slab=0.12905, stairs=0.08665, stump=0.17455, gap=0.17455, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.046218156814575195, threshold at 0.045. Avg. length at 677.959, top 3 runs [1445, 1710, 1747] - Successfull runs: 0 / 133 (0.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 717        |
+|    ep_rew_mean          | 4.93e+03   |
+| time/                   |            |
+|    fps                  | 912        |
+|    iterations           | 64         |
+|    time_elapsed         | 8397       |
+|    total_timesteps      | 7659456    |
+| train/                  |            |
+|    approx_kl            | 0.01737916 |
+|    clip_fraction        | 0.291      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -56.8      |
+|    explained_variance   | 0.931      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.587     |
+|    n_updates            | 5535       |
+|    policy_gradient_loss | -0.0198    |
+|    std                  | 7.91       |
+|    value_loss           | 0.011      |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=8642103896315511165, obst=0.24694, slab=0.12905, stairs=0.13843, stump=0.16007, gap=0.16007, regret=None
+  DENIED:  regret score was 0.03801891580224037, threshold at 0.042. Avg. length at 529.412, top 3 runs [1035, 1190, np.int64(1500)] - Successfull runs: 0 / 22 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.05375, stairs=0.15228, stump=0.05481, gap=0.05481, regeret=0.03222
+  DONE - KEEPING LEVEL:  regret score was 0.02975448966026306, threshold at 0.045. Avg. length at 945.231, top 3 runs [1568, 1570, 1576] - Successfull runs: 31 / 92 (33.696 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 930         |
+|    ep_rew_mean          | 7.09e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 65          |
+|    time_elapsed         | 8524        |
+|    total_timesteps      | 7775760     |
+| train/                  |             |
+|    approx_kl            | 0.018271925 |
+|    clip_fraction        | 0.296       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -56.9       |
+|    explained_variance   | 0.938       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.588      |
+|    n_updates            | 5550        |
+|    policy_gradient_loss | -0.0208     |
+|    std                  | 7.94        |
+|    value_loss           | 0.0122      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.08005, stairs=0.15228, stump=0.12815, gap=0.12815, regret=None
+  DENIED:  regret score was 0.03233884274959564, threshold at 0.042. Avg. length at 473.684, top 3 runs [740, np.int64(823), 849] - Successfull runs: 0 / 26 (0.000 %)
+DISCOVER using level: BufferLevel with seed=6054934187657031551, obst=0.62664, slab=0.49105, stairs=0.62106, stump=0.76954, gap=0.76954, regret=None
+  ACCEPTED:  regret score was 0.04592975601553917, threshold at 0.042. Avg. length at 243.243, top 3 runs [561, 653, 808] - Successfull runs: 0 / 62 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8111290600892572332, obst=0.31037, slab=0.07709, stairs=0.11543, stump=0.17110, gap=0.17110, regeret=0.03165
+  DONE - KEEPING LEVEL:  regret score was 0.03205209970474243, threshold at 0.045. Avg. length at 659.758, top 3 runs [1522, 1535, 1549] - Successfull runs: 7 / 137 (5.109 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 683        |
+|    ep_rew_mean          | 5.23e+03   |
+| time/                   |            |
+|    fps                  | 912        |
+|    iterations           | 66         |
+|    time_elapsed         | 8667       |
+|    total_timesteps      | 7910064    |
+| train/                  |            |
+|    approx_kl            | 0.01897858 |
+|    clip_fraction        | 0.319      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -57        |
+|    explained_variance   | 0.908      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.589     |
+|    n_updates            | 5565       |
+|    policy_gradient_loss | -0.0177    |
+|    std                  | 8          |
+|    value_loss           | 0.0127     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=8111290600892572332, obst=0.34884, slab=0.07709, stairs=0.11543, stump=0.17110, gap=0.17110, regret=None
+  DENIED:  regret score was 0.032385099679231644, threshold at 0.042. Avg. length at 562.500, top 3 runs [1016, 1183, 1243] - Successfull runs: 0 / 20 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6013183640009561534, obst=0.27319, slab=0.14834, stairs=0.06885, stump=0.07690, gap=0.07690, regret=None
+Eval num_timesteps=7939896, episode_reward=10280.30 +/- 992.09
+Episode length: 1264.80 +/- 111.24
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.26e+03    |
+|    mean_reward          | 1.03e+04    |
+| time/                   |             |
+|    total_timesteps      | 7939896     |
+| train/                  |             |
+|    approx_kl            | 0.019120885 |
+|    clip_fraction        | 0.312       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.1       |
+|    explained_variance   | 0.939       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.587      |
+|    n_updates            | 5580        |
+|    policy_gradient_loss | -0.0192     |
+|    std                  | 8.05        |
+|    value_loss           | 0.0118      |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.03748984634876251, threshold at 0.045. Avg. length at 840.205, top 3 runs [1454, 1464, 1465] - Successfull runs: 7 / 105 (6.667 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 886      |
+|    ep_rew_mean     | 6.89e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 67       |
+|    time_elapsed    | 8801     |
+|    total_timesteps | 8026368  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=6013183640009561534, obst=0.27319, slab=0.19224, stairs=0.14083, stump=0.07690, gap=0.07690, regret=None
+  DENIED:  regret score was 0.03151505067944527, threshold at 0.042. Avg. length at 580.645, top 3 runs [963, 964, 1052] - Successfull runs: 0 / 20 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8084554491674143641, obst=0.26179, slab=0.16967, stairs=0.16877, stump=0.18699, gap=0.18699, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03043524920940399, threshold at 0.045. Avg. length at 280.869, top 3 runs [428, 451, 461] - Successfull runs: 0 / 338 (0.000 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 285        |
+|    ep_rew_mean          | 2.09e+03   |
+| time/                   |            |
+|    fps                  | 912        |
+|    iterations           | 68         |
+|    time_elapsed         | 8926       |
+|    total_timesteps      | 8142672    |
+| train/                  |            |
+|    approx_kl            | 0.01945866 |
+|    clip_fraction        | 0.312      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -57.2      |
+|    explained_variance   | 0.942      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.593     |
+|    n_updates            | 5595       |
+|    policy_gradient_loss | -0.0195    |
+|    std                  | 8.1        |
+|    value_loss           | 0.00926    |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=8084554491674143641, obst=0.25054, slab=0.16967, stairs=0.21504, stump=0.18699, gap=0.18699, regret=None
+  DENIED:  regret score was 0.026175154373049736, threshold at 0.042. Avg. length at 257.143, top 3 runs [362, 373, 401] - Successfull runs: 0 / 58 (0.000 %)
+DISCOVER using level: BufferLevel with seed=2942132005992565139, obst=0.76741, slab=0.31485, stairs=0.07942, stump=0.92538, gap=0.92538, regret=None
+  ACCEPTED:  regret score was 0.060617972165346146, threshold at 0.042. Avg. length at 264.706, top 3 runs [448, 465, 549] - Successfull runs: 0 / 56 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=7561250253337695109, obst=0.17225, slab=0.04848, stairs=0.16334, stump=0.00004, gap=0.00004, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04197598993778229, threshold at 0.045. Avg. length at 954.408, top 3 runs [1876, 1957, 1997] - Successfull runs: 1 / 91 (1.099 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 913         |
+|    ep_rew_mean          | 6.51e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 69          |
+|    time_elapsed         | 9071        |
+|    total_timesteps      | 8276976     |
+| train/                  |             |
+|    approx_kl            | 0.016645193 |
+|    clip_fraction        | 0.282       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.2       |
+|    explained_variance   | 0.955       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.582      |
+|    n_updates            | 5610        |
+|    policy_gradient_loss | -0.0204     |
+|    std                  | 8.13        |
+|    value_loss           | 0.0143      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=7561250253337695109, obst=0.17225, slab=0.04848, stairs=0.22616, stump=0.00004, gap=0.00004, regret=None
+  DENIED:  regret score was 0.027805963531136513, threshold at 0.042. Avg. length at 562.500, top 3 runs [866, 953, 987] - Successfull runs: 0 / 20 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.02307, stairs=0.15442, stump=0.09577, gap=0.09577, regeret=0.02863
+  DONE - KEEPING LEVEL:  regret score was 0.03018684685230255, threshold at 0.045. Avg. length at 936.229, top 3 runs [1572, 1575, 1577] - Successfull runs: 28 / 93 (30.108 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 947        |
+|    ep_rew_mean          | 7.32e+03   |
+| time/                   |            |
+|    fps                  | 912        |
+|    iterations           | 70         |
+|    time_elapsed         | 9199       |
+|    total_timesteps      | 8393280    |
+| train/                  |            |
+|    approx_kl            | 0.01776746 |
+|    clip_fraction        | 0.291      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -57.3      |
+|    explained_variance   | 0.932      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.604     |
+|    n_updates            | 5625       |
+|    policy_gradient_loss | -0.0207    |
+|    std                  | 8.16       |
+|    value_loss           | 0.00948    |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=2104363816100554655, obst=0.30284, slab=0.02307, stairs=0.22851, stump=0.10908, gap=0.10908, regret=None
+  DENIED:  regret score was 0.02948598749935627, threshold at 0.042. Avg. length at 600.000, top 3 runs [1110, np.int64(1233), 1249] - Successfull runs: 0 / 18 (0.000 %)
+DISCOVER using level: BufferLevel with seed=4146964949177057865, obst=0.92566, slab=0.11356, stairs=0.12608, stump=0.21115, gap=0.21115, regret=None
+  DENIED:  regret score was 0.02847720868885517, threshold at 0.042. Avg. length at 233.766, top 3 runs [359, 397, 773] - Successfull runs: 0 / 65 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=2710101515813589498, obst=0.43289, slab=0.16889, stairs=0.02349, stump=0.19791, gap=0.19791, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04311685264110565, threshold at 0.045. Avg. length at 692.282, top 3 runs [1530, 1531, 1571] - Successfull runs: 0 / 130 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 763         |
+|    ep_rew_mean          | 5.5e+03     |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 71          |
+|    time_elapsed         | 9343        |
+|    total_timesteps      | 8527584     |
+| train/                  |             |
+|    approx_kl            | 0.018808438 |
+|    clip_fraction        | 0.311       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.4       |
+|    explained_variance   | 0.926       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.605      |
+|    n_updates            | 5640        |
+|    policy_gradient_loss | -0.0186     |
+|    std                  | 8.22        |
+|    value_loss           | 0.00963     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=2710101515813589498, obst=0.43289, slab=0.24044, stairs=0.04590, stump=0.19791, gap=0.19791, regret=None
+  DENIED:  regret score was 0.03850829228758812, threshold at 0.042. Avg. length at 461.538, top 3 runs [995, 1025, 1484] - Successfull runs: 0 / 27 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=1849108389399773260, obst=0.22887, slab=0.15342, stairs=0.03400, stump=0.18815, gap=0.18815, regeret=0.03609
+Eval num_timesteps=8565888, episode_reward=9251.31 +/- 519.30
+Episode length: 1151.40 +/- 66.88
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 1.15e+03   |
+|    mean_reward          | 9.25e+03   |
+| time/                   |            |
+|    total_timesteps      | 8565888    |
+| train/                  |            |
+|    approx_kl            | 0.01835716 |
+|    clip_fraction        | 0.295      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -57.5      |
+|    explained_variance   | 0.945      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.594     |
+|    n_updates            | 5655       |
+|    policy_gradient_loss | -0.0204    |
+|    std                  | 8.26       |
+|    value_loss           | 0.0121     |
+----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.03631976246833801, threshold at 0.045. Avg. length at 847.448, top 3 runs [1707, 1733, 1758] - Successfull runs: 7 / 104 (6.731 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 898      |
+|    ep_rew_mean     | 6.71e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 72       |
+|    time_elapsed    | 9478     |
+|    total_timesteps | 8643888  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=1849108389399773260, obst=0.21335, slab=0.15342, stairs=0.03400, stump=0.19456, gap=0.19456, regret=None
+  DENIED:  regret score was 0.03323103487491608, threshold at 0.042. Avg. length at 666.667, top 3 runs [1127, 1140, 1163] - Successfull runs: 0 / 15 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5989596293081176383, obst=0.11473, slab=0.03438, stairs=0.10747, stump=0.12673, gap=0.12673, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.03285087272524834, threshold at 0.045. Avg. length at 805.770, top 3 runs [1501, 1504, 1509] - Successfull runs: 24 / 110 (21.818 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 881         |
+|    ep_rew_mean          | 6.89e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 73          |
+|    time_elapsed         | 9607        |
+|    total_timesteps      | 8760192     |
+| train/                  |             |
+|    approx_kl            | 0.018876702 |
+|    clip_fraction        | 0.309       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.5       |
+|    explained_variance   | 0.948       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.584      |
+|    n_updates            | 5670        |
+|    policy_gradient_loss | -0.0202     |
+|    std                  | 8.3         |
+|    value_loss           | 0.0103      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5989596293081176383, obst=0.16878, slab=0.03438, stairs=0.15958, stump=0.12673, gap=0.12673, regret=None
+  DENIED:  regret score was 0.03398925065994263, threshold at 0.042. Avg. length at 580.645, top 3 runs [1396, 1418, 1497] - Successfull runs: 2 / 19 (10.526 %)
+DISCOVER using level: BufferLevel with seed=3490429401353804691, obst=0.11260, slab=0.86020, stairs=0.21475, stump=0.17973, gap=0.17973, regret=None
+  DENIED:  regret score was 0.03040079027414322, threshold at 0.042. Avg. length at 240.000, top 3 runs [318, 321, 329] - Successfull runs: 0 / 63 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5989596293081176383, obst=0.11473, slab=0.03438, stairs=0.10747, stump=0.12673, gap=0.12673, regeret=0.03285
+  DONE - KEEPING LEVEL:  regret score was 0.0321752168238163, threshold at 0.045. Avg. length at 805.770, top 3 runs [1495, 1497, 1513] - Successfull runs: 28 / 110 (25.455 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 864         |
+|    ep_rew_mean          | 6.75e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 74          |
+|    time_elapsed         | 9751        |
+|    total_timesteps      | 8894496     |
+| train/                  |             |
+|    approx_kl            | 0.018805878 |
+|    clip_fraction        | 0.316       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.6       |
+|    explained_variance   | 0.917       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.585      |
+|    n_updates            | 5685        |
+|    policy_gradient_loss | -0.0183     |
+|    std                  | 8.36        |
+|    value_loss           | 0.0149      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5989596293081176383, obst=0.11956, slab=0.03438, stairs=0.10747, stump=0.12673, gap=0.12673, regret=None
+  DENIED:  regret score was 0.03221394494175911, threshold at 0.042. Avg. length at 666.667, top 3 runs [1495, np.int64(1500), np.int64(1500)] - Successfull runs: 5 / 16 (31.250 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6037672530825402297, obst=0.18847, slab=0.09476, stairs=0.20399, stump=0.05010, gap=0.05010, regeret=0.04389
+  DONE - KEEPING LEVEL:  regret score was 0.04474291577935219, threshold at 0.045. Avg. length at 973.307, top 3 runs [1803, 1837, 1856] - Successfull runs: 10 / 89 (11.236 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 1.01e+03    |
+|    ep_rew_mean          | 7.6e+03     |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 75          |
+|    time_elapsed         | 9879        |
+|    total_timesteps      | 9010800     |
+| train/                  |             |
+|    approx_kl            | 0.019052513 |
+|    clip_fraction        | 0.314       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.7       |
+|    explained_variance   | 0.916       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.586      |
+|    n_updates            | 5700        |
+|    policy_gradient_loss | -0.0182     |
+|    std                  | 8.42        |
+|    value_loss           | 0.015       |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6037672530825402297, obst=0.18847, slab=0.11855, stairs=0.20399, stump=0.05010, gap=0.05010, regret=None
+  DENIED:  regret score was 0.029606714844703674, threshold at 0.042. Avg. length at 642.857, top 3 runs [1101, 1165, np.int64(1500)] - Successfull runs: 0 / 16 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8111290600892572332, obst=0.31037, slab=0.07709, stairs=0.11543, stump=0.17110, gap=0.17110, regeret=0.03205
+  DONE - KEEPING LEVEL:  regret score was 0.032370541244745255, threshold at 0.045. Avg. length at 677.959, top 3 runs [1525, 1528, 1546] - Successfull runs: 12 / 133 (9.023 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 710         |
+|    ep_rew_mean          | 5.48e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 76          |
+|    time_elapsed         | 10008       |
+|    total_timesteps      | 9127104     |
+| train/                  |             |
+|    approx_kl            | 0.018072696 |
+|    clip_fraction        | 0.292       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -57.8       |
+|    explained_variance   | 0.954       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.611      |
+|    n_updates            | 5715        |
+|    policy_gradient_loss | -0.0199     |
+|    std                  | 8.45        |
+|    value_loss           | 0.0085      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=8111290600892572332, obst=0.31037, slab=0.06314, stairs=0.14877, stump=0.17110, gap=0.17110, regret=None
+  DENIED:  regret score was 0.03419138491153717, threshold at 0.042. Avg. length at 620.690, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 1 / 17 (5.882 %)
+DISCOVER using level: BufferLevel with seed=7940653512066921984, obst=0.94733, slab=0.19385, stairs=0.83913, stump=0.97393, gap=0.97393, regret=None
+  DENIED:  regret score was 0.026115035638213158, threshold at 0.042. Avg. length at 219.512, top 3 runs [np.int64(364), 368, 401] - Successfull runs: 0 / 70 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3374310598545150833, obst=0.00948, slab=0.11249, stairs=0.19039, stump=0.11892, gap=0.11892, regeret=0.03455
+Eval num_timesteps=9191880, episode_reward=8430.14 +/- 1667.56
+Episode length: 1056.60 +/- 198.28
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 1.06e+03   |
+|    mean_reward          | 8.43e+03   |
+| time/                   |            |
+|    total_timesteps      | 9191880    |
+| train/                  |            |
+|    approx_kl            | 0.01828097 |
+|    clip_fraction        | 0.306      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -57.9      |
+|    explained_variance   | 0.938      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.601     |
+|    n_updates            | 5730       |
+|    policy_gradient_loss | -0.0183    |
+|    std                  | 8.5        |
+|    value_loss           | 0.0134     |
+----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.03124544955790043, threshold at 0.045. Avg. length at 918.729, top 3 runs [1487, 1497, 1511] - Successfull runs: 35 / 95 (36.842 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 943      |
+|    ep_rew_mean     | 7.38e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 77       |
+|    time_elapsed    | 10161    |
+|    total_timesteps | 9261408  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=3374310598545150833, obst=0.00948, slab=0.11249, stairs=0.19070, stump=0.13597, gap=0.13597, regret=None
+  DENIED:  regret score was 0.03196833282709122, threshold at 0.042. Avg. length at 600.000, top 3 runs [np.int64(1407), 1417, 1466] - Successfull runs: 3 / 18 (16.667 %)
+REPLAY - TRAINING using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.05375, stairs=0.15228, stump=0.05481, gap=0.05481, regeret=0.02975
+  DONE - KEEPING LEVEL:  regret score was 0.03560936450958252, threshold at 0.045. Avg. length at 885.622, top 3 runs [1521, 1527, 1577] - Successfull runs: 23 / 99 (23.232 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 921         |
+|    ep_rew_mean          | 7.1e+03     |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 78          |
+|    time_elapsed         | 10289       |
+|    total_timesteps      | 9377712     |
+| train/                  |             |
+|    approx_kl            | 0.018897714 |
+|    clip_fraction        | 0.316       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58         |
+|    explained_variance   | 0.901       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.585      |
+|    n_updates            | 5745        |
+|    policy_gradient_loss | -0.0172     |
+|    std                  | 8.57        |
+|    value_loss           | 0.0158      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=5511045758285929490, obst=0.42021, slab=0.07830, stairs=0.15228, stump=0.05481, gap=0.05481, regret=None
+  DENIED:  regret score was 0.035950951278209686, threshold at 0.042. Avg. length at 545.455, top 3 runs [797, 806, np.int64(1215)] - Successfull runs: 0 / 21 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.09798, stairs=0.13834, stump=0.07307, gap=0.07307, regeret=0.03008
+  DONE - KEEPING LEVEL:  regret score was 0.03131600841879845, threshold at 0.045. Avg. length at 945.231, top 3 runs [1557, 1566, 1571] - Successfull runs: 33 / 92 (35.870 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 949         |
+|    ep_rew_mean          | 7.37e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 79          |
+|    time_elapsed         | 10417       |
+|    total_timesteps      | 9494016     |
+| train/                  |             |
+|    approx_kl            | 0.017788393 |
+|    clip_fraction        | 0.299       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.1       |
+|    explained_variance   | 0.922       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.594      |
+|    n_updates            | 5760        |
+|    policy_gradient_loss | -0.0188     |
+|    std                  | 8.62        |
+|    value_loss           | 0.0126      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=3517893747893089535, obst=0.09580, slab=0.12369, stairs=0.13834, stump=0.07307, gap=0.07307, regret=None
+  DENIED:  regret score was 0.03361741825938225, threshold at 0.042. Avg. length at 666.667, top 3 runs [1366, 1434, 1438] - Successfull runs: 2 / 15 (13.333 %)
+DISCOVER using level: BufferLevel with seed=1361793744156106337, obst=0.88895, slab=0.56567, stairs=0.28683, stump=0.94275, gap=0.94275, regret=None
+  ACCEPTED:  regret score was 0.05485827848315239, threshold at 0.042. Avg. length at 264.706, top 3 runs [504, 506, 522] - Successfull runs: 0 / 56 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6716180265317442372, obst=0.48578, slab=0.00763, stairs=0.02843, stump=0.18447, gap=0.18447, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.0362967886030674, threshold at 0.045. Avg. length at 512.000, top 3 runs [1173, 1241, 1380] - Successfull runs: 1 / 180 (0.556 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 531         |
+|    ep_rew_mean          | 4.08e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 80          |
+|    time_elapsed         | 10563       |
+|    total_timesteps      | 9628320     |
+| train/                  |             |
+|    approx_kl            | 0.017749941 |
+|    clip_fraction        | 0.307       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.2       |
+|    explained_variance   | 0.903       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.586      |
+|    n_updates            | 5775        |
+|    policy_gradient_loss | -0.0168     |
+|    std                  | 8.68        |
+|    value_loss           | 0.0134      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6716180265317442372, obst=0.52850, slab=0.00763, stairs=0.02843, stump=0.18447, gap=0.18447, regret=None
+  DENIED:  regret score was 0.034654781222343445, threshold at 0.042. Avg. length at 428.571, top 3 runs [948, 1016, 1151] - Successfull runs: 0 / 30 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.05993, stump=0.04988, gap=0.04988, regeret=0.05095
+  DONE - KEEPING LEVEL:  regret score was 0.04915058612823486, threshold at 0.045. Avg. length at 687.441, top 3 runs [1404, 1406, 1411] - Successfull runs: 12 / 131 (9.160 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 721        |
+|    ep_rew_mean          | 5.71e+03   |
+| time/                   |            |
+|    fps                  | 911        |
+|    iterations           | 81         |
+|    time_elapsed         | 10690      |
+|    total_timesteps      | 9744624    |
+| train/                  |            |
+|    approx_kl            | 0.01816471 |
+|    clip_fraction        | 0.294      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -58.3      |
+|    explained_variance   | 0.938      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.598     |
+|    n_updates            | 5790       |
+|    policy_gradient_loss | -0.0197    |
+|    std                  | 8.72       |
+|    value_loss           | 0.0169     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=4812380227298529720, obst=0.33519, slab=0.10368, stairs=0.05993, stump=0.12516, gap=0.12516, regret=None
+  DENIED:  regret score was 0.03934963792562485, threshold at 0.042. Avg. length at 514.286, top 3 runs [1401, 1409, 1421] - Successfull runs: 3 / 23 (13.043 %)
+DISCOVER using level: BufferLevel with seed=5111994871134756429, obst=0.50092, slab=0.26126, stairs=0.93159, stump=0.14273, gap=0.14273, regret=None
+  DENIED:  regret score was 0.028751976788043976, threshold at 0.042. Avg. length at 246.575, top 3 runs [302, 305, 308] - Successfull runs: 0 / 61 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8640474949496423246, obst=0.31533, slab=0.17331, stairs=0.16683, stump=0.00353, gap=0.00353, regeret=0.03561
+Eval num_timesteps=9817872, episode_reward=10846.72 +/- 752.87
+Episode length: 1327.00 +/- 76.76
+----------------------------------------
+| eval/                   |            |
+|    mean_ep_length       | 1.33e+03   |
+|    mean_reward          | 1.08e+04   |
+| time/                   |            |
+|    total_timesteps      | 9817872    |
+| train/                  |            |
+|    approx_kl            | 0.01699868 |
+|    clip_fraction        | 0.284      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -58.3      |
+|    explained_variance   | 0.933      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.59      |
+|    n_updates            | 5805       |
+|    policy_gradient_loss | -0.0196    |
+|    std                  | 8.76       |
+|    value_loss           | 0.0133     |
+----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.04256265237927437, threshold at 0.045. Avg. length at 472.615, top 3 runs [810, 833, 854] - Successfull runs: 0 / 196 (0.000 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 489      |
+|    ep_rew_mean     | 3.61e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 82       |
+|    time_elapsed    | 10841    |
+|    total_timesteps | 9878928  |
+---------------------------------
+MUTATION using level: BufferLevel with seed=8640474949496423246, obst=0.31533, slab=0.21733, stairs=0.16683, stump=0.00353, gap=0.00353, regret=None
+  DENIED:  regret score was 0.037352558225393295, threshold at 0.042. Avg. length at 400.000, top 3 runs [706, 727, 732] - Successfull runs: 0 / 33 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6019288043227020547, obst=0.44836, slab=0.86997, stairs=0.56517, stump=0.62864, gap=0.62864, regeret=0.04979
+  DONE - KEEPING LEVEL:  regret score was 0.047871630638837814, threshold at 0.045. Avg. length at 250.137, top 3 runs [1013, 1058, 1151] - Successfull runs: 0 / 381 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 236         |
+|    ep_rew_mean          | 1.44e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 83          |
+|    time_elapsed         | 10965       |
+|    total_timesteps      | 9995232     |
+| train/                  |             |
+|    approx_kl            | 0.018091189 |
+|    clip_fraction        | 0.296       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.4       |
+|    explained_variance   | 0.938       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.6        |
+|    n_updates            | 5820        |
+|    policy_gradient_loss | -0.0207     |
+|    std                  | 8.8         |
+|    value_loss           | 0.0163      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6019288043227020547, obst=0.44836, slab=0.86997, stairs=0.59330, stump=0.69406, gap=0.69406, regret=None
+  ACCEPTED:  regret score was 0.04544980451464653, threshold at 0.042. Avg. length at 253.521, top 3 runs [590, np.int64(603), 662] - Successfull runs: 0 / 59 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=566998623374318788, obst=0.18720, slab=0.14953, stairs=0.11200, stump=0.07167, gap=0.07167, regeret=0.03636
+  DONE - KEEPING LEVEL:  regret score was 0.052621617913246155, threshold at 0.045. Avg. length at 320.208, top 3 runs [837, 878, 887] - Successfull runs: 0 / 295 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 325         |
+|    ep_rew_mean          | 2.47e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 84          |
+|    time_elapsed         | 11089       |
+|    total_timesteps      | 10111536    |
+| train/                  |             |
+|    approx_kl            | 0.017791552 |
+|    clip_fraction        | 0.289       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.5       |
+|    explained_variance   | 0.967       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.613      |
+|    n_updates            | 5835        |
+|    policy_gradient_loss | -0.0205     |
+|    std                  | 8.84        |
+|    value_loss           | 0.00908     |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=566998623374318788, obst=0.18720, slab=0.14953, stairs=0.11200, stump=0.07867, gap=0.07867, regret=None
+  ACCEPTED:  regret score was 0.0454583466053009, threshold at 0.042. Avg. length at 310.345, top 3 runs [574, 589, np.int64(828)] - Successfull runs: 0 / 46 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=7907857845944429585, obst=0.57937, slab=0.96311, stairs=0.93327, stump=0.44299, gap=0.44299, regeret=0.05986
+  DONE - KEEPING LEVEL:  regret score was 0.05196342244744301, threshold at 0.045. Avg. length at 288.282, top 3 runs [449, 471, 513] - Successfull runs: 0 / 330 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 295         |
+|    ep_rew_mean          | 1.66e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 85          |
+|    time_elapsed         | 11213       |
+|    total_timesteps      | 10227840    |
+| train/                  |             |
+|    approx_kl            | 0.016762123 |
+|    clip_fraction        | 0.285       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.5       |
+|    explained_variance   | 0.95        |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.601      |
+|    n_updates            | 5850        |
+|    policy_gradient_loss | -0.0205     |
+|    std                  | 8.86        |
+|    value_loss           | 0.0145      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=7907857845944429585, obst=0.57937, slab=0.96311, stairs=0.94921, stump=0.44299, gap=0.44299, regret=None
+  DENIED:  regret score was 0.032993145287036896, threshold at 0.042. Avg. length at 257.143, top 3 runs [391, 391, 392] - Successfull runs: 0 / 58 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8084554491674143641, obst=0.26179, slab=0.16967, stairs=0.16877, stump=0.18699, gap=0.18699, regeret=0.03044
+  DONE - KEEPING LEVEL:  regret score was 0.03476277366280556, threshold at 0.045. Avg. length at 280.869, top 3 runs [444, 446, 449] - Successfull runs: 0 / 338 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 290         |
+|    ep_rew_mean          | 2.14e+03    |
+| time/                   |             |
+|    fps                  | 912         |
+|    iterations           | 86          |
+|    time_elapsed         | 11339       |
+|    total_timesteps      | 10344144    |
+| train/                  |             |
+|    approx_kl            | 0.017496891 |
+|    clip_fraction        | 0.284       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.6       |
+|    explained_variance   | 0.961       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.601      |
+|    n_updates            | 5865        |
+|    policy_gradient_loss | -0.023      |
+|    std                  | 8.9         |
+|    value_loss           | 0.0127      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=8084554491674143641, obst=0.26179, slab=0.16967, stairs=0.19932, stump=0.18699, gap=0.18699, regret=None
+  DENIED:  regret score was 0.030736958608031273, threshold at 0.042. Avg. length at 264.706, top 3 runs [425, 438, 458] - Successfull runs: 0 / 56 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8927204760089901161, obst=0.07642, slab=0.18191, stairs=0.13951, stump=0.16965, gap=0.16965, regeret=0.02880
+Eval num_timesteps=10407864, episode_reward=11236.26 +/- 10.33
+Episode length: 1366.80 +/- 1.94
+-----------------------------------------
+| eval/                   |             |
+|    mean_ep_length       | 1.37e+03    |
+|    mean_reward          | 1.12e+04    |
+| time/                   |             |
+|    total_timesteps      | 10407864    |
+| train/                  |             |
+|    approx_kl            | 0.015709465 |
+|    clip_fraction        | 0.268       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.6       |
+|    explained_variance   | 0.971       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.603      |
+|    n_updates            | 5880        |
+|    policy_gradient_loss | -0.0203     |
+|    std                  | 8.94        |
+|    value_loss           | 0.00833     |
+-----------------------------------------
+  DONE - KEEPING LEVEL:  regret score was 0.05746615305542946, threshold at 0.045. Avg. length at 819.200, top 3 runs [1488, 1490, 1521] - Successfull runs: 18 / 108 (16.667 %)
+---------------------------------
+| rollout/           |          |
+|    ep_len_mean     | 869      |
+|    ep_rew_mean     | 6.79e+03 |
+| time/              |          |
+|    fps             | 911      |
+|    iterations      | 87       |
+|    time_elapsed    | 11474    |
+|    total_timesteps | 10460448 |
+---------------------------------
+MUTATION using level: BufferLevel with seed=8927204760089901161, obst=0.10224, slab=0.18191, stairs=0.13951, stump=0.16965, gap=0.16965, regret=None
+  ACCEPTED:  regret score was 0.0473053939640522, threshold at 0.042. Avg. length at 600.000, top 3 runs [942, np.int64(949), np.int64(1160)] - Successfull runs: 0 / 18 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6330978777666641377, obst=0.31068, slab=0.04132, stairs=0.04925, stump=0.10828, gap=0.10828, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.04404519870877266, threshold at 0.045. Avg. length at 963.765, top 3 runs [1586, 1586, 1610] - Successfull runs: 31 / 90 (34.444 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 962        |
+|    ep_rew_mean          | 7.41e+03   |
+| time/                   |            |
+|    fps                  | 911        |
+|    iterations           | 88         |
+|    time_elapsed         | 11600      |
+|    total_timesteps      | 10576752   |
+| train/                  |            |
+|    approx_kl            | 0.01563037 |
+|    clip_fraction        | 0.272      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -58.7      |
+|    explained_variance   | 0.896      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.603     |
+|    n_updates            | 5895       |
+|    policy_gradient_loss | -0.0189    |
+|    std                  | 8.98       |
+|    value_loss           | 0.0117     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=6330978777666641377, obst=0.36195, slab=0.04132, stairs=0.03059, stump=0.10828, gap=0.10828, regret=None
+  DENIED:  regret score was 0.03906232863664627, threshold at 0.042. Avg. length at 666.667, top 3 runs [np.int64(1500), np.int64(1500), np.int64(1500)] - Successfull runs: 1 / 15 (6.667 %)
+REPLAY - TRAINING using level: BufferLevel with seed=8175068923962988485, obst=0.40888, slab=0.07180, stairs=0.02512, stump=0.11670, gap=0.11670, regret=None
+  DONE - KEEPING LEVEL:  regret score was 0.047454845160245895, threshold at 0.045. Avg. length at 728.178, top 3 runs [1486, 1500, 1509] - Successfull runs: 18 / 123 (14.634 %)
+----------------------------------------
+| rollout/                |            |
+|    ep_len_mean          | 808        |
+|    ep_rew_mean          | 6.29e+03   |
+| time/                   |            |
+|    fps                  | 911        |
+|    iterations           | 89         |
+|    time_elapsed         | 11729      |
+|    total_timesteps      | 10693056   |
+| train/                  |            |
+|    approx_kl            | 0.01694718 |
+|    clip_fraction        | 0.292      |
+|    clip_range           | 0.15       |
+|    entropy_loss         | -58.8      |
+|    explained_variance   | 0.899      |
+|    learning_rate        | 0.0001     |
+|    loss                 | -0.606     |
+|    n_updates            | 5910       |
+|    policy_gradient_loss | -0.0176    |
+|    std                  | 9.04       |
+|    value_loss           | 0.0128     |
+----------------------------------------
+MUTATION using level: BufferLevel with seed=8175068923962988485, obst=0.40888, slab=0.07478, stairs=0.02512, stump=0.14690, gap=0.14690, regret=None
+  DENIED:  regret score was 0.039947833865880966, threshold at 0.042. Avg. length at 473.684, top 3 runs [1036, 1282, 1430] - Successfull runs: 1 / 26 (3.846 %)
+REPLAY - TRAINING using level: BufferLevel with seed=6019288043227020547, obst=0.44836, slab=0.86997, stairs=0.56517, stump=0.62864, gap=0.62864, regeret=0.04787
+  DONE - KEEPING LEVEL:  regret score was 0.04400432109832764, threshold at 0.045. Avg. length at 264.258, top 3 runs [950, 1015, 1101] - Successfull runs: 0 / 360 (0.000 %)
+-----------------------------------------
+| rollout/                |             |
+|    ep_len_mean          | 265         |
+|    ep_rew_mean          | 1.55e+03    |
+| time/                   |             |
+|    fps                  | 911         |
+|    iterations           | 90          |
+|    time_elapsed         | 11855       |
+|    total_timesteps      | 10809360    |
+| train/                  |             |
+|    approx_kl            | 0.016874248 |
+|    clip_fraction        | 0.289       |
+|    clip_range           | 0.15        |
+|    entropy_loss         | -58.9       |
+|    explained_variance   | 0.933       |
+|    learning_rate        | 0.0001      |
+|    loss                 | -0.605      |
+|    n_updates            | 5925        |
+|    policy_gradient_loss | -0.0188     |
+|    std                  | 9.08        |
+|    value_loss           | 0.0116      |
+-----------------------------------------
+MUTATION using level: BufferLevel with seed=6019288043227020547, obst=0.44836, slab=0.92928, stairs=0.56517, stump=0.62246, gap=0.62246, regret=None
+  DENIED:  regret score was 0.03065834939479828, threshold at 0.042. Avg. length at 230.769, top 3 runs [498, 622, 705] - Successfull runs: 0 / 66 (0.000 %)
+DISCOVER using level: BufferLevel with seed=879183173924385567, obst=0.29656, slab=0.68550, stairs=0.39092, stump=0.46560, gap=0.46560, regret=None
+  DENIED:  regret score was 0.011140916496515274, threshold at 0.042. Avg. length at 187.500, top 3 runs [284, 285, 295] - Successfull runs: 0 / 84 (0.000 %)
+REPLAY - TRAINING using level: BufferLevel with seed=7572458566375586101, obst=0.34310, slab=0.10045, stairs=0.11370, stump=0.00278, gap=0.00278, regret=None

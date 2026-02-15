@@ -1,0 +1,3 @@
+{
+    "message": "training based on completly in new env trained policy (value function better adapted?) lowered buffer_threshold to 0.042, increased sample prob, increased mutation size and buffer_init_upper_cap for obstacles"
+}
