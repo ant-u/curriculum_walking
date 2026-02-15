@@ -5,7 +5,7 @@ PPO_CONFIG = {
     "policy": "MlpPolicy",
     "device": "cpu",
     "learning_rate": 1e-4,
-    "n_steps": 8192,
+    "n_steps": 4096,
     "batch_size": 256,
     "clip_range": 0.15,
     "ent_coef": 0.01,
