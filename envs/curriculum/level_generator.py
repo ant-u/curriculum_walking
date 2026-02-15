@@ -120,7 +120,7 @@ class LevelGenerator:
                 up_n = max(np.ceil(upper_borders[1] * self.max_step_n), 1)
                 low_n = max((up_n // 2), 1)
                 # n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
-                n_stairs = np.ceil(upper_borders[1] * up_n)
+                n_stairs = np.int64(np.ceil(upper_borders[1] * up_n))
                 height = self.rng.uniform(lower_borders[1], upper_borders[1])
                 height = height * self.flip(height*n_stairs, last_abs_height)
                 n = n_stairs
@@ -132,7 +132,7 @@ class LevelGenerator:
                 up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
                 low_n = np.ceil(upper_borders[3] * (self.element_size - 1))
                 # gap_width = self.rng.integers(low_n, up_n + 1)  # upper boarder not included
-                gap_width = np.ceil(upper_borders[3] * up_n)
+                gap_width = np.int64(max(np.ceil(upper_borders[3] * up_n), 1))
                 n = 1
                 return Element(element_t, None, height, n, gap_width)
         return Element(element_t, None, height, n)
