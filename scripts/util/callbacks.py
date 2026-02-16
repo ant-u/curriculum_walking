@@ -19,12 +19,16 @@ class DummyCallback(BaseCallback):
     def reset(self):
         self.total_runs_completed = 0
         self.successfull_runs = 0
+        self.all_progress = []
 
     def get_run_metrics(self):
-        return (self.successfull_runs, self.total_runs_completed)
+        return (self.successfull_runs, self.total_runs_completed), self.all_progress
 
     def _on_step(self):
         if any(self.locals["dones"]):
+            done_envs_ids = np.where(self.locals["dones"] == True)[0]
+            done_envs = np.array(self.locals["infos"])[done_envs_ids]
+            self.all_progress.extend([env["progress"] for env in done_envs])
             self.total_runs_completed += sum(self.locals["dones"])
             if any([x["success"] for x in self.locals["infos"]]):
                 self.successfull_runs += sum([x["success"] for x in self.locals["infos"]])
@@ -48,11 +52,13 @@ class CurriculumCallback(BaseCallback):
         self.dummy_callback = None
         self.successfull_runs = 0
         self.total_runs_completed = 0
+        self.all_progress = []
 
     def _reset_last_obs(self):
         self.model._last_obs = self.model.env.reset()
         self.model._last_episode_starts = np.ones((self.model.n_envs,), dtype=bool)
         self.total_runs_completed = self.successfull_runs = 0
+        self.all_progress.clear()
         self.dummy_callback.reset()
 
     def _on_training_start(self):
@@ -62,6 +68,9 @@ class CurriculumCallback(BaseCallback):
         
     def _on_step(self):
         if any(self.locals["dones"]):
+            done_envs_ids = np.where(self.locals["dones"] == True)[0]
+            done_envs = np.array(self.locals["infos"])[done_envs_ids]
+            self.all_progress.extend([env["progress"] for env in done_envs])
             self.total_runs_completed += sum(self.locals["dones"])
             if any([x["success"] for x in self.locals["infos"]]):
                 self.successfull_runs += sum([x["success"] for x in self.locals["infos"]])
@@ -72,10 +81,10 @@ class CurriculumCallback(BaseCallback):
         self._reset_last_obs()
         while not start_training:
             buffer = self.performance_est.collect_scoring_rollout(self.model, self.dummy_callback, self.eval_rollout_length)
-            succ_metrics = self.dummy_callback.get_run_metrics()
+            succ_metrics, all_progress = self.dummy_callback.get_run_metrics()
             regrets = self.performance_est.estimate(buffer)
             lengths = self.performance_est.get_rollout_lenghts(buffer)
-            _ = self.curriculum_manr.after_rollout(np.mean(regrets), lengths, succ_metrics)
+            self.curriculum_manr.after_rollout(np.mean(regrets), lengths, succ_metrics, all_progress)
             start_training = self.curriculum_manr.before_rollout()
             self._reset_last_obs()
 
@@ -88,7 +97,7 @@ class CurriculumCallback(BaseCallback):
         self.regrets.append(mean_regret)
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
-        self.curriculum_manr.after_rollout(mean_regret, lengths, (self.successfull_runs, self.total_runs_completed))
+        self.curriculum_manr.after_rollout(mean_regret, lengths, (self.successfull_runs, self.total_runs_completed), self.all_progress)
         self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
         
     def _on_training_end(self):

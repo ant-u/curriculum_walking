@@ -1,6 +1,6 @@
 import numpy as np
 from stable_baselines3.common.buffers import RolloutBuffer
-from scripts.util.skipable_ppo import SkippablePPO
+from stable_baselines3 import PPO
 
 
 class PerformaneEstimator():
@@ -33,7 +33,7 @@ class PerformaneEstimator():
                 episode_lengths.append(buffer.buffer_size - starts[-1])
         return episode_lengths
     
-    def collect_scoring_rollout(self, model: SkippablePPO, dummy_callback, n_steps: int):
+    def collect_scoring_rollout(self, model: PPO, dummy_callback, n_steps: int):
 
         scoring_buffer = RolloutBuffer(
             buffer_size=n_steps,

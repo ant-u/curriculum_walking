@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 100e6,
+    "timesteps": 200e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -48,16 +48,15 @@ ENV_CONFIG = {
 
 CURR_CONFIG = {
     "buffer_size": 200,
-    "buffer_init_fill_ratio": 0.5,
-    "buffer_init_lower_cap": [0.1,0,0,0,0],  # obst, slab, stairs, stump, gap
-    "buffer_init_upper_cap": [0.4, 0.1, 0.1, 0.1, 0.1],
+    "buffer_init_fill_ratio": 0.1,
+    "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
+    "buffer_init_upper_cap": [0.2, 0.1, 0.1, 0.1, 0.1],
     "mutation_edit_size": [-0.02, 0.05],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
-    "regret_threshold_buffer": 0.042,  # Lower border for adding levels based on regret. If higher, then added to buffer
-    "regret_threshold_replay": 0.045,  # Lower regret border for keeping a replayed level. if lower, level is removed from buffer.
-    "replay_decision_distribution": [0.2, 0.8],  # [no replay, replay]
+    "replay_decision_distribution": [0.2, 0.8],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
-    "evaluation_episode_steps": 1500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
+    "selection_temp": 1.0,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
+    "evaluation_episode_steps": 2000,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 
 CALLBACK_CONFIG = {
