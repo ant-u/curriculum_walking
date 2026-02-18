@@ -22,6 +22,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         super().__init__(xml_file=path, healthy_z_range=healthy_z_range, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
+        self.stabilize_lidar = cnfg["stabilize_lidar"]
         self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
         self.terminate_on_x = cnfg["terminate_at_x_border"] if "terminate_at_x_border" in cnfg.keys() else 0
 
@@ -92,9 +93,12 @@ class HumanoidEnvCurr(HumanoidEnvBase):
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
         p = self.data.xpos[pelvis_id]          # pelvis world position
-        R = self.data.xmat[pelvis_id].reshape(3, 3)  # rotation matrix
-        # Rotate and translate
-        return (R @ local_points.T).T + p
+        if self.stabilize_lidar:
+            return local_points + p
+        else:
+            R = self.data.xmat[pelvis_id].reshape(3, 3)  # rotation matrix
+            # Rotate and translate
+            return (R @ local_points.T).T + p
     
     def _get_heightmap(self):
         # Convert local sample points to world coordinates

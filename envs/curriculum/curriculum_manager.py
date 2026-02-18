@@ -213,6 +213,7 @@ class CurriculumManager:
         return mutation
     
     def dump_buffer_to_file(self, path):
+        #  TODO: log buffer zusammensetzung in discrete categories (easy medium hard extreme oä)
         reduced_buffer = list(filter(None, self.buffer))
         reduced_buffer.sort(key=lambda x: (x.metric(self.level_metric) is not None, x.metric(self.level_metric)))
         n_nones = sum(x is None for x in self.buffer)

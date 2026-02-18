@@ -246,6 +246,7 @@ class SaveVecNormalizeOnNewBest(BaseCallback):
 
 class NamedEvalCallback(EvalCallback):
     def __init__(self, *args, name: str, **kwargs):
+        # TODO: create plot of eval level success rates (or average progress)
         super().__init__(*args, **kwargs)
         self.name = name
         self.all_progress = []

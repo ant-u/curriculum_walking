@@ -29,6 +29,7 @@ ENV_CONFIG = {
     "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
+    "stabilize_lidar": True,  # keep point cloud always in same orientation, not adapted to toso orienteation
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
     "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
