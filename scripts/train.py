@@ -53,8 +53,8 @@ def dump_premature_summary(message, RUN_DIR):
 def dump_summary(eval_cb, timesteps, model, message, timedelta, train_on_path, RUN_DIR):
     """Dump long summary after training finished."""
     results_summary = {
-        "mean_reward_eval": float(eval_cb.last_mean_reward),
-        "n_eval_episodes": eval_cb.n_eval_episodes,
+        "mean_reward_eval": float(eval_cb[0].last_mean_reward),
+        "n_eval_episodes": eval_cb[0].n_eval_episodes,
         "timesteps": timesteps,
         "obs_shape": model.observation_space.shape,
         "message": message,

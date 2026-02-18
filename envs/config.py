@@ -70,7 +70,7 @@ CALLBACK_CONFIG = {
     "eval_env_conf": {
         "env_seed": 0,
         "eval_freq": 500_000,
-        "eval_freq_obstacles": 1_000_000,
+        "eval_freq_obstacles": 500_000,
         "deterministic": True,
         "render": False,
         "max_steps": 20_000,
