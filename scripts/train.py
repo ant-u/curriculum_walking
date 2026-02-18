@@ -84,9 +84,14 @@ def make_run_dir(ppo_cnfg, env_cnfg, curr_cnfg, callback_cnfg):
             {'CURR_CONFIG': curr_cnfg},
             {'CALLBACK_CONFIG': callback_cnfg},
         ]
+        yaml.add_representer(list, represent_list)
         yaml.dump_all(cnfg_list, f, indent=4)
     return run_dir
 
+def represent_list(dumper, data):
+    if any(isinstance(item, dict) for item in data):
+        return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=False)
+    return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)
 
 def print_cpu_info():
     """Printing info about cpus available to stdout, mostly important for slurm training."""

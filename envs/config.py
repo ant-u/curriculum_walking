@@ -113,7 +113,6 @@ CALLBACK_CONFIG = {
                 "params": [0.9, 0.8, 0.8, 0.8, 0.8],
                 "seed": 52
             }
-
         ],
     },
     "plot_callback": {
