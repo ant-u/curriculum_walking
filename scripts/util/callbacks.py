@@ -84,7 +84,7 @@ class CurriculumCallback(BaseCallback):
             succ_metrics, all_progress = self.dummy_callback.get_run_metrics()
             regrets = self.performance_est.estimate(buffer)
             lengths = self.performance_est.get_rollout_lenghts(buffer)
-            self.curriculum_manr.after_rollout(np.mean(regrets), lengths, succ_metrics, all_progress)
+            self.curriculum_manr.after_rollout(np.mean(regrets), succ_metrics, lengths, all_progress)
             start_training = self.curriculum_manr.before_rollout()
             self._reset_last_obs()
 
@@ -97,7 +97,7 @@ class CurriculumCallback(BaseCallback):
         self.regrets.append(mean_regret)
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
-        self.curriculum_manr.after_rollout(mean_regret, lengths, (self.successfull_runs, self.total_runs_completed), self.all_progress)
+        self.curriculum_manr.after_rollout(mean_regret, (self.successfull_runs, self.total_runs_completed), lengths, self.all_progress)
         self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
         
     def _on_training_end(self):

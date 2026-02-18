@@ -11,7 +11,7 @@ from envs.humanoid_curr import HumanoidEnvCurr
 class BufferLevel():
     """Representing a level based on params and seed, used for buffer. 
     With all params and seed given, level can be identically reconstruced by LevelGenerator.
-    Also, level regret is saved here since needed in Buffer."""
+    Also, level regret and succ_rate are saved here since needed in Buffer."""
     seed: int
     obstacles: float
     diff_slab: float
@@ -20,31 +20,46 @@ class BufferLevel():
     diff_gap: float
     regret: Optional[float] = None
     succ_r: Optional[float] = None
+    learnability: Optional[float] = None
+
+    def update_learnability(self, succ_r):
+        """update objects succ_r and learnability based on succ_r"""
+        self.succ_r = succ_r
+        self.learnability = self.succ_r * (1 - self.succ_r)
+
+    def metric(self, metric: str) -> Optional[float]:
+        """either 'reg' or 'lrn' for regret or succes-rate based learnability. Possibly None"""
+        if metric == "reg":
+            return self.regret
+        elif metric == "lrn":
+            return self.learnability
 
     def sample_attributes(self, n):
+        """Get any of the attributes from the following: obstacles, slab, stairs, stump, gap."""
         choices = ["obstacles", "diff_slab", "diff_stairs", "diff_stump", "diff_gap"]
         return np.random.choice(choices, n, replace=False)
-    
+
     def copy(self):
         return BufferLevel(seed=self.seed,obstacles=self.obstacles,diff_slab=self.diff_slab,
-            diff_stairs=self.diff_stairs,diff_stump=self.diff_stump,diff_gap=self.diff_gap,regret=None)
-    
+            diff_stairs=self.diff_stairs,diff_stump=self.diff_stump,diff_gap=self.diff_gap,regret=None,succ_r=None)
+
     def __str__(self):
         s = f"BufferLevel with seed={self.seed}, obst={self.obstacles:.5f}, slab={self.diff_slab:.5f}, " +\
             f"stairs={self.diff_stairs:.5f}, stump={self.diff_stump:.5f}, gap={self.diff_gap:.5f}"
         s += f", regeret={self.regret:.5f}" if self.regret else f", regret={self.regret}"
+        s += f", learnability={self.learnability:.5f}" if self.learnability else f", learnability={self.learnability}"
         s += f", succ_r={self.succ_r:.5f}" if self.succ_r else f", succ_r={self.succ_r}"
         return s
-    
+
     def _long_string(self) -> str:
         """returns unshortened string of level for reproducability in logs"""
-        return f"BufferLevel with seed={self.seed}, obst={self.obstacles}, slab={self.diff_slab}, " +\
-            f"stairs={self.diff_stairs}, stump={self.diff_stump}, gap={self.diff_gap} regret={self.regret} succ_r={self.succ_r}"
+        return f"BufferLevel with seed={self.seed}, obst={self.obstacles}, slab={self.diff_slab}, stairs={self.diff_stairs}, " +\
+            f"stump={self.diff_stump}, gap={self.diff_gap}, regret={self.regret}, learnability={self.learnability}, succ_r={self.succ_r}"
 
 
 class CurriculumManager:
     """"""
-    
+
     def __init__(self, env, cnfg) -> None:
         """buff size is general buffer size, buff_ratio is inital fill ratio of buffer."""
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
@@ -52,6 +67,9 @@ class CurriculumManager:
         self.buff_ratio = cnfg["buffer_init_fill_ratio"]
         self.buffer_init_lower_cap = cnfg["buffer_init_lower_cap"]
         self.buffer_init_upper_cap = cnfg["buffer_init_upper_cap"]
+        self.level_metric = cnfg["level_metric"]
+        assert self.level_metric in ["reg", "lrn"], "metric must be 'reg' or 'lrn'"
+        self.mutation_usage = cnfg["mutation_usage"]
         self.mutation_edit_range = cnfg["mutation_edit_size"]
         self.mutation_number = cnfg["mutation_number"]
         self.temp = cnfg["selection_temp"]
@@ -67,9 +85,9 @@ class CurriculumManager:
 
     @property
     def threshold(self) -> float:
-        valid = [lvl.regret for lvl in self._get_nonempty_buffer() if lvl.regret is not None]
+        valid = [lvl.metric(self.level_metric) for lvl in self._get_nonempty_buffer() if lvl.metric(self.level_metric) is not None]
         if not valid:
-            return 0  # minimal regret (per definition positive, lowest possible regret -> 0)
+            return 0  # minimal regret (per definition positive, lowest possible regret -> 0) or min learnability
         return min(valid)
 
     def _init_buffer(self):
@@ -100,10 +118,10 @@ class CurriculumManager:
         print(f"{mode} using level: {self.current_level}")
         return start_training
 
-    def after_rollout(self, regret, lengths=None, all_runs: Tuple=None, all_progress: Tuple=None):
-        """Takes regrets for level, decides wether policy update shall be applied or not."""
+    def after_rollout(self, regret, all_runs: Tuple, lengths=None, all_progress: Tuple=None):
+        """Takes metric for level, decides wether policy update shall be applied or not."""
         self.current_level.regret = regret
-        self.current_level.succ_r = all_runs[0]/all_runs[1] if all_runs else None
+        self.current_level.update_learnability(all_runs[0]/all_runs[1])
 
         if self.muation_level:
             added = self._try_update_buffer(self.current_level)
@@ -111,21 +129,21 @@ class CurriculumManager:
             self.muation_level = False
         elif self.replay_decision:  # level from buffer was used
             acceptance_str = "DONE"
-            self.muation_level = True  # Next level is mutation level
+            self.muation_level = True if self.mutation_usage else False  # Next level is mutation level
         else:  # new level sample was used
             added = self._try_update_buffer(self.current_level)
             acceptance_str = "ACCEPTED" if added else "DENIED"
-        self._print_rollout_summary(regret, lengths, all_runs, all_progress, acceptance_str, self.threshold)
+        self._print_rollout_summary(self.current_level.metric(self.level_metric), lengths, all_runs, all_progress, acceptance_str, self.threshold)
 
     def sample_from_buffer(self, temp=1.0) -> BufferLevel:
-        """pick random sample from buffer, weighted with regret values. 
-        High temp -> uniform chance, low temp -> only high regrets very likely."""
+        """pick random sample from buffer, weighted with metric values. 
+        High temp -> uniform chance, low temp -> only high metric very likely."""
         valid = self._get_nonempty_buffer()
-        valid.sort(key=lambda x: (x.regret is not None, x.regret))
+        valid.sort(key=lambda x: (x.metric(self.level_metric) is not None, x.metric(self.level_metric)))
         if not valid:
             return None
-        regrets = np.array([lvl.regret if lvl.regret is not None else 0.0 for lvl in valid])
-        shifted = regrets - regrets.max()
+        metrics = np.array([lvl.metric(self.level_metric) if lvl.metric(self.level_metric) is not None else 0.0 for lvl in valid])
+        shifted = metrics - metrics.max()
         weights = np.exp(shifted / temp)
         weights /= weights.sum()
         sample = self.rng.choice(valid, p=weights)
@@ -162,20 +180,20 @@ class CurriculumManager:
             e.reset()
 
     def _try_update_buffer(self, level: BufferLevel) -> bool:
-        """update buffer if level is good enough. Regret must be contained in level object.
+        """update buffer if level is good enough. metric must be contained in level object.
         Returns True if added and False otherwise."""
-        good_enoug = level.regret > self.threshold
+        good_enoug = level.metric(self.level_metric) > self.threshold
         if good_enoug:
             self._update_buffer(level)
         return good_enoug
     
     def _update_buffer(self, level):
-        """update buffer with given level, make sure buffer length is staying same. Sorting out lowest regret member when overflow."""
+        """update buffer with given level, make sure buffer length is staying same. Sorting out lowest metric member when overflow."""
         if len(self.buffer) >= self.buff_size:
             if None in self.buffer:
                 self.buffer.remove(None)
             else:
-                self.buffer.sort(key=lambda x: (x.regret is not None, x.regret))
+                self.buffer.sort(key=lambda x: (x.metric(self.level_metric) is not None, x.metric(self.level_metric)))
                 self.buffer.pop(0)
         self.buffer.append(level)
 
@@ -203,8 +221,8 @@ class CurriculumManager:
                 f.write(level._long_string() + "\n")
             f.write("\n---------------------------------------\n\n")
 
-    def _print_rollout_summary(self, regret, lengths, all_runs, all_progress, acceptance_str, print_threshold):
-        to_print = f"    {acceptance_str}:  regret score was {regret:.5f}, threshold at {print_threshold:.5f}."
+    def _print_rollout_summary(self, metric, lengths, all_runs, all_progress, acceptance_str, print_threshold):
+        to_print = f"    {acceptance_str}:  {self.level_metric} score was {metric:.5f}, threshold at {print_threshold:.5f}."
         if lengths:
             lengths.sort()
             to_print2 = f"        Avg. rollout length at {np.mean(lengths):.3f}, top 3 runs {lengths[-3:]}"
