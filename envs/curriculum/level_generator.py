@@ -114,30 +114,22 @@ class LevelGenerator:
                            diff_stump: float, diff_gap: float, last_abs_height: float) -> Element:
         """Returns the height of element with number of needed elements."""
         upper_borders = np.array([diff_slab, diff_stairs, diff_stump, diff_gap])
-        lower_borders = upper_borders # / 2
         match element_t:
             case ElementType.SLAB:
                 n = 1
-                height = self.rng.uniform(lower_borders[0], upper_borders[0]) * self.max_slab_height
-                # height = upper_borders[0] * self.max_slab_height
+                height = upper_borders[0] * self.max_slab_height
                 height = height * self.flip(height*n, last_abs_height)
             case ElementType.STAIRS:
                 up_n = max(np.ceil(upper_borders[1] * self.max_step_n), 1)
-                low_n = max((up_n // 2), 1)
-                # n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
                 n_stairs = max(np.int64(np.ceil(upper_borders[1] * up_n)), 2)
-                height = self.rng.uniform(lower_borders[1], upper_borders[1]) * self.max_step_height
+                height = upper_borders[1] * self.max_step_height
                 height = height * self.flip(height*n_stairs, last_abs_height)
                 n = n_stairs
             case ElementType.STUMP:
-                height = self.rng.uniform(lower_borders[2], upper_borders[2]) *self.max_stump_height
+                height = upper_borders[2] *self.max_stump_height
                 n = 1
             case ElementType.GAP:
-                height = self.rng.uniform(lower_borders[3], upper_borders[3]) * self.max_gap_depth
-                # up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
-                low_n = np.ceil(upper_borders[3] * (self.element_size - 1))
-                # gap_width = self.rng.integers(low_n, up_n + 1)  # upper border not included
-                # gap_width = np.int64(max(np.ceil(upper_borders[3] * up_n), 1))
+                height = upper_borders[3] * self.max_gap_depth
                 gap_width = int(np.floor(upper_borders[3] * (self.element_size-1)) + 1)
                 n = 1
                 return Element(element_t, None, height, n, gap_width)

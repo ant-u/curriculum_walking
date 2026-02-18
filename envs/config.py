@@ -82,15 +82,15 @@ CALLBACK_CONFIG = {
                 "seed": 0
             },{
                 "name": "slabs",
-                "params": [1, 0.2, 0, 0, 0],
+                "params": [1, 0.4, 0, 0, 0],
                 "seed": 42
             },{
                 "name": "stairs",
-                "params": [1, 0, 0.3, 0, 0],
+                "params": [1, 0, 0.4, 0, 0],
                 "seed": 874
             },{
                 "name": "stumps",
-                "params": [1, 0, 0, 0.2, 0],
+                "params": [1, 0, 0, 0.4, 0],
                 "seed": 21  # irrelevant
             },{
                 "name": "gaps",
@@ -98,20 +98,20 @@ CALLBACK_CONFIG = {
                 "seed": 21  # irrelevant
             },{
                 "name": "easy",
-                "params": [0.25, 0.1, 0.1, 0.1, 0.1],
-                "seed": 44
+                "params": [0.25, 0.2, 0.2, 0.2, 0.2],
+                "seed": 54090
             },{
                 "name": "medium",
-                "params": [0.5, 0.2, 0.2, 0.2, 0.2],
-                "seed": 798
+                "params": [0.5, 0.4, 0.4, 0.4, 0.4],
+                "seed": 799
             },{
                 "name": "hard",
-                "params": [0.7, 0.25, 0.25, 0.25, 0.25],
-                "seed": 179
+                "params": [0.75, 0.5, 0.5, 0.5, 0.5],
+                "seed": 180
             },{
                 "name": "extrem",
-                "params": [0.9, 0.4, 0.4, 0.4, 0.4],
-                "seed": 51
+                "params": [0.9, 0.8, 0.8, 0.8, 0.8],
+                "seed": 52
             }
 
         ],

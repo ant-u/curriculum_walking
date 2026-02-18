@@ -182,7 +182,6 @@ class LivePlotCallback(BaseCallback):
 def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> tuple:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
-    save_vec_norm = SaveVecNormalizeOnNewBest(CHECKPOINT_PATH)
 
     checkpoint_callback = CheckpointCallback(
         save_freq=callback_cnfg["checkpoint_cb_conf"]["save_freq"] // env_cnfg["n_envs"],
@@ -208,11 +207,12 @@ def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> 
         freq = callback_cnfg["eval_env_conf"]["eval_freq"] if level["name"] == "plain" else callback_cnfg["eval_env_conf"]["eval_freq_obstacles"]
         freq = freq // env_cnfg["n_envs"]
 
+        save_vec_norm = SaveVecNormalizeOnNewBest(os.path.join(CHECKPOINT_PATH, level["name"]))
         eval_callback = NamedEvalCallback(
             eval_env,
             n_eval_episodes=callback_cnfg["eval_env_conf"]["n_eval_episodes"],
             best_model_save_path=os.path.join(CHECKPOINT_PATH, level["name"]),
-            log_path=os.path.join(LOG_PATH, level["name"]),
+            # log_path=os.path.join(LOG_PATH, level["name"]),
             eval_freq=freq,
             deterministic=callback_cnfg["eval_env_conf"]["deterministic"],
             render=callback_cnfg["eval_env_conf"]["render"],
@@ -246,8 +246,37 @@ class NamedEvalCallback(EvalCallback):
     def __init__(self, *args, name: str, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
+        self.all_progress = []
+        self.total_runs_completed = 0
+        self.successfull_runs = 0
+        self._env_done = np.zeros(self.eval_env.num_envs, dtype=bool)
     
     def _on_step(self):
-        if self.eval_freq > 0 and self.n_calls / self.eval_freq == 0:
+        if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             print(f"\n------ Evaluating terrain: {self.name} ------")
-        return super()._on_step()
+        to_return = super()._on_step()
+        if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
+            succ_r = self.successfull_runs / self.total_runs_completed
+            print(f"Summary terrain {self.name}: success: {self.successfull_runs} / {self.total_runs_completed} ({100*succ_r:.2f} %)")
+            print(f"    average progress: {np.mean(self.all_progress)*100:.2f} %")
+            print(f"    runs progress: [" + ", ".join([f"{v:.3f}" for v in self.all_progress]) + "]")
+            self.all_progress = []
+            self.total_runs_completed = 0
+            self.successfull_runs = 0
+            self._env_done = np.zeros(self.eval_env.num_envs, dtype=bool)
+        return to_return
+        
+    def _log_success_callback(self, locals_, globals_):
+        to_return = super()._log_success_callback(locals_, globals_)
+        dones = locals_["dones"]
+        infos = locals_["infos"]
+        for i, (done, info) in enumerate(zip(dones, infos)):
+            if done and not self._env_done[i]:
+                self._env_done[i] = True  # mark as counted
+                self.all_progress.append(info.get("progress"))
+                self.total_runs_completed += 1
+                if info.get("success", False):
+                    self.successfull_runs += 1
+            elif not done and self._env_done[i]:
+                self._env_done[i] = False  # env has reset, ready for next episode
+        return to_return

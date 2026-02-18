@@ -34,7 +34,7 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
         CALLBACK_CONFIG, ENV_CONFIG, CURR_CONFIG, RUN_DIR, train_on_path)
     
     start_time = time.monotonic()
-    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, eval_cb, plot_cb, curr_cb])
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, *eval_cb, plot_cb, curr_cb])
     end_time = time.monotonic()
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
