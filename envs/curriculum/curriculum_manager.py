@@ -214,6 +214,7 @@ class CurriculumManager:
     
     def dump_buffer_to_file(self, path):
         reduced_buffer = list(filter(None, self.buffer))
+        reduced_buffer.sort(key=lambda x: (x.metric(self.level_metric) is not None, x.metric(self.level_metric)))
         n_nones = sum(x is None for x in self.buffer)
         with open(path, "a") as f:
             f.write(f"None * {n_nones}\n")

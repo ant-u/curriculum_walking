@@ -98,7 +98,9 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot.update(self.regrets)
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
         self.curriculum_manr.after_rollout(mean_regret, (self.successfull_runs, self.total_runs_completed), lengths, self.all_progress)
-        self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
+        if self.rollout_counter % 5 == 0:
+            self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
+        self.rollout_counter += 1
         
     def _on_training_end(self):
         self.regrent_plot.update(self.regrets)
