@@ -51,7 +51,7 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.1,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.2, 0.1, 0.1, 0.1, 0.1],
-    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
     "mutation_edit_size": [-0.02, 0.05],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
@@ -74,8 +74,8 @@ CALLBACK_CONFIG = {
         "deterministic": True,
         "render": False,
         "max_steps": 20_000,
-        "n_envs": 5,
-        "n_eval_episodes": 5,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
+        "n_envs": 12,
+        "n_eval_episodes": 12,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
         "eval_levels": [{
                 "name": "plain",
                 "params": [0,0,0,0,0],
