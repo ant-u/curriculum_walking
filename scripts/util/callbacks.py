@@ -191,32 +191,42 @@ def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> 
         name_prefix=callback_cnfg["checkpoint_cb_conf"]["name_prefix"]
     )
 
+    gen = LevelGenerator()
     env_cnfg_tmp = env_cnfg.copy()
     env_cnfg_tmp["n_envs"] = callback_cnfg["eval_env_conf"]["n_envs"]
     env_cnfg_tmp["max_steps"] = callback_cnfg["eval_env_conf"]["max_steps"]
-    if train_on != None and train_on != "":
-        eval_env = load_env(train_on, env_cnfg_tmp)
-    else:
-        eval_env = make_env(env_cnfg_tmp)
-    eval_env.training = False
-    # TODO: Adapt eval level to something meaningfull
-    eval_callback = EvalCallback(
-        eval_env,
-        n_eval_episodes=callback_cnfg["eval_env_conf"]["n_eval_episodes"],
-        best_model_save_path=CHECKPOINT_PATH,
-        log_path=LOG_PATH,
-        eval_freq=callback_cnfg["eval_env_conf"]["eval_freq"] // env_cnfg["n_envs"],
-        deterministic=callback_cnfg["eval_env_conf"]["deterministic"],
-        render=callback_cnfg["eval_env_conf"]["render"],
-        callback_on_new_best=save_vec_norm,
-    )
+    eval_callbacks = []
+    for level in callback_cnfg["eval_env_conf"]["eval_levels"]:
+        if train_on != None and train_on != "":
+            eval_env = load_env(train_on, env_cnfg_tmp)
+        else:
+            eval_env = make_env(env_cnfg_tmp)
+        eval_env.training = False
+        level_elems = gen.create_level_elements(*level["params"], level["seed"])
+        level_des = gen.calculate_element_coords(level_elems)
+        eval_env.env_method("set_level_template", level=level_des)
+        freq = callback_cnfg["eval_env_conf"]["eval_freq"] if level["name"] == "plain" else callback_cnfg["eval_env_conf"]["eval_freq_obstacles"]
+        freq = freq // env_cnfg["n_envs"]
+
+        eval_callback = NamedEvalCallback(
+            eval_env,
+            n_eval_episodes=callback_cnfg["eval_env_conf"]["n_eval_episodes"],
+            best_model_save_path=os.path.join(CHECKPOINT_PATH, level["name"]),
+            log_path=os.path.join(LOG_PATH, level["name"]),
+            eval_freq=freq,
+            deterministic=callback_cnfg["eval_env_conf"]["deterministic"],
+            render=callback_cnfg["eval_env_conf"]["render"],
+            callback_on_new_best=save_vec_norm,
+            name=level["name"],
+        )
+        eval_callbacks.append(eval_callback)
     plot_callback = LivePlotCallback(
         save_dir=LOG_PATH,
         window=callback_cnfg["plot_callback"]["window"],
         log_level=callback_cnfg["plot_callback"]["log_level"],
     )
     curr_callback = CurriculumCallback(save_dir=LOG_PATH, env_cnfg=env_cnfg, curr_cnfg=curr_cnfg)
-    return checkpoint_callback, eval_callback, plot_callback, curr_callback
+    return checkpoint_callback, eval_callbacks, plot_callback, curr_callback
 
 
 class SaveVecNormalizeOnNewBest(BaseCallback):
@@ -230,3 +240,14 @@ class SaveVecNormalizeOnNewBest(BaseCallback):
         if hasattr(env, "save"):
             env.save(f"{self.save_path}/best_vecnormalize_stats.pkl")
         return True
+    
+
+class NamedEvalCallback(EvalCallback):
+    def __init__(self, *args, name: str, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name = name
+    
+    def _on_step(self):
+        if self.eval_freq > 0 and self.n_calls / self.eval_freq == 0:
+            print(f"\n------ Evaluating terrain: {self.name} ------")
+        return super()._on_step()

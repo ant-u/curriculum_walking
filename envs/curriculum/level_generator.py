@@ -70,11 +70,11 @@ class LevelGenerator:
         self.max_number_of_obstacles = int(self.level_length_in_m / space_per_obst)
 
         # params for level difficulty
-        self.max_slab_height = 1.0
-        self.max_step_height = 1.0
+        self.max_slab_height = 0.5
+        self.max_step_height = 0.5
         self.max_step_n = 5
-        self.max_stump_height = 1.0
-        self.max_gap_depth = 1.0
+        self.max_stump_height = 0.5
+        self.max_gap_depth = 0.5
         self.max_gap_size = 1.0
 
     def flip(self, elem_total_height: float, last_abs_height: float) -> int:
@@ -93,7 +93,7 @@ class LevelGenerator:
         available_positions = list(range(0,self.n_geoms))
         last_absolute_height = 0
         for _ in range(0, n_obst):
-            element_t = self.pick_random_element()
+            element_t = self.pick_random_element(np.array([diff_slab, diff_stairs, diff_stump, diff_gap]) == 0)
             elem = self.get_element_params(element_t, diff_slab, diff_stairs, diff_stump, diff_gap, last_absolute_height)
             elem.pos, available_positions = self.pick_random_location(available_positions, elem.n)
             if elem.pos is not None:
@@ -102,9 +102,13 @@ class LevelGenerator:
         level.elements.sort(key=lambda x: x.pos[0])
         return level
 
-    def pick_random_element(self) -> ElementType:
+    def pick_random_element(self, exclude_flags) -> ElementType:
         elements = list(ElementType)
-        return ElementType(self.rng.choice(elements))
+        valid = []
+        for elem, exclude in zip(elements, exclude_flags):
+            if not exclude:
+                valid.append(elem)
+        return ElementType(self.rng.choice(valid))
     
     def get_element_params(self, element_t: ElementType, diff_slab: float, diff_stairs: float, 
                            diff_stump: float, diff_gap: float, last_abs_height: float) -> Element:
@@ -114,25 +118,27 @@ class LevelGenerator:
         match element_t:
             case ElementType.SLAB:
                 n = 1
-                height = self.rng.uniform(lower_borders[0], upper_borders[0])
+                height = self.rng.uniform(lower_borders[0], upper_borders[0]) * self.max_slab_height
+                # height = upper_borders[0] * self.max_slab_height
                 height = height * self.flip(height*n, last_abs_height)
             case ElementType.STAIRS:
                 up_n = max(np.ceil(upper_borders[1] * self.max_step_n), 1)
                 low_n = max((up_n // 2), 1)
                 # n_stairs = self.rng.integers(low_n, up_n + 1)  # to include upper border
-                n_stairs = np.int64(np.ceil(upper_borders[1] * up_n))
-                height = self.rng.uniform(lower_borders[1], upper_borders[1])
+                n_stairs = max(np.int64(np.ceil(upper_borders[1] * up_n)), 2)
+                height = self.rng.uniform(lower_borders[1], upper_borders[1]) * self.max_step_height
                 height = height * self.flip(height*n_stairs, last_abs_height)
                 n = n_stairs
             case ElementType.STUMP:
-                height = self.rng.uniform(lower_borders[2], upper_borders[2]) 
+                height = self.rng.uniform(lower_borders[2], upper_borders[2]) *self.max_stump_height
                 n = 1
             case ElementType.GAP:
-                height = self.rng.uniform(lower_borders[3], upper_borders[3])
-                up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
+                height = self.rng.uniform(lower_borders[3], upper_borders[3]) * self.max_gap_depth
+                # up_n = min(np.floor(upper_borders[3] * self.element_size + 1), 3)
                 low_n = np.ceil(upper_borders[3] * (self.element_size - 1))
-                # gap_width = self.rng.integers(low_n, up_n + 1)  # upper boarder not included
-                gap_width = np.int64(max(np.ceil(upper_borders[3] * up_n), 1))
+                # gap_width = self.rng.integers(low_n, up_n + 1)  # upper border not included
+                # gap_width = np.int64(max(np.ceil(upper_borders[3] * up_n), 1))
+                gap_width = int(np.floor(upper_borders[3] * (self.element_size-1)) + 1)
                 n = 1
                 return Element(element_t, None, height, n, gap_width)
         return Element(element_t, None, height, n)
@@ -146,7 +152,9 @@ class LevelGenerator:
         valid_runs = [r for r in runs if len(r) >= n]
         if not valid_runs:
             return None, available
-        run = self.rng.choice(np.array(valid_runs, dtype=object))
+        total_length = sum(len(a) for a in valid_runs)
+        run_chances = [len(x) / total_length for x in valid_runs]
+        run = self.rng.choice(np.array(valid_runs, dtype=object), p=run_chances)
         start_id = self.rng.integers(0, len(run) - n + 1)
         start_id -= start_id % (self.element_size + self.margin_size)  # cutting of start to start of element
         # start_id = random.randint(0, len(run) - n)

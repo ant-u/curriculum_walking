@@ -70,11 +70,51 @@ CALLBACK_CONFIG = {
     "eval_env_conf": {
         "env_seed": 0,
         "eval_freq": 500_000,
+        "eval_freq_obstacles": 1_000_000,
         "deterministic": True,
         "render": False,
         "max_steps": 20_000,
         "n_envs": 5,
         "n_eval_episodes": 5,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
+        "eval_levels": [{
+                "name": "plain",
+                "params": [0,0,0,0,0],
+                "seed": 0
+            },{
+                "name": "slabs",
+                "params": [1, 0.2, 0, 0, 0],
+                "seed": 42
+            },{
+                "name": "stairs",
+                "params": [1, 0, 0.3, 0, 0],
+                "seed": 874
+            },{
+                "name": "stumps",
+                "params": [1, 0, 0, 0.2, 0],
+                "seed": 21  # irrelevant
+            },{
+                "name": "gaps",
+                "params": [1, 0, 0, 0, 0.5],
+                "seed": 21  # irrelevant
+            },{
+                "name": "easy",
+                "params": [0.25, 0.1, 0.1, 0.1, 0.1],
+                "seed": 44
+            },{
+                "name": "medium",
+                "params": [0.5, 0.2, 0.2, 0.2, 0.2],
+                "seed": 798
+            },{
+                "name": "hard",
+                "params": [0.7, 0.25, 0.25, 0.25, 0.25],
+                "seed": 179
+            },{
+                "name": "extrem",
+                "params": [0.9, 0.4, 0.4, 0.4, 0.4],
+                "seed": 51
+            }
+
+        ],
     },
     "plot_callback": {
         "window": 100,
