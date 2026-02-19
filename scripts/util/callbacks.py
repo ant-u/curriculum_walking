@@ -1,4 +1,5 @@
 import os
+import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 from envs.vec_env import make_env, load_env
@@ -6,7 +7,7 @@ from stable_baselines3.common.callbacks import BaseCallback, EvalCallback, Check
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.curriculum_manager import CurriculumManager
 from envs.curriculum.level_generator import LevelGenerator
-from scripts.util.plot import Plot, IQRPlot
+from scripts.util.plot import Plot, IQRPlot, DoubleLinePlot
 # from envs.vec_env import make_env
 # from scripts.train import ENV_CONFIG
 
@@ -220,6 +221,7 @@ def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> 
             render=callback_cnfg["eval_env_conf"]["render"],
             callback_on_new_best=save_vec_norm,
             name=level["name"],
+            save_path=os.path.join(LOG_PATH, level["name"]),
         )
         eval_callbacks.append(eval_callback)
     plot_callback = LivePlotCallback(
@@ -245,21 +247,32 @@ class SaveVecNormalizeOnNewBest(BaseCallback):
     
 
 class NamedEvalCallback(EvalCallback):
-    def __init__(self, *args, name: str, **kwargs):
+    def __init__(self, *args, name: str, save_path: str, **kwargs):
         # TODO: create plot of eval level success rates (or average progress)
         super().__init__(*args, **kwargs)
         self.name = name
+        self.save_path = save_path
+        os.makedirs(self.save_path, exist_ok=True)
         self.all_progress = []
         self.total_runs_completed = 0
         self.successfull_runs = 0
         self._env_done = np.zeros(self.eval_env.num_envs, dtype=bool)
-    
+
+        self.accumulated_succ_rate = []
+        self.accumulated_total_runs = []
+        self.acc_run_number = []
+        self.plot = DoubleLinePlot(f"Evaluation of level {self.name}", "time steps", "%", "Average progress",
+                                   "Success rate", False)
+
     def _on_step(self):
         if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             print(f"\n------ Evaluating terrain: {self.name} ------")
         to_return = super()._on_step()
         if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             succ_r = self.successfull_runs / self.total_runs_completed
+            self.accumulated_succ_rate.append(succ_r)
+            self.accumulated_total_runs.append(self.all_progress)
+            self.acc_run_number.append(self.num_timesteps)
             print(f"Summary terrain {self.name}: success: {self.successfull_runs} / {self.total_runs_completed} ({100*succ_r:.2f} %)")
             print(f"    average progress: {np.mean(self.all_progress)*100:.2f} %")
             print(f"    runs progress: [" + ", ".join([f"{v:.3f}" for v in self.all_progress]) + "]")
@@ -267,12 +280,14 @@ class NamedEvalCallback(EvalCallback):
             self.total_runs_completed = 0
             self.successfull_runs = 0
             self._env_done = np.zeros(self.eval_env.num_envs, dtype=bool)
+            self._save_eval_results()
         return to_return
         
     def _log_success_callback(self, locals_, globals_):
         to_return = super()._log_success_callback(locals_, globals_)
         dones = locals_["dones"]
         infos = locals_["infos"]
+        # TODO: only fastest n episodes are taken. if one takes long and others finished before the second time, long is not counted, 
         for i, (done, info) in enumerate(zip(dones, infos)):
             if done and not self._env_done[i]:
                 self._env_done[i] = True  # mark as counted
@@ -283,3 +298,18 @@ class NamedEvalCallback(EvalCallback):
             elif not done and self._env_done[i]:
                 self._env_done[i] = False  # env has reset, ready for next episode
         return to_return
+    
+    def _save_eval_results(self):
+        data = {
+            "succ_r": self.accumulated_succ_rate,
+            "total_runs": self.accumulated_total_runs,
+            "time_steps": self.acc_run_number
+        }
+        
+        path = os.path.join(self.save_path, "eval_results.pkl")
+        with open(path, "wb") as f:
+            pickle.dump(data, f)
+        average_prog_total_runs = [np.clip(np.mean(x), 0, 1) for x in self.accumulated_total_runs]
+        x_data = np.array(self.acc_run_number) / 1e6
+        self.plot.update_with_x(average_prog_total_runs, self.accumulated_succ_rate, x_data, 0)
+        self.plot.save(os.path.join(self.save_path, "eval_plot.svg"))

@@ -28,7 +28,11 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=True,
                           default_camera_config=cam_config)
     gen = LevelGenerator()
-    level_elems = gen.create_level_elements(0.3, 0.1, 0.1, 0.1, 0.1, 42)
+    eval_env_number = 6
+    params = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["params"]
+    seed = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["seed"]
+    level_elems = gen.create_level_elements(*params, seed)
+    # level_elems = gen.create_level_elements(1.0, 1, 0, 0, 0, 43)
     level_des = gen.calculate_element_coords(level_elems)
 
     env.env_method("set_level_template", level=level_des)

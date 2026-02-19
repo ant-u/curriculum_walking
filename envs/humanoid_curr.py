@@ -22,7 +22,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         super().__init__(xml_file=path, healthy_z_range=healthy_z_range, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
-        self.stabilize_lidar = cnfg["stabilize_lidar"]
+        self.stabilize_lidar = cnfg["stabilize_lidar"] if "stabilize_lidar" in cnfg.keys() else False
         self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
         self.terminate_on_x = cnfg["terminate_at_x_border"] if "terminate_at_x_border" in cnfg.keys() else 0
 

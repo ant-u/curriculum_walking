@@ -66,3 +66,23 @@ class IQRPlot(Plot):
         self.ax.autoscale_view()
         self.fig.canvas.draw()
         self.fig.canvas.flush_events()
+
+class DoubleLinePlot(Plot):
+    def __init__(self, title, xlabel, ylabel, line_label1, line_label2, ion = True, figsize = (8, 5), line_color1 = "blue", line_color2 = "orange"):
+        super().__init__(title, xlabel, ylabel, line_label1, ion, figsize, line_color1)
+        self.line2, = self.ax.plot([], [], label=line_label2, color=f"tab:{line_color2}")
+        self.line.set_linewidth(2)
+        self.line2.set_linewidth(2)
+        self.ax.legend()
+
+    def update_with_x(self, data, data2, x, y_lim=None):
+        self.line2.set_data(x, data2)
+        super().update_with_x(data, x)
+        if y_lim != None:
+            self.ax.set_ylim(bottom=y_lim, top=self.ax.get_ylim()[1] * 1.05)
+            self.fig.canvas.draw()
+            self.fig.canvas.flush_events()
+
+    def update(self, data, data2):
+        x = np.arange(len(data))
+        self.update_with_x(data, data2, x)
