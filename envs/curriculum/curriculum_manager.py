@@ -90,7 +90,7 @@ class CurriculumManager:
         self.current_level: Optional[BufferLevel] = None
         self.muation_level: bool = False
         self._init_buffer()
-        self.difficulty_thresholds = [0.1, 0.2, 0.4, 0.6, 1]
+        self.difficulty_thresholds = [0.01, 0.02, 0.04, 0.1, 1]
         self.difficulty_logs = []
         line_lables = [f"Diff under {x}" for x in self.difficulty_thresholds]
         self.diff_ratio_plot = FiveLinePlot("Difficulty ratios", "Buffer updates", "Ratio in %", line_lables, False)
@@ -134,6 +134,7 @@ class CurriculumManager:
         """Takes metric for level, decides wether policy update shall be applied or not."""
         self.current_level.regret = regret
         self.current_level.update_learnability(all_runs[0]/all_runs[1])
+        added = False
 
         if self.muation_level:
             added = self._try_update_buffer(self.current_level)
@@ -244,7 +245,6 @@ class CurriculumManager:
         
     
     def dump_buffer_to_file(self, path):
-        #  TODO: log buffer zusammensetzung in discrete categories (easy medium hard extreme oä)
         reduced_buffer = list(filter(None, self.buffer))
         reduced_buffer.sort(key=lambda x: (x.metric(self.level_metric) is not None, x.metric(self.level_metric)))
         n_nones = sum(x is None for x in self.buffer)

@@ -251,7 +251,6 @@ class SaveVecNormalizeOnNewBest(BaseCallback):
 
 class NamedEvalCallback(EvalCallback):
     def __init__(self, *args, name: str, save_path: str, **kwargs):
-        # TODO: create plot of eval level success rates (or average progress)
         super().__init__(*args, **kwargs)
         self.name = name
         self.save_path = save_path
@@ -290,7 +289,6 @@ class NamedEvalCallback(EvalCallback):
         to_return = super()._log_success_callback(locals_, globals_)
         dones = locals_["dones"]
         infos = locals_["infos"]
-        # TODO: only fastest n episodes are taken. if one takes long and others finished before the second time, long is not counted, 
         for i, (done, info) in enumerate(zip(dones, infos)):
             if done and not self._env_done[i]:
                 self._env_done[i] = True  # mark as counted

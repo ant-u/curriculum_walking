@@ -74,9 +74,10 @@ CALLBACK_CONFIG = {
         "eval_freq_obstacles": 500_000,
         "deterministic": True,
         "render": False,
-        "max_steps": 20_000,
-        "n_envs": 12,
-        "n_eval_episodes": 12,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
+        "max_steps": 2_000,
+        "n_envs": 1,    # NOTE: when choosing more than 1, envs are running in parallel. If one env fails twice fast,
+                        # Another env having a long (good) run might be not counted
+        "n_eval_episodes": 10,  # accounts for n_envs, so 5 n_envs and 5 episodes result in 5 parallel simulations
         "eval_levels": [{
                 "name": "plain",
                 "params": [0,0,0,0,0],

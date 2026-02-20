@@ -90,6 +90,13 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             return False
         return True
     
+    @property
+    def healthy_reward(self):
+        """Adapting reward symetric to success reward by -100 when falling."""
+        if self.is_healthy:
+            return self.is_healthy * self._healthy_reward
+        return -100
+    
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id
         p = self.data.xpos[pelvis_id]          # pelvis world position
@@ -144,6 +151,8 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         return heights
 
     def step(self, action):
+        """Step function checking for success of env (reaching terminate_on_x). 
+        Alters reward by +100 if reaching goal (and termination is done)"""
         obs, reward, terminated, done, info  = super().step(action)
         x = info["x_position"]
         if self.terminate_on_x:
