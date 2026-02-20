@@ -1,10 +1,13 @@
 from dataclasses import dataclass
+import os
+import pickle
 import numpy as np
 from typing import List, Optional, Tuple
 from envs.curriculum.performance_estimator import PerformaneEstimator
 from envs.curriculum.level_generator import LevelDescription, LevelGenerator, Element, Level
 import numpy as np
 from envs.humanoid_curr import HumanoidEnvCurr
+from scripts.util.plot import FiveLinePlot
 
 
 @dataclass
@@ -38,6 +41,11 @@ class BufferLevel():
         """Get any of the attributes from the following: obstacles, slab, stairs, stump, gap."""
         choices = ["obstacles", "diff_slab", "diff_stairs", "diff_stump", "diff_gap"]
         return np.random.choice(choices, n, replace=False)
+    
+    def get_general_difficulty(self) -> float:
+        """Get general difficulty as n_obst * sum(difficulties), normed to [0..1]"""
+        sum_diff = self.diff_slab + self.diff_stairs + self.diff_stump + self.diff_gap
+        return self.obstacles * sum_diff / 4
 
     def copy(self):
         return BufferLevel(seed=self.seed,obstacles=self.obstacles,diff_slab=self.diff_slab,
@@ -82,6 +90,10 @@ class CurriculumManager:
         self.current_level: Optional[BufferLevel] = None
         self.muation_level: bool = False
         self._init_buffer()
+        self.difficulty_thresholds = [0.1, 0.2, 0.4, 0.6, 1]
+        self.difficulty_logs = []
+        line_lables = [f"Diff under {x}" for x in self.difficulty_thresholds]
+        self.diff_ratio_plot = FiveLinePlot("Difficulty ratios", "Buffer updates", "Ratio in %", line_lables, False)
 
     @property
     def threshold(self) -> float:
@@ -134,6 +146,9 @@ class CurriculumManager:
             added = self._try_update_buffer(self.current_level)
             acceptance_str = "ACCEPTED" if added else "DENIED"
         self._print_rollout_summary(self.current_level.metric(self.level_metric), lengths, all_runs, all_progress, acceptance_str, self.threshold)
+        if added:
+            self.difficulty_logs.append(self.calc_buffer_difficulties())
+            self.update_plot()
 
     def sample_from_buffer(self, temp=1.0) -> BufferLevel:
         """pick random sample from buffer, weighted with metric values. 
@@ -212,6 +227,22 @@ class CurriculumManager:
             setattr(mutation, elem, updated_param)
         return mutation
     
+    def calc_buffer_difficulties(self):
+        """return buffer ratio in order of self.difficulty_thresholds. Ratio is calculated from not None levels."""
+        difficulties = []
+        ratios = []
+        for lvl in self._get_nonempty_buffer():
+            difficulties.append(lvl.get_general_difficulty())
+        lower_diff = 0
+        difficulties = np.array(difficulties)
+        for threshold in self.difficulty_thresholds:
+            ratio = len(np.where((difficulties < threshold) & (difficulties >= lower_diff))[0]) / len(difficulties)
+            ratios.append(ratio)
+            lower_diff = threshold
+        ratios[-1] += len(np.where(difficulties == threshold)[0]) / len(difficulties)  # add elements exactly on one manually
+        return ratios
+        
+    
     def dump_buffer_to_file(self, path):
         #  TODO: log buffer zusammensetzung in discrete categories (easy medium hard extreme oä)
         reduced_buffer = list(filter(None, self.buffer))
@@ -222,6 +253,22 @@ class CurriculumManager:
             for level in reduced_buffer:
                 f.write(level._long_string() + "\n")
             f.write("\n---------------------------------------\n\n")
+
+    def save_to_file(self, path, data):
+        with open(path, "wb") as f:
+            pickle.dump(data, f)
+
+    def save_infos(self, base_path):
+        """Save buffer snapshort and history of difficulty ratios to pkl file."""
+        self.save_to_file(os.path.join(base_path, "buffer_snapshot.pkl"), self.buffer)
+        self.save_to_file(os.path.join(base_path, "difficulty_ratios.pkl"), self.difficulty_logs)
+        self.diff_ratio_plot.save(os.path.join(base_path, "difficulty_ratios.svg"))
+
+    def update_plot(self):
+        data = []
+        for i in range(len(self.difficulty_thresholds)):
+            data.append(np.array(self.difficulty_logs)[:, i])
+        self.diff_ratio_plot.update(*data, y_lim=0)
 
     def _print_rollout_summary(self, metric, lengths, all_runs, all_progress, acceptance_str, print_threshold):
         to_print = f"    {acceptance_str}:  {self.level_metric} score was {metric:.5f}, threshold at {print_threshold:.5f}."

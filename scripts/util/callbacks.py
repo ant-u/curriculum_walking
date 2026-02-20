@@ -40,7 +40,8 @@ class CurriculumCallback(BaseCallback):
     def __init__(self, save_dir: str, env_cnfg: dict, curr_cnfg: dict, verbose: int = 0):
         super().__init__(verbose)
         self.save_dir = save_dir
-        self.save_buffer_path = os.path.join(self.save_dir, "buffer_logs.txt")
+        self.save_path = os.path.join(self.save_dir, "buffer")
+        os.makedirs(self.save_path, exist_ok=True)
         self.env_cnfg = env_cnfg
         self.curr_cnfg = curr_cnfg
         self.performance_est = PerformaneEstimator()
@@ -86,6 +87,7 @@ class CurriculumCallback(BaseCallback):
             regrets = self.performance_est.estimate(buffer)
             lengths = self.performance_est.get_rollout_lenghts(buffer)
             self.curriculum_manr.after_rollout(np.mean(regrets), succ_metrics, lengths, all_progress)
+            self.curriculum_manr.save_infos(self.save_path)
             start_training = self.curriculum_manr.before_rollout()
             self._reset_last_obs()
 
@@ -100,7 +102,8 @@ class CurriculumCallback(BaseCallback):
         self.regrent_plot.save(os.path.join(self.save_dir, "regret.svg"))
         self.curriculum_manr.after_rollout(mean_regret, (self.successfull_runs, self.total_runs_completed), lengths, self.all_progress)
         if self.rollout_counter % 5 == 0:
-            self.curriculum_manr.dump_buffer_to_file(self.save_buffer_path)
+            self.curriculum_manr.dump_buffer_to_file(os.path.join(self.save_path, "buffer_logs.txt"))
+        self.curriculum_manr.save_infos(self.save_path)
         self.rollout_counter += 1
         
     def _on_training_end(self):

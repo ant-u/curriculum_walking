@@ -79,10 +79,36 @@ class DoubleLinePlot(Plot):
         self.line2.set_data(x, data2)
         super().update_with_x(data, x)
         if y_lim != None:
-            self.ax.set_ylim(bottom=y_lim, top=self.ax.get_ylim()[1] * 1.05)
+            self.ax.set_ylim(bottom=y_lim)  # top=self.ax.get_ylim()[1] * 1.05
             self.fig.canvas.draw()
             self.fig.canvas.flush_events()
 
     def update(self, data, data2):
         x = np.arange(len(data))
         self.update_with_x(data, data2, x)
+
+
+class FiveLinePlot(DoubleLinePlot):
+    def __init__(self, title, xlabel, ylabel, line_labels: list, ion=True, figsize=(8, 5), line_colors = ["green", "olive", "orange", "red", "brown"]):
+        super().__init__(title, xlabel, ylabel, line_labels[0], line_labels[1], ion, figsize, line_colors[0], line_colors[1])
+        self.line3, = self.ax.plot([], [], label=line_labels[2], color=f"tab:{line_colors[2]}")
+        self.line4, = self.ax.plot([], [], label=line_labels[3], color=f"tab:{line_colors[3]}")
+        self.line5, = self.ax.plot([], [], label=line_labels[4], color=f"tab:{line_colors[4]}")
+        self.line3.set_linewidth(2)
+        self.line4.set_linewidth(2)
+        self.line5.set_linewidth(2)
+        self.ax.legend()
+
+    def update_with_x(self, data, data2, data3, data4, data5, x, y_lim=None):
+        self.line3.set_data(x, data3)
+        self.line4.set_data(x, data4)
+        self.line5.set_data(x, data5)
+        super().update_with_x(data, data2, x)
+        if y_lim != None:
+            self.ax.set_ylim(bottom=y_lim)  # top=self.ax.get_ylim()[1] * 1.05
+            self.fig.canvas.draw()
+            self.fig.canvas.flush_events()
+
+    def update(self, data, data2, data3, data4, data5, y_lim):
+        x = np.arange(len(data))
+        self.update_with_x(data, data2, data3, data4, data5, x, y_lim)
