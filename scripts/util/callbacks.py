@@ -272,6 +272,7 @@ class NamedEvalCallback(EvalCallback):
         to_return = super()._on_step()
         if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             succ_r = self.successfull_runs / self.total_runs_completed
+            self.all_progress.sort()
             self.accumulated_succ_rate.append(succ_r)
             self.accumulated_total_runs.append(self.all_progress)
             self.acc_run_number.append(self.num_timesteps)
