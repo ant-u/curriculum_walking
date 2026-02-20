@@ -4,7 +4,7 @@ PPO_CONFIG = {
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
-    "learning_rate": 5e-5,  # was 1e-4
+    "learning_rate": 1e-4,  # was 1e-4
     "n_steps": 8192,
     "batch_size": 512,  # was 256
     "clip_range": 0.1,  # was 0.15
