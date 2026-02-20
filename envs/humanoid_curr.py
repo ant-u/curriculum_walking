@@ -25,6 +25,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         self.stabilize_lidar = cnfg["stabilize_lidar"] if "stabilize_lidar" in cnfg.keys() else False
         self.using_levels = cnfg["use_levels"] if "use_levels" in cnfg.keys() else True
         self.terminate_on_x = cnfg["terminate_at_x_border"] if "terminate_at_x_border" in cnfg.keys() else 0
+        self.neg_reward_when_falling = cnfg["falling_punishment"] if "falling_punishment"in cnfg.keys() else 0
 
         self._torso_id = self.model.body("torso").id
         self._left_foot_id = self.model.body("left_foot").id
@@ -95,7 +96,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         """Adapting reward symetric to success reward by -100 when falling."""
         if self.is_healthy:
             return self.is_healthy * self._healthy_reward
-        return -100
+        return self.neg_reward_when_falling
     
     def _local_to_world(self, local_points):
         pelvis_id = self.model.body('torso').id

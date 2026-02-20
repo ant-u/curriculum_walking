@@ -30,7 +30,7 @@ def load_PPO(cnfg, env, ppo_dir, run_dir):
     """Loading PPO from the 'last_model' found under checkpoints of given ppo_dir location."""
     LOG_PATH = os.path.join(run_dir, "logs")
     ppo_path = os.path.join(ppo_dir, 'checkpoints', 'last_model.zip')
-    model = PPO.load(
+    model: PPO = PPO.load(
         path=ppo_path,
         env=env,
         device=cnfg["device"],
@@ -46,5 +46,14 @@ def load_PPO(cnfg, env, ppo_dir, run_dir):
         gae_lambda=model.gae_lambda,
         n_envs=model.n_envs,
     )
+    model.learning_rate = cnfg["learning_rate"]
+    model.batch_size = cnfg["batch_size"]
+    model.clip_range = lambda _: cnfg["clip_range"]
+    model.ent_coef = cnfg["ent_coef"]
+    model.vf_coef = cnfg["vf_coef"]
+    model.gamma = cnfg["gamma"]
+    model.gae_lambda = cnfg["gae_lambda"]
+    model.max_grad_norm = cnfg["max_grad_norm"]
+    model.n_epochs = cnfg["n_epochs"]
     print(f"using pretrained model from: {ppo_path}")
     return model

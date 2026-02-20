@@ -4,20 +4,20 @@ PPO_CONFIG = {
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
-    "learning_rate": 1e-4,
+    "learning_rate": 5e-5,  # was 1e-4
     "n_steps": 8192,
-    "batch_size": 256,
-    "clip_range": 0.15,
-    "ent_coef": 0.01,
-    "vf_coef": 1.0,
+    "batch_size": 512,  # was 256
+    "clip_range": 0.1,  # was 0.15
+    "ent_coef": 0.03,  # was 0.01
+    "vf_coef": 0.5,  # was 1
     "gamma": 0.99,  # default
-    "gae_lambda": 0.90,
-    "max_grad_norm": 0.3,
-    "n_epochs": 15,
+    "gae_lambda": 0.95,  # was 0.9
+    "max_grad_norm": 0.4,  # was 0.3
+    "n_epochs": 10,  # was 15
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 200e6,
+    "timesteps": 150e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -41,6 +41,7 @@ ENV_CONFIG = {
     "y_width": 1.5,
     "x_forward": 4,
     "x_start": 0,
+    "falling_punishment": -100,  # negative reward given when falling
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
@@ -49,16 +50,16 @@ ENV_CONFIG = {
 
 CURR_CONFIG = {
     "buffer_size": 200,
-    "buffer_init_fill_ratio": 0.1,
+    "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
-    "buffer_init_upper_cap": [0.2, 0.1, 0.1, 0.1, 0.1],
+    "buffer_init_upper_cap": [0.3, 0.15, 0.15, 0.15, 0.15],
     "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
-    "mutation_edit_size": [-0.02, 0.05],  # range for one param to be mutated
+    "mutation_edit_size": [-0.02, 0.03],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
     "replay_decision_distribution": [0.1, 0.9],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
-    "selection_temp": 1.0,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
+    "selection_temp": 0.8,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
     "evaluation_episode_steps": 2000,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 
