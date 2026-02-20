@@ -4,7 +4,7 @@ PPO_CONFIG = {
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
-    "learning_rate": 1e-4,  # was 1e-4
+    "learning_rate": 5e-5,  # was 1e-4
     "n_steps": 8192,
     "batch_size": 512,  # was 256
     "clip_range": 0.1,  # was 0.15
@@ -53,14 +53,14 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.3, 0.15, 0.15, 0.15, 0.15],
-    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
     "mutation_edit_size": [-0.02, 0.03],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
-    "replay_decision_distribution": [0.2, 0.8],  # [discover, replay], default 0.1 0.9
+    "replay_decision_distribution": [0.1, 0.9],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
     "selection_temp": 0.8,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
-    "evaluation_episode_steps": 2500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
+    "evaluation_episode_steps": 2000,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 
 CALLBACK_CONFIG = {
