@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 1641.2301754000005,
+    "n_eval_episodes": 5,
+    "timesteps": 200000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "first run for dynamic threshold, try with base policy trained from scratch on level_env",
+    "running_time": "2 days, 11:43:54.080121",
+    "based_on": "runs/humanoid_env_curr/humanoidenvcurr_ppo_lr1e-04_seed0_20260205-164120"
+}

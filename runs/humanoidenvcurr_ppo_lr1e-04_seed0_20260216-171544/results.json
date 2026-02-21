@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 600.5488216,
+    "n_eval_episodes": 5,
+    "timesteps": 200000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "first run for dynamic threshold, try with base policy best_running",
+    "running_time": "2 days, 11:33:09.274978",
+    "based_on": "runs/base_lidar_gait_running"
+}
