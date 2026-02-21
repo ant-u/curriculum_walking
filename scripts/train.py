@@ -30,17 +30,16 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
                env.observation_space == model.observation_space
 
     # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
-    checkpoint_cb, eval_cb, plot_cb, curr_cb = get_all_callbacks(
-        CALLBACK_CONFIG, ENV_CONFIG, CURR_CONFIG, RUN_DIR, train_on_path)
+    callbacks = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, CURR_CONFIG, RUN_DIR, train_on_path)
     
     start_time = time.monotonic()
-    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=[checkpoint_cb, *eval_cb, plot_cb, curr_cb])
+    model.learn(total_timesteps=PPO_CONFIG["timesteps"], callback=callbacks)
     end_time = time.monotonic()
 
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "last_vecnormalize_stats.pkl"))
     time_diff = timedelta(seconds=end_time - start_time)
-    dump_summary(eval_cb, PPO_CONFIG["timesteps"], model, message, time_diff, train_on_path, RUN_DIR)
+    dump_summary(callbacks[2], PPO_CONFIG["timesteps"], model, message, time_diff, train_on_path, RUN_DIR)
 
 
 def dump_premature_summary(message, RUN_DIR):
@@ -53,8 +52,8 @@ def dump_premature_summary(message, RUN_DIR):
 def dump_summary(eval_cb, timesteps, model, message, timedelta, train_on_path, RUN_DIR):
     """Dump long summary after training finished."""
     results_summary = {
-        "mean_reward_eval": float(eval_cb[0].last_mean_reward),
-        "n_eval_episodes": eval_cb[0].n_eval_episodes,
+        "mean_reward_eval": float(eval_cb.last_mean_reward),
+        "n_eval_episodes": eval_cb.n_eval_episodes,
         "timesteps": timesteps,
         "obs_shape": model.observation_space.shape,
         "message": message,

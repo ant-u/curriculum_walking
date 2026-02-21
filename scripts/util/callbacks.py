@@ -185,7 +185,7 @@ class LivePlotCallback(BaseCallback):
         self.fig2.savefig(os.path.join(self.save_dir, "episode_len_reward.svg"))
         
         
-def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> tuple:
+def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> list:
     CHECKPOINT_PATH = os.path.join(run_dir, "checkpoints")
     LOG_PATH = os.path.join(run_dir, "logs")
 
@@ -233,7 +233,10 @@ def get_all_callbacks(callback_cnfg, env_cnfg, curr_cnfg, run_dir, train_on) -> 
         log_level=callback_cnfg["plot_callback"]["log_level"],
     )
     curr_callback = CurriculumCallback(save_dir=LOG_PATH, env_cnfg=env_cnfg, curr_cnfg=curr_cnfg)
-    return checkpoint_callback, eval_callbacks, plot_callback, curr_callback
+    to_return = [checkpoint_callback, *eval_callbacks, plot_callback]
+    if curr_cnfg["use_curr"]:
+        to_return.append(curr_callback)
+    return to_return
 
 
 class SaveVecNormalizeOnNewBest(BaseCallback):

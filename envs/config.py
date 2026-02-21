@@ -6,18 +6,18 @@ PPO_CONFIG = {
     "device": "cpu",
     "learning_rate": 1e-4,  # was 1e-4
     "n_steps": 8192,
-    "batch_size": 512,  # was 256
-    "clip_range": 0.1,  # was 0.15
-    "ent_coef": 0.03,  # was 0.01
-    "vf_coef": 0.5,  # was 1
+    "batch_size": 256,  # was 256
+    "clip_range": 0.15,  # was 0.15
+    "ent_coef": 0.01,  # was 0.01
+    "vf_coef": 1.0,  # was 1
     "gamma": 0.99,  # default
-    "gae_lambda": 0.95,  # was 0.9
-    "max_grad_norm": 0.4,  # was 0.3
-    "n_epochs": 10,  # was 15
+    "gae_lambda": 0.9,  # was 0.9
+    "max_grad_norm": 0.3,  # was 0.3
+    "n_epochs": 15,  # was 15
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 150e6,
+    "timesteps": 20e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -29,10 +29,10 @@ ENV_CONFIG = {
     "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
-    "stabilize_lidar": True,  # keep point cloud always in same orientation, not adapted to toso orienteation
+    "stabilize_lidar": False,  # keep point cloud always in same orientation, not adapted to toso orienteation
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
+    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
     "min_diff_torso_feet": 0.2,  # reset if height diff of feet (averaged) and torso lower than this
     "use_relative_height": False,
     "seed": 0,
@@ -41,7 +41,7 @@ ENV_CONFIG = {
     "y_width": 1.5,
     "x_forward": 4,
     "x_start": 0,
-    "falling_punishment": -100,  # negative reward given when falling
+    "falling_punishment": 0,  # negative reward given when falling, was -100
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
@@ -49,6 +49,7 @@ ENV_CONFIG = {
 }
 
 CURR_CONFIG = {
+    "use_curr": False,
     "buffer_size": 200,
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
@@ -83,39 +84,40 @@ CALLBACK_CONFIG = {
                 "name": "plain",
                 "params": [0,0,0,0,0],
                 "seed": 0
-            },{
-                "name": "slabs",
-                "params": [1, 0.4, 0, 0, 0],
-                "seed": 42
-            },{
-                "name": "stairs",
-                "params": [1, 0, 0.4, 0, 0],
-                "seed": 874
-            },{
-                "name": "stumps",
-                "params": [1, 0, 0, 0.4, 0],
-                "seed": 21  # irrelevant
-            },{
-                "name": "gaps",
-                "params": [1, 0, 0, 0, 0.5],
-                "seed": 21  # irrelevant
-            },{
-                "name": "easy",
-                "params": [0.25, 0.2, 0.2, 0.2, 0.2],
-                "seed": 54090
-            },{
-                "name": "medium",
-                "params": [0.5, 0.4, 0.4, 0.4, 0.4],
-                "seed": 799
-            },{
-                "name": "hard",
-                "params": [0.75, 0.5, 0.5, 0.5, 0.5],
-                "seed": 180
-            },{
-                "name": "extrem",
-                "params": [0.9, 0.8, 0.8, 0.8, 0.8],
-                "seed": 52
             }
+            # ,{
+            #     "name": "slabs",
+            #     "params": [1, 0.4, 0, 0, 0],
+            #     "seed": 42
+            # },{
+            #     "name": "stairs",
+            #     "params": [1, 0, 0.4, 0, 0],
+            #     "seed": 874
+            # },{
+            #     "name": "stumps",
+            #     "params": [1, 0, 0, 0.4, 0],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "gaps",
+            #     "params": [1, 0, 0, 0, 0.5],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "easy",
+            #     "params": [0.25, 0.2, 0.2, 0.2, 0.2],
+            #     "seed": 54090
+            # },{
+            #     "name": "medium",
+            #     "params": [0.5, 0.4, 0.4, 0.4, 0.4],
+            #     "seed": 799
+            # },{
+            #     "name": "hard",
+            #     "params": [0.75, 0.5, 0.5, 0.5, 0.5],
+            #     "seed": 180
+            # },{
+            #     "name": "extrem",
+            #     "params": [0.9, 0.8, 0.8, 0.8, 0.8],
+            #     "seed": 52
+            # }
         ],
     },
     "plot_callback": {

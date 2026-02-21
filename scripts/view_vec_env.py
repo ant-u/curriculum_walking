@@ -40,6 +40,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     frames = []
     obs = env.reset()
     done = False
+    total_steps = []
     display_loop = 1 if export_gif else display_loop
     for i in range(display_loop):
         frames = []
@@ -50,10 +51,13 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
             if export_gif:
                 frame = env.render()
                 frames.append(frame)
-            if done:
+            if done or info[0]['x_position'] >= 60:
+                total_steps.append(step)
                 break
         obs = env.reset()
     env.close()
+    print(total_steps)
+    print(np.mean(total_steps))
     return frames
 
 

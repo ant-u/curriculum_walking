@@ -92,8 +92,11 @@ class LevelGenerator:
         level: Level = Level()
         available_positions = list(range(0,self.n_geoms))
         last_absolute_height = 0
+        exclude_flags = np.array([diff_slab, diff_stairs, diff_stump, diff_gap]) == 0
+        if all(exclude_flags):
+            return level  # if no obstacle can be placed, return
         for _ in range(0, n_obst):
-            element_t = self.pick_random_element(np.array([diff_slab, diff_stairs, diff_stump, diff_gap]) == 0)
+            element_t = self.pick_random_element(exclude_flags)
             elem = self.get_element_params(element_t, diff_slab, diff_stairs, diff_stump, diff_gap, last_absolute_height)
             elem.pos, available_positions = self.pick_random_location(available_positions, elem.n)
             if elem.pos is not None:
