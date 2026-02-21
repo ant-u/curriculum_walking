@@ -275,7 +275,8 @@ class NamedEvalCallback(EvalCallback):
         to_return = super()._on_step()
         if self.eval_freq > 0 and self.n_calls % self.eval_freq == 0:
             succ_r = self.successfull_runs / self.total_runs_completed
-            self.all_progress.sort()
+            if all(self.all_progress):
+                self.all_progress.sort()
             self.accumulated_succ_rate.append(succ_r)
             self.accumulated_total_runs.append(self.all_progress)
             self.acc_run_number.append(self.num_timesteps)
@@ -296,7 +297,7 @@ class NamedEvalCallback(EvalCallback):
         for i, (done, info) in enumerate(zip(dones, infos)):
             if done and not self._env_done[i]:
                 self._env_done[i] = True  # mark as counted
-                self.all_progress.append(info.get("progress"))
+                self.all_progress.append(info.get("progress", 0))
                 self.total_runs_completed += 1
                 if info.get("success", False):
                     self.successfull_runs += 1
