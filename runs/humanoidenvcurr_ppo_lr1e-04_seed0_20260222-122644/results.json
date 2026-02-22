@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 17222.822431187436,
+    "n_eval_episodes": 10,
+    "timesteps": 20000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "training on base_lidar_gait_obstacles, this time with healthy_z_range of (1,2) to not allow lower gait.",
+    "running_time": "5:35:54.592183",
+    "based_on": "runs/base_lidar_gait_trained_on_obstacles"
+}
