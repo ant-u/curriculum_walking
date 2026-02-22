@@ -85,39 +85,39 @@ CALLBACK_CONFIG = {
                 "params": [0,0,0,0,0],
                 "seed": 0
             }
-            ,{
-                "name": "slabs",
-                "params": [1, 0.4, 0, 0, 0],
-                "seed": 42
-            },{
-                "name": "stairs",
-                "params": [1, 0, 0.4, 0, 0],
-                "seed": 874
-            },{
-                "name": "stumps",
-                "params": [1, 0, 0, 0.4, 0],
-                "seed": 21  # irrelevant
-            },{
-                "name": "gaps",
-                "params": [1, 0, 0, 0, 0.5],
-                "seed": 21  # irrelevant
-            },{
-                "name": "easy",
-                "params": [0.25, 0.2, 0.2, 0.2, 0.2],
-                "seed": 54090
-            },{
-                "name": "medium",
-                "params": [0.5, 0.4, 0.4, 0.4, 0.4],
-                "seed": 799
-            },{
-                "name": "hard",
-                "params": [0.75, 0.5, 0.5, 0.5, 0.5],
-                "seed": 180
-            },{
-                "name": "extrem",
-                "params": [0.9, 0.8, 0.8, 0.8, 0.8],
-                "seed": 52
-            }
+            # ,{
+            #     "name": "slabs",
+            #     "params": [1, 0.4, 0, 0, 0],
+            #     "seed": 42
+            # },{
+            #     "name": "stairs",
+            #     "params": [1, 0, 0.4, 0, 0],
+            #     "seed": 874
+            # },{
+            #     "name": "stumps",
+            #     "params": [1, 0, 0, 0.4, 0],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "gaps",
+            #     "params": [1, 0, 0, 0, 0.5],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "easy",
+            #     "params": [0.25, 0.2, 0.2, 0.2, 0.2],
+            #     "seed": 54090
+            # },{
+            #     "name": "medium",
+            #     "params": [0.5, 0.4, 0.4, 0.4, 0.4],
+            #     "seed": 799
+            # },{
+            #     "name": "hard",
+            #     "params": [0.75, 0.5, 0.5, 0.5, 0.5],
+            #     "seed": 180
+            # },{
+            #     "name": "extrem",
+            #     "params": [0.9, 0.8, 0.8, 0.8, 0.8],
+            #     "seed": 52
+            # }
         ],
     },
     "plot_callback": {
