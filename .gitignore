@@ -205,4 +205,4 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-runs/humanoidenvcurr_ppo_lr1e-04_seed0_20260216-171544/logs/buffer_logs.txt
+runs/hyperparams-tests/humanoidenvcurr_ppo_lr1e-04_seed0_20260216-171544/logs/buffer_logs.txt

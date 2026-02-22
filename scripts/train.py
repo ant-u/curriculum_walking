@@ -39,7 +39,7 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
     model.save(os.path.join(RUN_DIR, "checkpoints", "last_model"))
     env.save(os.path.join(RUN_DIR, "checkpoints", "last_vecnormalize_stats.pkl"))
     time_diff = timedelta(seconds=end_time - start_time)
-    dump_summary(callbacks[2], PPO_CONFIG["timesteps"], model, message, time_diff, train_on_path, RUN_DIR)
+    dump_summary(callbacks[1], PPO_CONFIG["timesteps"], model, message, time_diff, train_on_path, RUN_DIR)
 
 
 def dump_premature_summary(message, RUN_DIR):

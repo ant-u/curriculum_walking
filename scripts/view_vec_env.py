@@ -16,8 +16,12 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     """
     PPO_config, env_config, callback_config = load_configs(run_dir)
     render_mode = "human" if not export_gif else "rgb_array"
-    model = PPO.load(os.path.join(run_dir, "checkpoints", "best_model"))
-    stats_path = os.path.join(run_dir, "checkpoints", "best_vecnormalize_stats.pkl")
+    if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model")):
+        base_path = os.path.join(run_dir, "checkpoints")
+    else:
+        base_path = os.path.join(run_dir, "checkpoints", "plain")
+    model = PPO.load(os.path.join(base_path, "best_model"))
+    stats_path = os.path.join(base_path, "best_vecnormalize_stats.pkl")
 
     cam_config = {
         "trackbodyid": 1,
@@ -28,11 +32,11 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=True,
                           default_camera_config=cam_config)
     gen = LevelGenerator()
-    eval_env_number = 6
+    eval_env_number = 5
     params = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["params"]
     seed = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["seed"]
-    level_elems = gen.create_level_elements(*params, seed)
-    # level_elems = gen.create_level_elements(1.0, 1, 0, 0, 0, 43)
+    # level_elems = gen.create_level_elements(*params, seed)
+    level_elems = gen.create_level_elements(0.1, 0.1, 0.1, 0.1, 0.1, 43)
     level_des = gen.calculate_element_coords(level_elems)
 
     env.env_method("set_level_template", level=level_des)
