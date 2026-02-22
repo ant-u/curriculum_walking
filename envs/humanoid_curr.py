@@ -18,7 +18,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             path = os.path.abspath(f"./models/{cnfg["xml_file"]}")
         else:
             path = os.path.abspath(f"./models/{xml_file}")
-        healthy_z_range = (-10.0, 10.0)
+        healthy_z_range = cnfg["healthy_z_range"] if "healthy_z_range" in cnfg.keys() else [-10, 10]
         super().__init__(xml_file=path, healthy_z_range=healthy_z_range, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
