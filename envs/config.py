@@ -33,8 +33,8 @@ ENV_CONFIG = {
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
     "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
-    "min_diff_torso_feet": 0.2,  # reset if height diff of feet (averaged) and torso lower than this
-    "healthy_z_range": [1,2],  # range in which torso is allowed to be
+    "min_diff_torso_feet": 0.6,  # reset if height diff of feet (averaged) and torso lower than this
+    "healthy_z_range": [-10,10],  # range in which torso is allowed to be
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -55,7 +55,7 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [-0.02,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.04, 0.05, 0.05, 0.05, 0.05],
-    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
     "mutation_edit_size": [-0.02, 0.02],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
