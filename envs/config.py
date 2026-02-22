@@ -55,7 +55,7 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [-0.02,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.04, 0.05, 0.05, 0.05, 0.05],
-    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
     "mutation_edit_size": [-0.02, 0.02],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
