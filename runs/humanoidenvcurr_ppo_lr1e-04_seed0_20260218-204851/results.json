@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 6391.121588499999,
+    "n_eval_episodes": 12,
+    "timesteps": 200000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "new evaluation method, decreased the maximal possible difficulty of obstacles in level generator. using learnability as metric. base of fresh trained policy only on obstacle course. First test of stabilized lidar",
+    "running_time": "2 days, 16:50:40.374317",
+    "based_on": "runs/humanoid_env_curr/humanoidenvcurr_ppo_lr1e-04_seed0_20260205-164120"
+}

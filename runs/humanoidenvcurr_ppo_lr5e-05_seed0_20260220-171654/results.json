@@ -1,0 +1,3 @@
+{
+    "message": "changed hyperparameters to adapt for new learning challenge. using lrn and base policy trained_on_obstacles. changed buffer initializaiton for maybe higher diversity in buffer from start on."
+}

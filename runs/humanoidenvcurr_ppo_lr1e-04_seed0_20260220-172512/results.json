@@ -1,0 +1,3 @@
+{
+    "message": "increased learning rate and discovery , as well as evaluation episode steps. Also introduced negative reward when falling (in previous run too). "
+}

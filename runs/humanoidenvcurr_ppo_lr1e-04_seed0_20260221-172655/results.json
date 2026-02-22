@@ -1,0 +1,3 @@
+{
+    "message": "training level-based policy on 50m steps from scratch, as base policy for curriculum"
+}
