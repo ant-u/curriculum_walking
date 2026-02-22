@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 300e6,
+    "timesteps": 50e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -32,9 +32,10 @@ ENV_CONFIG = {
     "stabilize_lidar": False,  # keep point cloud always in same orientation, not adapted to toso orienteation
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
-    "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
+    "terminate_at_x_border": 0,  # 0 disables it, midd of end platform at 60
     "min_diff_torso_feet": 0.6,  # reset if height diff of feet (averaged) and torso lower than this
-    "healthy_z_range": [-10,10],  # range in which torso is allowed to be
+    "healthy_z_range": [1,2],  # range in which torso is allowed to be
+    "exclude_absolute_height": True,  # exclude the abs height from observation
     "use_relative_height": False,
     "seed": 0,
     "n_points_x": 6,
@@ -50,7 +51,7 @@ ENV_CONFIG = {
 }
 
 CURR_CONFIG = {
-    "use_curr": 'True',
+    "use_curr": False,
     "buffer_size": 200,
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [-0.02,0,0,0,0],  # obst, slab, stairs, stump, gap
@@ -73,8 +74,8 @@ CALLBACK_CONFIG = {
     },
     "eval_env_conf": {
         "env_seed": 0,
-        "eval_freq": 1_000_000,            # evaluate on flat env
-        "eval_freq_obstacles": 1_000_000,  # evaluate on all obstacle envs
+        "eval_freq": 500_000,            # evaluate on flat env
+        "eval_freq_obstacles": 500_000,  # evaluate on all obstacle envs
         "deterministic": True,
         "render": False,
         "max_steps": 2_000,
@@ -86,39 +87,39 @@ CALLBACK_CONFIG = {
                 "params": [0,0,0,0,0],
                 "seed": 0
             }
-            ,{
-                "name": "slabs",
-                "params": [1, 0.4, 0, 0, 0],
-                "seed": 42
-            },{
-                "name": "stairs",
-                "params": [1, 0, 0.4, 0, 0],
-                "seed": 874
-            },{
-                "name": "stumps",
-                "params": [1, 0, 0, 0.4, 0],
-                "seed": 21  # irrelevant
-            },{
-                "name": "gaps",
-                "params": [1, 0, 0, 0, 0.5],
-                "seed": 21  # irrelevant
-            },{
-                "name": "easy",
-                "params": [0.25, 0.2, 0.2, 0.2, 0.2],
-                "seed": 54090
-            },{
-                "name": "medium",
-                "params": [0.5, 0.4, 0.4, 0.4, 0.4],
-                "seed": 799
-            },{
-                "name": "hard",
-                "params": [0.75, 0.5, 0.5, 0.5, 0.5],
-                "seed": 180
-            },{
-                "name": "extrem",
-                "params": [0.9, 0.8, 0.8, 0.8, 0.8],
-                "seed": 52
-            }
+            # ,{
+            #     "name": "slabs",
+            #     "params": [1, 0.4, 0, 0, 0],
+            #     "seed": 42
+            # },{
+            #     "name": "stairs",
+            #     "params": [1, 0, 0.4, 0, 0],
+            #     "seed": 874
+            # },{
+            #     "name": "stumps",
+            #     "params": [1, 0, 0, 0.4, 0],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "gaps",
+            #     "params": [1, 0, 0, 0, 0.5],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "easy",
+            #     "params": [0.25, 0.2, 0.2, 0.2, 0.2],
+            #     "seed": 54090
+            # },{
+            #     "name": "medium",
+            #     "params": [0.5, 0.4, 0.4, 0.4, 0.4],
+            #     "seed": 799
+            # },{
+            #     "name": "hard",
+            #     "params": [0.75, 0.5, 0.5, 0.5, 0.5],
+            #     "seed": 180
+            # },{
+            #     "name": "extrem",
+            #     "params": [0.9, 0.8, 0.8, 0.8, 0.8],
+            #     "seed": 52
+            # }
         ],
     },
     "plot_callback": {
