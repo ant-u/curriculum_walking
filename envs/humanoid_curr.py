@@ -73,7 +73,6 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
             self.observation_space = Box(low, high, dtype=np.float64)
-        # self.set_env_level_slab(1, 0.66)
 
     def _get_obs(self):
         base_obs = super()._get_obs()

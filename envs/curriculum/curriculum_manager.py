@@ -172,7 +172,8 @@ class CurriculumManager:
             seed = self.rng.integers(np.iinfo(np.int64).max)  # ~[0, max_int_64]
         params = []
         for min, max in zip(min_params, max_params):
-            params.append(self.rng.uniform(min, max))
+            clipped_value = np.clip(self.rng.uniform(min, max), 0, 1)  # enabling to change probability for 0 levels (or 1)
+            params.append(clipped_value)
         b_level = BufferLevel(seed, params[0], params[1], params[2], params[3], params[4])
         return b_level
     
