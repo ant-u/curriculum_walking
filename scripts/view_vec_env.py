@@ -16,7 +16,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     """
     PPO_config, env_config, callback_config = load_configs(run_dir)
     render_mode = "human" if not export_gif else "rgb_array"
-    if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model")):
+    if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
         base_path = os.path.join(run_dir, "checkpoints", "plain")

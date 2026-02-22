@@ -19,7 +19,9 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         else:
             path = os.path.abspath(f"./models/{xml_file}")
         healthy_z_range = cnfg["healthy_z_range"] if "healthy_z_range" in cnfg.keys() else [-10, 10]
-        super().__init__(xml_file=path, healthy_z_range=healthy_z_range, **kwargs)
+        exclude_abs_h_from_observation = cnfg["exclude_absolute_height"] if "exclude_absolute_height" in cnfg.keys() else False
+        super().__init__(xml_file=path, healthy_z_range=healthy_z_range, 
+                         exclude_absolute_height_from_observation=exclude_abs_h_from_observation, **kwargs)
         self.use_lidar = cnfg["use_lidar"]
         self.render_lidar = cnfg["render_lidar"]
         self.stabilize_lidar = cnfg["stabilize_lidar"] if "stabilize_lidar" in cnfg.keys() else False

@@ -320,6 +320,7 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
         healthy_z_range: tuple[float, float] = (1.0, 2.0),
         reset_noise_scale: float = 1e-2,
         exclude_current_positions_from_observation: bool = True,
+        exclude_absolute_height_from_observation: bool = False,
         include_cinert_in_observation: bool = True,
         include_cvel_in_observation: bool = True,
         include_qfrc_actuator_in_observation: bool = True,
@@ -340,6 +341,7 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
             healthy_z_range,
             reset_noise_scale,
             exclude_current_positions_from_observation,
+            exclude_absolute_height_from_observation,
             include_cinert_in_observation,
             include_cvel_in_observation,
             include_qfrc_actuator_in_observation,
@@ -360,6 +362,7 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
         self._exclude_current_positions_from_observation = (
             exclude_current_positions_from_observation
         )
+        self._exclude_absolute_height_from_observation = exclude_absolute_height_from_observation
 
         self._include_cinert_in_observation = include_cinert_in_observation
         self._include_cvel_in_observation = include_cvel_in_observation
@@ -397,9 +400,10 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
             name = self.model.body(id).name
             if name in robot_body_names:
                 self.r_ids.append(id)
+        self._exclution_obs_size = 3 if self._exclude_absolute_height_from_observation else 2
 
         obs_size = self.data.qpos.size + self.data.qvel.size
-        obs_size -= 2 * exclude_current_positions_from_observation
+        obs_size -= self._exclution_obs_size * exclude_current_positions_from_observation
         obs_size += self.data.cinert[self.r_ids].size * include_cinert_in_observation
         obs_size += self.data.cvel[self.r_ids].size * include_cvel_in_observation
         obs_size += (self.data.qvel.size - 6) * include_qfrc_actuator_in_observation
@@ -410,9 +414,9 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
         )
 
         self.observation_structure = {
-            "skipped_qpos": 2 * exclude_current_positions_from_observation,
+            "skipped_qpos": self._exclution_obs_size * exclude_current_positions_from_observation,
             "qpos": self.data.qpos.size
-            - 2 * exclude_current_positions_from_observation,
+            - self._exclution_obs_size * exclude_current_positions_from_observation,
             "qvel": self.data.qvel.size,
             "cinert": self.data.cinert[self.r_ids].size * include_cinert_in_observation,
             "cvel": self.data.cvel[self.r_ids].size * include_cvel_in_observation,
@@ -469,7 +473,7 @@ class HumanoidEnvBase(MujocoEnv, utils.EzPickle):
             external_contact_forces = np.array([])
 
         if self._exclude_current_positions_from_observation:
-            position = position[2:]
+            position = position[self._exclution_obs_size:]
 
         return np.concatenate(
             (
