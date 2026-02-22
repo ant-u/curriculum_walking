@@ -266,7 +266,7 @@ class NamedEvalCallback(EvalCallback):
         self.accumulated_succ_rate = []
         self.accumulated_total_runs = []
         self.acc_run_number = []
-        self.plot = DoubleLinePlot(f"Evaluation of level {self.name}", "time steps", "%", "Average progress",
+        self.plot = DoubleLinePlot(f"Evaluation of level {self.name}", "time steps (M)", "%", "Average progress",
                                    "Success rate", False)
 
     def _on_step(self):
