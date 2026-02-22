@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 50e6,
+    "timesteps": 300e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
