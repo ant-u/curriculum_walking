@@ -73,12 +73,14 @@ class HumanoidEnvCurr(HumanoidEnvBase):
             low = np.concatenate([self.observation_space.low,[-np.inf]*height_map_dim])
             high = np.concatenate([self.observation_space.high,[np.inf]*height_map_dim])
             self.observation_space = Box(low, high, dtype=np.float64)
+        # self.init_qpos[2] += 0.5
 
     def _get_obs(self):
         base_obs = super()._get_obs()
         if self.use_lidar:
             heightmap = self._get_heightmap()
             base_obs = np.concatenate([base_obs, heightmap]).astype(np.float32)
+        # base_obs[0] -= 0.5
         return base_obs
     
     @property
