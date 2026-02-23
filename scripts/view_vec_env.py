@@ -36,7 +36,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     params = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["params"]
     seed = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["seed"]
     level_elems = gen.create_level_elements(*params, seed)
-    level_elems = gen.create_level_elements(0.8, 0.15, 0.15, 0.15, 0.15, 43)
+    level_elems = gen.create_level_elements(0.8, 0.1, 0.1, 0.1, 0.1, 43)
     level_des = gen.calculate_element_coords(level_elems)
 
     # env.env_method("set_level_template", level=level_des)
