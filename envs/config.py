@@ -56,11 +56,11 @@ CURR_CONFIG = {
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
     "buffer_init_upper_cap": [0.5, 0.1, 0.1, 0.15, 0.15],
-    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
-    "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
+    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "mutation_usage": False,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
     "mutation_edit_size": [-0.02, 0.03],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
-    "replay_decision_distribution": [0.1, 0.9],  # [discover, replay], default 0.1 0.9
+    "replay_decision_distribution": [0.5, 0.5],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
     "selection_temp": 0.9,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
     "evaluation_episode_steps": 2500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
