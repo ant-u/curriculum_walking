@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 18340.972245113742,
+    "n_eval_episodes": 10,
+    "timesteps": 50000000.0,
+    "obs_shape": [
+        377
+    ],
+    "message": "training ACTUALLY without abs height observation, added platform for infinite walking options",
+    "running_time": "14:16:58.783311"
+}
