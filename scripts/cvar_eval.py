@@ -117,7 +117,7 @@ def cvar_eval(model_path, save_path, N: int, alphas: float, n_envs: int = 10, se
         y_succ_r[i] = mean_succ_r
         y_prog[i] = mean_prog
 
-    plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes", "Success rate", "alpha", "Success rate", "Average Progress")
+    plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes", "alpha", "Success rate", "Success rate", "Average Progress")
     plot.update_with_x(y_succ_r, y_prog, x)
     plot.save(os.path.join(save_path, "cvar_evaluation.svg"))
     with open(os.path.join(save_path, "cvar_buffer_dump.pkl"), "wb") as f:
