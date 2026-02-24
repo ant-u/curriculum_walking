@@ -4,11 +4,11 @@ PPO_CONFIG = {
     "algo": "PPO",
     "policy": "MlpPolicy",
     "device": "cpu",
-    "learning_rate": 3e-5,  # was 1e-4
+    "learning_rate": 1e-4,  # was 1e-4
     "n_steps": 8192,
     "batch_size": 512,  # was 256
     "clip_range": 0.1,  # was 0.15
-    "ent_coef": 0.03,  # was 0.01
+    "ent_coef": 0.005,  # was 0.01
     "vf_coef": 0.5,  # was 1
     "gamma": 0.99,  # default
     "gae_lambda": 0.95,  # was 0.9
@@ -33,7 +33,7 @@ ENV_CONFIG = {
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
     "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
-    "min_diff_torso_feet": 0.5,  # reset if height diff of feet (averaged) and torso lower than this
+    "min_diff_torso_feet": 0.4,  # reset if height diff of feet (averaged) and torso lower than this
     "healthy_z_range": [-10,10],  # range in which torso is allowed to be
     "exclude_absolute_height": True,  # exclude the abs height from observation
     "use_relative_height": False,  # used for lidar, if false, lidar observation is absolute height
@@ -43,7 +43,7 @@ ENV_CONFIG = {
     "y_width": 1.5,
     "x_forward": 4,
     "x_start": 0,
-    "falling_punishment": -20,  # negative reward given when falling, was -100
+    "falling_punishment": -0,  # negative reward given when falling, was -100
     "norm_reward": True,
     "norm_obs": True,
     "clip_reward": 10,  # default: 10
@@ -54,15 +54,15 @@ CURR_CONFIG = {
     "use_curr": True,
     "buffer_size": 200,
     "buffer_init_fill_ratio": 0.2,
-    "buffer_init_lower_cap": [0,0,0,0,0],  # obst, slab, stairs, stump, gap
-    "buffer_init_upper_cap": [0.5, 0.1, 0.1, 0.15, 0.15],
-    "level_metric": "reg",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
-    "mutation_usage": False,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
-    "mutation_edit_size": [-0.02, 0.03],  # range for one param to be mutated
+    "buffer_init_lower_cap": [-0.05,0,0,0,0],  # obst, slab, stairs, stump, gap
+    "buffer_init_upper_cap": [0.45, 0.07, 0.07, 0.1, 0.1],
+    "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
+    "mutation_usage": True,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
+    "mutation_edit_size": [-0.03, 0.03],  # range for one param to be mutated
     "mutation_number": 2,  # number of params that can be mutated at once
-    "replay_decision_distribution": [0.5, 0.5],  # [discover, replay], default 0.1 0.9
+    "replay_decision_distribution": [0.1, 0.9],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
-    "selection_temp": 0.9,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
+    "selection_temp": 0.5,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
     "evaluation_episode_steps": 2500,  # steps to take for computing regret on a level. measure to safe time when evaluating 
 }
 

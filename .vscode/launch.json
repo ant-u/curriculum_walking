@@ -31,12 +31,12 @@
             "justMyCode": false
         },
         {
-            "name": "train as module with best_gait_running",
+            "name": "train as module with base_lidar_gait_height_resistant",
             "type": "debugpy",
             "request": "launch",
             "module": "scripts.train",
             "cwd": "${workspaceFolder}",
-            "args": "-t runs/base_lidar_gait_running",
+            "args": "-t runs/base_lidar_gait_height_resistant",
             "justMyCode": false
         },
         {
@@ -53,7 +53,7 @@
             "request": "launch",
             "module": "scripts.view_vec_env",
             "cwd": "${workspaceFolder}",
-            "args": "runs/base_lidar_gait_running"
+            "args": "runs/base_lidar_gait_height_resistant"
         },
         {
             "name": "humanoid_curr as module",
