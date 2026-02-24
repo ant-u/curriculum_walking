@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FixedLocator, FixedFormatter
 import numpy as np
 
 class Plot():
@@ -112,3 +113,31 @@ class FiveLinePlot(DoubleLinePlot):
     def update(self, data, data2, data3, data4, data5, y_lim):
         x = np.arange(len(data))
         self.update_with_x(data, data2, data3, data4, data5, x, y_lim)
+
+    
+class LogPlot(Plot):
+    def __init__(self, title, xlabel, ylabel, line_label, ion = True, figsize = (8, 5), line_color = "blue"):
+        super().__init__(title, xlabel, ylabel, line_label, ion, figsize, line_color)
+
+    def update_with_x(self, data, x):
+        # self.ax.set_xticks(x)
+        # self.ax.set_xticklabels([str(v) for v in x])
+        # self.ax.set_xscale('log')
+        if not self.ax.get_xscale() == 'log':
+            self.ax.set_xlim(min(x), max(x))
+            self.ax.set_xscale('log')
+        self.ax.xaxis.set_major_locator(FixedLocator(x))
+        self.ax.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
+        return super().update_with_x(data, x)
+    
+class DoubleLogPlot(DoubleLinePlot):
+    def __init__(self, title, xlabel, ylabel, line_label1, line_label2, ion=True, figsize=(8, 5), line_color1="blue", line_color2="orange"):
+        super().__init__(title, xlabel, ylabel, line_label1, line_label2, ion, figsize, line_color1, line_color2)
+
+    def update_with_x(self, data, data2, x, y_lim=None):
+        if not self.ax.get_xscale() == 'log':
+            self.ax.set_xlim(min(x), max(x))
+            self.ax.set_xscale('log')
+        self.ax.xaxis.set_major_locator(FixedLocator(x))
+        self.ax.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
+        return super().update_with_x(data, data2, x, y_lim)

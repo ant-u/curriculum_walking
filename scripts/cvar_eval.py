@@ -7,7 +7,13 @@ from envs.curriculum.curriculum_manager import BufferLevel
 from envs.vec_env import load_env
 from scripts.view_vec_env import load_configs
 from envs.curriculum.level_generator import LevelGenerator
-from scripts.util.plot import Plot
+from scripts.util.plot import Plot, LogPlot, DoubleLogPlot
+
+class EvalLevel(BufferLevel):
+    def __init__(self, seed, obstacles, diff_slab, diff_stairs, diff_stump, diff_gap,
+                 regret=None, succ_r=None, learnability=None, progress=None):
+        super().__init__(seed, obstacles, diff_slab, diff_stairs, diff_stump, diff_gap, regret, succ_r, learnability)
+        self.progress = progress
 
 
 
@@ -41,6 +47,7 @@ def main(model_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
                     if info.get("success", False):
                         successfull_runs += 1
         lvl.succ_r = successfull_runs / env.num_envs
+        lvl.progress = np.mean(all_progress)
         print(f"evaluated lvl {lvl_number}, succ_r of {lvl.succ_r}, lvl:{lvl}")
         print(f"  progess: mean:{float(round(np.mean(all_progress), 3))} {[float(round(x, 4)) for x in all_progress]}")
         obs = env.reset()
@@ -48,7 +55,7 @@ def main(model_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
     return levels
 
 
-def create_level_list(rng, N):
+def create_level_list(rng, N) -> List[EvalLevel]:
     levels = []
     for n in range(N):
         seed = rng.integers(np.iinfo(np.int64).max)  # ~[0, max_int_64]
@@ -56,12 +63,12 @@ def create_level_list(rng, N):
         for min, max in zip(MIN_INIT, MAX_INIT):
             clipped_value = np.clip(rng.uniform(min, max), 0, 1)  # enabling to change probability for 0 levels (or 1)
             params.append(clipped_value)
-        bl = BufferLevel(seed, params[0], params[1], params[2], params[3], params[4])
+        bl = EvalLevel(seed, params[0], params[1], params[2], params[3], params[4])
         
         levels.append(bl)
     return levels
 
-def transform_levels_to_des(levels: List[BufferLevel]):
+def transform_levels_to_des(levels: List[EvalLevel]):
     generator = LevelGenerator()
     descriptions = []
     for bl in levels:
@@ -88,8 +95,40 @@ def get_init_buffer_plot(model_path, save_path, N: int, alpha: float, n_envs: in
         pickle.dump({'levels': levels, "x": x, "y": y, "min": MIN_INIT, "max": MAX_INIT}, f)
 
 
+def cvar_eval(model_path, save_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0):
+    levels = main(model_path, N, alphas, n_envs, seed)
+    prog_levels = levels.copy()
+    levels.sort(key=lambda x: x.succ_r)
+    prog_levels.sort(key=lambda x: x.progress)
+
+    x = np.array(alphas) / 100
+    y_succ_r = np.zeros(len(x))
+    y_prog = np.zeros(len(x))
+    for i, alpha in enumerate(x):
+        n_elems = int(alpha * len(levels))
+        elems_succ = levels[:n_elems]
+        elems_prog = prog_levels[:n_elems]
+        mean_succ_r = None
+        mean_prog = None
+        if len(elems_succ) > 0:
+            mean_succ_r = np.mean([elem.succ_r for elem in elems_succ])
+        if len(elems_prog) > 0:
+            mean_prog = np.mean([elem.progress for elem in elems_prog])
+        y_succ_r[i] = mean_succ_r
+        y_prog[i] = mean_prog
+
+    plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes", "Success rate", "alpha", "Success rate", "Average Progress")
+    plot.update_with_x(y_succ_r, y_prog, x)
+    plot.save(os.path.join(save_path, "cvar_evaluation.svg"))
+    with open(os.path.join(save_path, "cvar_buffer_dump.pkl"), "wb") as f:
+        pickle.dump({'levels': levels, 'x': x, 'y_succ': y_succ_r, 'y_prog': y_prog}, f)
+
+
+
+
 # main("runs/base_lidar_gait_height_resistant", 10, 10)
 MIN_INIT = [0,0,0,0,0]
-MAX_INIT = [0.5, 0.10, 0.10, 0.15, 0.15]
-# main("runs/base_lidar_gait_trained_on_obstacles", 10, 10)
-get_init_buffer_plot("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 100, 0.1, 20)
+MAX_INIT = [1,1,1,1,1]
+# MAX_INIT = [0.5, 0.10, 0.10, 0.15, 0.15]
+cvar_eval("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+# get_init_buffer_plot("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 100, 0.1, 20)
