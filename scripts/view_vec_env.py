@@ -39,12 +39,14 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     level_elems = gen.create_level_elements(0.8, 0.1, 0.1, 0.1, 0.1, 43)
     level_des = gen.calculate_element_coords(level_elems)
 
-    # env.env_method("set_level_template", level=level_des)
-    
+    env.env_method("set_level_template", level=level_des)
+    env.venv.envs[0].env.terminate_on_x = 60
+
     frames = []
     obs = env.reset()
     done = False
     total_steps = []
+    all_progress = []
     display_loop = 1 if export_gif else display_loop
     for i in range(display_loop):
         frames = []
@@ -55,13 +57,17 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
             if export_gif:
                 frame = env.render()
                 frames.append(frame)
-            if done or info[0]['x_position'] >= 60:
+            if done and 'progress' in info[0].keys():
+                all_progress.append(float(round(info[0]['progress'], 5)))
+            if done:
                 total_steps.append(step)
                 break
         obs = env.reset()
     env.close()
-    print(total_steps)
+    print("total env steps: " + str(total_steps))
     print(np.mean(total_steps))
+    print(f"total progress: {all_progress}")
+    print(np.mean(all_progress))
     return frames
 
 
