@@ -98,7 +98,7 @@ def make_env_curr(cnfg):
     return vec_env
 
 
-def load_env(path: str, cnfg):
+def load_env(path: str, cnfg, vec_norm_path=None):
     """Load env as specified by config. picks env type from config, 
     please make sure obs space and act space are same size as in previous one.
     Also loads per default the 'last_vecnormalize_stats'."""
@@ -117,7 +117,10 @@ def load_env(path: str, cnfg):
         case "humanoidenvcurr":
             vec_env = make_env_curr(cnfg)
 
-    joined_path = os.path.join(path, "checkpoints", "last_vecnormalize_stats.pkl")
+    if vec_norm_path is None:
+        joined_path = os.path.join(path, "checkpoints", "last_vecnormalize_stats.pkl")
+    else:
+        joined_path = os.path.join(path, vec_norm_path)
     norm_env = VecNormalize.load(joined_path, vec_env)  # Load VecNormalize statistics into this new VecEnv
     return norm_env
 

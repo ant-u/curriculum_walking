@@ -28,7 +28,7 @@ class EvalLevel(BufferLevel):
         self.progress = progress
 
 
-def correct_cvar_plot(path):
+def correct_cvar_plot(path, save_path):
     with open(path, "rb") as f: 
         data = pickle.load(f)
     levels = data['levels']
@@ -81,8 +81,9 @@ def correct_cvar_plot(path):
     # ax1.xaxis.set_major_locator(FixedLocator(x))
     # ax1.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
     fig.tight_layout()
-    plt.savefig("thesis_plots/base_policy/cvar_base_policy.pdf")
+    plt.savefig(save_path)
     # plt.savefig("thesis/plots/training_progress_base_policy.svg")
     plt.show()
 
-correct_cvar_plot("runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl")
+# correct_cvar_plot("runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl", "thesis_plots/base_policy/cvar_base_policy.pdf")
+correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a_and_b.pdf")

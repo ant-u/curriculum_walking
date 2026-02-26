@@ -14,10 +14,11 @@ def create_eval_plot_flat(path, name):
 
     fig, ax1 = plt.subplots(figsize=(6, 5))
     color_reward = "steelblue"
-    ax1.set_xlabel("Training Environment Steps (in M)", fontsize=12)
-    ax1.set_ylabel("Ratio (in %)", fontsize=12)  # color=color_reward
+    ax1.set_xlabel("Training Environment Steps (in M)", fontsize=20)
+    ax1.set_ylabel("Ratio (in %)", fontsize=20)  # color=color_reward
     line1, = ax1.plot(x, y_prog, color=color_reward, linewidth=2, label="Mean Progress")
-    # ax1.tick_params(axis="y", labelcolor=color_reward)
+    ax1.tick_params(axis="y", labelsize=16) #labelcolor=color_reward
+    ax1.tick_params(axis="x", labelsize=16) #labelcolor=color_reward
     ax1.set_ylim(bottom=-0.5, top=100.5)
     ax1.set_xlim(left=0, right=301)
 
@@ -28,7 +29,7 @@ def create_eval_plot_flat(path, name):
 
     lines = [line1, line2]
     labels = [l.get_label() for l in lines]
-    ax1.legend(lines, labels, loc="lower center", fontsize=10)
+    ax1.legend(lines, labels, loc="lower center", fontsize=18)
     # plt.title('Flat level evaluation during curriculum training', fontsize=14) #, fontweight="bold")
     # ax1.set_xticks(ticks=x_positions, labels=alphas)
     # ax1.set_xlim(min(x), max(x))

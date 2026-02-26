@@ -61,6 +61,14 @@
             "request": "launch",
             "module": "envs.humanoid_curr",
             "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "corret_plots",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.util.correct_plots",
+            "cwd": "${workspaceFolder}",
+            "args": ""
         }
     ]
 }

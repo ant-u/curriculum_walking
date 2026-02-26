@@ -17,18 +17,19 @@ class EvalLevel(BufferLevel):
 
 
 
-def main(model_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
+def main(path, ppo_path, vec_env_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0, levels=None):
     rng = np.random.default_rng(seed)
-    PPO_config, env_config, callback_config = load_configs(model_path)
+    PPO_config, env_config, callback_config = load_configs(path)
     env_config["terminate_at_x_border"] = 60
     env_config["use_levels"] = True
     env_config["n_envs"] = n_envs
-    env = load_env(model_path, env_config)
-    model = PPO.load(os.path.join(model_path, "checkpoints", "plain", "best_model"))
+    env = load_env(path, env_config, vec_norm_path=vec_env_path)
+    model = PPO.load(os.path.join(path, ppo_path))
     assert env.action_space == model.action_space and \
                env.observation_space == model.observation_space
     
-    levels = create_level_list(rng, N)
+    if levels is None:
+        levels = create_level_list(rng, N)
     descriptions = transform_levels_to_des(levels)
     for lvl_number, (desc, lvl) in enumerate(zip(descriptions, levels)):
         env.env_method("set_level_template", level=desc)
@@ -78,8 +79,8 @@ def transform_levels_to_des(levels: List[EvalLevel]):
     return descriptions
 
 
-def get_init_buffer_plot(model_path, save_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
-    levels = main(model_path, N, alpha, n_envs, seed)
+def get_init_buffer_plot(path, ppo_path, vec_env_path, save_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
+    levels = main(path, ppo_path, vec_env_path, N, alpha, n_envs, seed)
     succ_rates_isolated = np.array([level.succ_r for level in levels])
     x = []
     for i in range(0,N+1):
@@ -95,8 +96,8 @@ def get_init_buffer_plot(model_path, save_path, N: int, alpha: float, n_envs: in
         pickle.dump({'levels': levels, "x": x, "y": y, "min": MIN_INIT, "max": MAX_INIT}, f)
 
 
-def cvar_eval(model_path, save_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0):
-    levels = main(model_path, N, alphas, n_envs, seed)
+def cvar_eval(path, ppo_path, vec_env_path, save_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0, levels=None):
+    levels = main(path, ppo_path, vec_env_path, N, alphas, n_envs, seed, levels=levels)
     prog_levels = levels.copy()
     levels.sort(key=lambda x: x.succ_r)
     prog_levels.sort(key=lambda x: x.progress)
@@ -123,12 +124,30 @@ def cvar_eval(model_path, save_path, N: int, alphas: float, n_envs: int = 10, se
     with open(os.path.join(save_path, "cvar_buffer_dump.pkl"), "wb") as f:
         pickle.dump({'levels': levels, 'x': x, 'y_succ': y_succ_r, 'y_prog': y_prog}, f)
 
-
+def cvar_with_predefined_levels(path, ppo_path, vec_env_path, save_path, level_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0):
+    with open(level_path, "rb") as f:
+        data = pickle.load(f)
+    levels = data['levels']
+    for lvl in levels:
+        lvl.succ_r = None
+    cvar_eval(path, ppo_path, vec_env_path, save_path, N, alphas, n_envs, seed, levels=levels)
 
 
 # main("runs/base_lidar_gait_height_resistant", 10, 10)
 MIN_INIT = [0,0,0,0,0]
 MAX_INIT = [1,1,1,1,1]
 # MAX_INIT = [0.5, 0.10, 0.10, 0.15, 0.15]
-cvar_eval("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+# cvar_eval("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
+# cvar_with_predefined_levels("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125",
+#                             "checkpoints/ckpt_45864000_steps", "checkpoints/ckpt_vecnormalize_45864000_steps.pkl", 
+#                             "runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval",
+#                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+cvar_with_predefined_levels("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206",
+                            "checkpoints/ckpt_217368000_steps", "checkpoints/ckpt_vecnormalize_217368000_steps.pkl", 
+                            "runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
 # get_init_buffer_plot("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 100, 0.1, 20)
