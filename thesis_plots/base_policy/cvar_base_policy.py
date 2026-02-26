@@ -84,6 +84,9 @@ def correct_cvar_plot(path, save_path):
     plt.savefig(save_path)
     # plt.savefig("thesis/plots/training_progress_base_policy.svg")
     plt.show()
+    print(f"max success rate: {y_succ_r[-1]}")
+    print(f"levels with non zero success: {len([lvl for lvl in levels if lvl.succ_r > 0])}")
 
 # correct_cvar_plot("runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl", "thesis_plots/base_policy/cvar_base_policy.pdf")
-correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a_and_b.pdf")
+correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a.pdf")
+# correct_cvar_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_b.pdf")
