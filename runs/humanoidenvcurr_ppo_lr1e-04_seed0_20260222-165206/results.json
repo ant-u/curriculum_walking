@@ -1,0 +1,10 @@
+{
+    "mean_reward_eval": 9858.477949600001,
+    "n_eval_episodes": 10,
+    "timesteps": 300000000.0,
+    "obs_shape": [
+        378
+    ],
+    "message": "from scratch curriculum approach based on reg. init very very easy, basic ppo settings",
+    "running_time": "3 days, 21:19:19.774523"
+}
