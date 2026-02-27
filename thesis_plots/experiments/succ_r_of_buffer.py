@@ -26,6 +26,8 @@ def create_succ_r_plot(buffer_log_path, save_path, color_1="steelblue"):
     succ_rates = get_succ_rates_for_buffer(buffer_log_path)
 
     avg_succ_rates = [100*np.mean(s) for s in succ_rates]
+    minimum = [100*min(s) for s in succ_rates]
+    maximum = [100*max(s) for s in succ_rates]
     q25 = [100*np.quantile(s, 0.25) for s in succ_rates]
     q75 = [100*np.quantile(s, 0.75) for s in succ_rates]
     x = np.linspace(0, 300, len(avg_succ_rates))
@@ -40,8 +42,9 @@ def create_succ_r_plot(buffer_log_path, save_path, color_1="steelblue"):
     ax1.set_xlabel("Training environment steps (in M)", fontsize=font_size_label)
     ax1.set_ylabel("Success rate (in %)", fontsize=font_size_label)  # color=color_reward
 
-    line1, = ax1.plot(x, avg_succ_rates, color=color_1, linewidth=2, label="IQR Success Rate (25-75%)")
+    line1, = ax1.plot(x, avg_succ_rates, color=color_1, linewidth=2, label="Success Rate IQR (25-75%)")
     ax1.fill_between(x, q25, q75, alpha=0.3, color=color_1)
+    ax1.fill_between(x, minimum, maximum, alpha=0.1, color=color_1)
 
     ax1.tick_params(axis="y", labelsize=font_size_axis_ticks) #labelcolor=color_reward
     ax1.tick_params(axis="x", labelsize=font_size_axis_ticks) #labelcolor=color_reward
