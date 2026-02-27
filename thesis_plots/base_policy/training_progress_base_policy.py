@@ -53,7 +53,8 @@ def plot_training_progress(file_path):
     best_policy_timesteps = timesteps[np.where(per_step_reward == max(per_step_reward[np.where(succ_rates == 100)]))]
     print(f"best per-step reward at a 100% run at timesteps: {best_policy_timesteps}")
 
-    fig, ax1 = plt.subplots(figsize=(8, 4))
+    fig, ax1 = plt.subplots(figsize=(6, 5))
+    
 
     # --- Left y-axis: Mean Reward ---
     color_reward = "steelblue"
@@ -88,5 +89,5 @@ def plot_training_progress(file_path):
 
 # plot_training_progress("runs/base_lidar_gait_height_resistant/logs/slurm.79912.krater07.out")
 
-# plot_training_progress("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/slurm.79905.krater08.out")
-plot_training_progress("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/slurm.79906.krater09.out")
+plot_training_progress("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/slurm.79905.krater08.out")
+# plot_training_progress("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/slurm.79906.krater09.out")

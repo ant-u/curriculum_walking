@@ -141,3 +141,41 @@ class DoubleLogPlot(DoubleLinePlot):
         self.ax.xaxis.set_major_locator(FixedLocator(x))
         self.ax.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
         return super().update_with_x(data, data2, x, y_lim)
+    
+
+class CleanDoublePlot:
+
+    def __init__(self, x, y1, y2, title, label_y1, label_y2, x_label, y_label, x_lim=[None, None], y_lim=[None, None], legend_pos="upper left",
+                 color_1="steelblue", color_2="coral"):
+        font_size_title = 14
+        font_size_label = 12
+        font_size_legend = 10
+
+        self.fig, self.ax1 = plt.subplots(figsize=(8, 4))
+        self.ax1.set_xlabel(x_label, fontsize=font_size_label)
+        self.ax1.set_ylabel(y_label, fontsize=font_size_label)  # color=color_1
+        line1, = self.ax1.plot(x, y1, color=color_1, linewidth=2, label=label_y1)
+        # ax1.tick_params(axis="y", labelcolor=color_1)
+        if x_lim[0] is not None or x_lim[1] is not None:
+            self.ax1.set_xlim(left=x_lim[0], right=x_lim[1])
+        if y_lim[0] is not None or y_lim[1] is not None:
+            self.ax1.set_ylim(bottom=y_lim[0], top=y_lim[1])
+
+        line2, = self.ax1.plot(x, y2, color=color_2, linewidth=2, label=label_y2)  #linestyle="--"
+        # ax2.tick_params(axis="y", labelcolor=color_2)
+        # ax2.set_ylim(bottom=0, top=2100)
+
+        lines = [line1, line2]
+        labels = [l.get_label() for l in lines]
+        self.ax1.legend(lines, labels, loc=legend_pos, fontsize=font_size_legend)
+        plt.title(title, fontsize=font_size_title) #, fontweight="bold")
+        # self.ax1.set_xticks(ticks=x_positions, labels=alphas)
+        # ax1.set_xlim(min(x), max(x))
+        # ax1.set_xscale('log')
+        # ax1.xaxis.set_major_locator(FixedLocator(x))
+        # ax1.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
+        self.fig.tight_layout()
+        plt.show()
+
+    def save(self, save_path):
+        self.fig.savefig(save_path)
