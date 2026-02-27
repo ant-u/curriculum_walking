@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 774.7991107,
+    "n_eval_episodes": 10,
+    "timesteps": 300000000.0,
+    "obs_shape": [
+        377
+    ],
+    "message": "experiment accel & lrn: using height-resistant base policy, and init_upper of 0.5, 0.1,0.1, 0.15,0.15. and lrn at 5e-5, no stab. lidar, 0.4 foot torso dist, falling_punishment -10",
+    "running_time": "3 days, 16:39:16.960062",
+    "based_on": "runs/base_lidar_gait_height_resistant"
+}
