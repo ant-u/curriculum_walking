@@ -14,7 +14,7 @@ def create_eval_plot_flat(path, name):
 
     fig, ax1 = plt.subplots(figsize=(6, 5))
     color_reward = "steelblue"
-    ax1.set_xlabel("Training Environment Steps (in M)", fontsize=20)
+    ax1.set_xlabel("Training environment steps (in M)", fontsize=20)
     ax1.set_ylabel("Ratio (in %)", fontsize=20)  # color=color_reward
     line1, = ax1.plot(x, y_prog, color=color_reward, linewidth=2, label="Mean Progress")
     ax1.tick_params(axis="y", labelsize=16) #labelcolor=color_reward

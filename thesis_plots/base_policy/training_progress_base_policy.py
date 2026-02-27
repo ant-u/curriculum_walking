@@ -58,7 +58,7 @@ def plot_training_progress(file_path):
 
     # --- Left y-axis: Mean Reward ---
     color_reward = "steelblue"
-    ax1.set_xlabel("Training Environment Steps (in M)", fontsize=12)
+    ax1.set_xlabel("Training environment steps (in M)", fontsize=12)
     ax1.set_ylabel("Mean Reward", color=color_reward, fontsize=12)
     line1, = ax1.plot(timesteps, rewards, color=color_reward, linewidth=2, label="Mean Reward")
     ax1.tick_params(axis="y", labelcolor=color_reward)
@@ -81,7 +81,7 @@ def plot_training_progress(file_path):
     plt.title("Training Progress of Base Policy", fontsize=14) #, fontweight="bold")
     fig.tight_layout()
     # plt.savefig("training_progress.png", dpi=150)
-    # plt.savefig("thesis/plots/training_progress_base_policy.pdf")
+    # plt.savefig("thesis_plots/base_policy/training_progress_base_policy.pdf")
     # plt.savefig("thesis/plots/training_progress_base_policy.svg")
     plt.show()
     

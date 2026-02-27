@@ -22,10 +22,12 @@ def get_succ_rates_for_buffer(buffer_log_path):
     return buffer_succ_r
 
 
-def create_succ_r_plot(buffer_log_path, save_path):
+def create_succ_r_plot(buffer_log_path, save_path, color_1="steelblue"):
     succ_rates = get_succ_rates_for_buffer(buffer_log_path)
 
-    avg_succ_rates = [100*sum(s)/len(s) for s in succ_rates]
+    avg_succ_rates = [100*np.mean(s) for s in succ_rates]
+    q25 = [100*np.quantile(s, 0.25) for s in succ_rates]
+    q75 = [100*np.quantile(s, 0.75) for s in succ_rates]
     x = np.linspace(0, 300, len(avg_succ_rates))
 
     font_size_axis_ticks = 14
@@ -34,14 +36,12 @@ def create_succ_r_plot(buffer_log_path, save_path):
     font_size_legend = 14
 
     fig, ax1 = plt.subplots(figsize=(6, 5))
-    color_1 = "steelblue"
-    color_ep = "coral"
 
-    ax1.set_xlabel("Buffer Updates", fontsize=font_size_label)
-    ax1.set_ylabel("Difficulty (in %)", fontsize=font_size_label)  # color=color_reward
+    ax1.set_xlabel("Training environment steps (in M)", fontsize=font_size_label)
+    ax1.set_ylabel("Success rate (in %)", fontsize=font_size_label)  # color=color_reward
 
-    color_1 = "steelblue"
-    line1, = ax1.plot(x, avg_succ_rates, color=color_1, linewidth=2, label="dings")
+    line1, = ax1.plot(x, avg_succ_rates, color=color_1, linewidth=2, label="IQR Success Rate (25-75%)")
+    ax1.fill_between(x, q25, q75, alpha=0.3, color=color_1)
 
     ax1.tick_params(axis="y", labelsize=font_size_axis_ticks) #labelcolor=color_reward
     ax1.tick_params(axis="x", labelsize=font_size_axis_ticks) #labelcolor=color_reward
@@ -51,7 +51,7 @@ def create_succ_r_plot(buffer_log_path, save_path):
 
     lines = [line1]
     labels = [l.get_label() for l in lines]
-    ax1.legend(lines, labels, loc="center left", fontsize=font_size_legend)
+    ax1.legend(lines, labels, loc="upper right", fontsize=font_size_legend)
     # plt.title(f'Buffer Evolution', fontsize=font_size_title) #, fontweight="bold")
 
     fig.tight_layout()
@@ -60,9 +60,5 @@ def create_succ_r_plot(buffer_log_path, save_path):
     plt.show()
 
 
-
-    
-
-
-create_succ_r_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_a.pdf")
-create_succ_r_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_b.pdf")
+create_succ_r_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_a.pdf", "salmon")
+create_succ_r_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_b.pdf", "green")

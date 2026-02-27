@@ -61,7 +61,7 @@ def create_double_plot(base_path1, base_path2, save_path):
     y_1_adapted = np.array(longer_one) * 100
     y_2_adapted = np.array(shorter_one) * 100
     plot = CleanDoublePlot(x, y_1_adapted, y_2_adapted, "", #"General Obstacle Capability"
-                           "Experiment A", "Experiment B", "Training Environment steps (in M)", "Progress (in %)",
+                           "Experiment A", "Experiment B", "Training environment steps (in M)", "Progress (in %)",
                            x_lim=[0, 300], y_lim=[0, 20], legend_pos="lower center", color_1="salmon", color_2="green")
     print(f"y1 max: {max(y1)}")
     print(f"timestep: {x1[np.where(y1 == max(y1))[0][0]]}")
