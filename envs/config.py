@@ -8,7 +8,7 @@ PPO_CONFIG = {
     "n_steps": 8192,
     "batch_size": 512,  # was 256
     "clip_range": 0.1,  # was 0.15
-    "ent_coef": 0.005,  # was 0.01
+    "ent_coef": 0.003,  # was 0.01
     "vf_coef": 0.5,  # was 1
     "gamma": 0.99,  # default
     "gae_lambda": 0.95,  # was 0.9
