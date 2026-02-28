@@ -95,9 +95,11 @@ def create_double_plot(base_path1, base_path2, save_path):
 # create_general_cap_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125")
 # create_general_cap_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206")
 
+# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231")
+# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-154549")
+# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-232323")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150")
-# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231")
 
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
@@ -109,7 +111,7 @@ def create_double_plot(base_path1, base_path2, save_path):
 # make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350")
 # make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621")
 # make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918")
-make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601")
+# make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601")
 
 
 # create_double_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125", 
