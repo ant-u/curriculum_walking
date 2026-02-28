@@ -169,17 +169,17 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
 
-cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853",
-                            "checkpoints/ckpt_39870000_steps.zip", "checkpoints/ckpt_vecnormalize_39870000_steps.pkl", 
-                            "runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853/eval",
-                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
-
-# cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
-#                             "checkpoints/ckpt_38184000_steps.zip", "checkpoints/ckpt_vecnormalize_38184000_steps.pkl",
-#                             "runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval",
+# cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853",
+#                             "checkpoints/ckpt_39870000_steps.zip", "checkpoints/ckpt_vecnormalize_39870000_steps.pkl", 
+#                             "runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853/eval",
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+
+cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
+                            "checkpoints/ckpt_38184000_steps.zip", "checkpoints/ckpt_vecnormalize_38184000_steps.pkl",
+                            "runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
 # -------- exp D: ---------------
 # cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
