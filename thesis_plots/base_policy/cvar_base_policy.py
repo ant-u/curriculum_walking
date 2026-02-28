@@ -86,7 +86,47 @@ def correct_cvar_plot(path, save_path):
     plt.show()
     print(f"max success rate: {y_succ_r[-1]}")
     print(f"levels with non zero success: {len([lvl for lvl in levels if lvl.succ_r > 0])}")
+    print("  --  ")
 
 # correct_cvar_plot("runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl", "thesis_plots/base_policy/cvar_base_policy.pdf")
-correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a.pdf")
+# correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a.pdf")
 # correct_cvar_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_b.pdf")
+
+# ---- exp C: ----
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/ckpt_12210000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/ckpt_12210000_cvar_evaluation.pdf")
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/ckpt_280950000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/ckpt_280950000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-154549/eval/ckpt_273360000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-154549/eval/ckpt_273360000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-232323/eval/ckpt_244710000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-232323/eval/ckpt_244710000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853/eval/ckpt_39870000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853/eval/ckpt_39870000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_c_lr5e-05_seed0_20260223-154150_ckpt_38184000_cvar_evaluation.pdf")  # best one for c
+# ---- exp D: ----
+# correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329/eval/best_model_easy_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval/best_model_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval/best_model.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_lr5e-05_seed0_20260223-154623_easy_best_model_42m_steps_cvar_evaluation.pdf")  # best one for d
+
+# ---- exp E: ----
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/best_model_cvar_evaluation.pdf")
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_lr3e-05_seed0_20260223-161618_ckpt_19650000_cvar_evaluation.pdf") # best one for e
+
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/best_model_cvar_evaluation.pdf")
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/ckpt_37920000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/ckpt_37920000_cvar_evaluation.pdf")
+
+# ---- exp F: ----
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_192960000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_192960000_cvar_evaluation.pdf")
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_f_lr1e-04_seed0_20260224-120350_ckpt_297270000_cvar_evaluation.pdf") # best one for f
+
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621/eval/best_model_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval/ckpt_50610000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval/ckpt_50610000_cvar_evaluation.pdf")
+
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval/ckpt_49464000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval/ckpt_49464000_cvar_evaluation.pdf")
