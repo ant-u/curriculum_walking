@@ -256,15 +256,15 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
-cvar_with_predefined_levels("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918",
-                            "checkpoints/ckpt_50610000_steps.zip", "checkpoints/ckpt_vecnormalize_50610000_steps.pkl", 
-                            "runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval",
-                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
-
-# cvar_with_predefined_levels("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601",
-#                             "checkpoints/ckpt_49464000_steps.zip", "checkpoints/ckpt_vecnormalize_49464000_steps.pkl", 
-#                             "runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval",
+# cvar_with_predefined_levels("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918",
+#                             "checkpoints/ckpt_50610000_steps.zip", "checkpoints/ckpt_vecnormalize_50610000_steps.pkl", 
+#                             "runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval",
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
+cvar_with_predefined_levels("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601",
+                            "checkpoints/ckpt_49464000_steps.zip", "checkpoints/ckpt_vecnormalize_49464000_steps.pkl", 
+                            "runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
