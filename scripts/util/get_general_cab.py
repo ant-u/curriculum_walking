@@ -19,16 +19,24 @@ def create_general_cap_plot(base_path):
 
 
     x = all_data[0]['time_steps']
-    y = np.zeros(len(x))
+    y_prog = np.zeros(len(x))
+    y_succ = np.zeros(len(x))
     all_data.pop(5)
     
     for timestep in range(0, len(x)):
         obst_avg = 0
+        succ_r_avg = 0
         for level in range(0, len(all_data)):
             obst_avg += np.mean(all_data[level]['total_runs'][timestep])
+            if level == 0:
+                succ_r_avg += all_data[level]['succ_r'][timestep] * 2
+            else:
+                succ_r_avg += all_data[level]['succ_r'][timestep]
         obst_avg /= len(all_data)
-        y[timestep] = obst_avg
-    return x, y
+        y_prog[timestep] = obst_avg
+        succ_r_avg /= len(all_data)
+        y_succ[timestep] = succ_r_avg
+    return x, y_prog, y_succ
     # plot = Plot("General Obstacle Capability", "Time Steps", "Progress", "avg. prog. on eval levels")
     # plot.update_with_x(y, x)
     # plot.save(os.path.join(base_path, "eval", "general_cabability.svg"))
@@ -37,19 +45,28 @@ def create_general_cap_plot(base_path):
 
 
 def make_single_plot(base_path):
-    x, y = create_general_cap_plot(base_path)
-    plot = Plot(f"General Obstacle Cap, y_max={round(max(y),5)}, at timestep {x[np.where(y == max(y))[0][0]]}", "Time Steps", "Progress", "avg. prog. on eval levels")
-    plot.update_with_x(y, x)
+    x, y_prog, y_succ = create_general_cap_plot(base_path)
+    plot = CleanDoublePlot(x, y_prog, y_succ, f"General Obstacle Cap, y_max={round(max(y_prog),5)}, at timestep {x[np.where(y_prog == max(y_prog))[0][0]]}", "prog", "succ_r", "Time steps", "Progress")
+
+    # plot = Plot(f"General Obstacle Cap, y_max={round(max(y_prog),5)}, at timestep {x[np.where(y_prog == max(y_prog))[0][0]]}", "Time Steps", "Progress", "avg. prog. on eval levels")
+    # plot.update_with_x(y_prog, x)
     save_path = os.path.join(base_path, "eval", "general_cabability.svg")
     os.makedirs(os.path.join(base_path, "eval"), exist_ok=True)
     plot.save(save_path)
-    print(f"y max: {max(y)}")
-    print(f"timestep: {x[np.where(y == max(y))[0][0]]}")
+    print(f"progress y max: {max(y_prog)}")
+    print(f"progress timestep: {x[np.where(y_prog == max(y_prog))[0][0]]}")
+    print(f"succ_r y max: {max(y_succ)}")
+    print(f"succ_r timestep: {x[np.where(y_succ == max(y_succ))[0][0]]}")
+    a = y_succ.copy()
+    a.sort()
+    for b in range(1, 6):
+        print(x[np.where(y_succ == a[-b])[0][0]])
+
 
 
 def create_double_plot(base_path1, base_path2, save_path):
-    x1, y1 = create_general_cap_plot(base_path1)
-    x2, y2 = create_general_cap_plot(base_path2)
+    x1, y1, _ = create_general_cap_plot(base_path1)
+    x2, y2, _ = create_general_cap_plot(base_path2)
 
     if len(y1) != len(y2):
         longer_one = y1 if len(y1) > len(y2) else y2
@@ -80,20 +97,20 @@ def create_double_plot(base_path1, base_path2, save_path):
 
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150")
+# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231")
 
+# make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
-# make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
+make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
 
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618")
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353")
 
 # make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918")
 # make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601")
+# make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350")
+# make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621")
 
-make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231")
-make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
-make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350")
-make_single_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621")
 
 # create_double_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125", 
                 #    "runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206",

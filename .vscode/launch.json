@@ -69,6 +69,15 @@
             "module": "scripts.util.correct_plots",
             "cwd": "${workspaceFolder}",
             "args": ""
+        },
+        {
+            "name": "get_general_cab",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.util.get_general_cab",
+            "cwd": "${workspaceFolder}",
+            "args": ""
         }
+
     ]
 }

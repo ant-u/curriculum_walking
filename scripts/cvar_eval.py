@@ -118,10 +118,10 @@ def cvar_eval(path, ppo_path, vec_env_path, save_path, N: int, alphas: float, n_
         y_succ_r[i] = mean_succ_r
         y_prog[i] = mean_prog
 
-    plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes", "alpha", "Success rate", "Success rate", "Average Progress")
+    plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes for {ppo_path.split("/")[-1]}", "alpha", "Success rate", "Success rate", "Average Progress")
     plot.update_with_x(y_succ_r, y_prog, x)
-    plot.save(os.path.join(save_path, "cvar_evaluation.svg"))
-    with open(os.path.join(save_path, "cvar_buffer_dump.pkl"), "wb") as f:
+    plot.save(os.path.join(save_path, f"{ppo_path.split("/")[-1]}_cvar_evaluation.svg"))
+    with open(os.path.join(save_path, f"{ppo_path.split("/")[-1]}_cvar_buffer_dump.pkl"), "wb") as f:
         pickle.dump({'levels': levels, 'x': x, 'y_succ': y_succ_r, 'y_prog': y_prog}, f)
 
 def cvar_with_predefined_levels(path, ppo_path, vec_env_path, save_path, level_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0):
@@ -144,11 +144,11 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval",
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
-cvar_with_predefined_levels("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125",
-                            "checkpoints/ckpt_160008000_steps", "checkpoints/ckpt_vecnormalize_160008000_steps.pkl", 
-                            "runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/2nd_try_160M",
-                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+# cvar_with_predefined_levels("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125",
+#                             "checkpoints/ckpt_160008000_steps", "checkpoints/ckpt_vecnormalize_160008000_steps.pkl", 
+#                             "runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/2nd_try_160M",
+#                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
 # cvar_with_predefined_levels("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206",
 #                             "checkpoints/ckpt_217368000_steps", "checkpoints/ckpt_vecnormalize_217368000_steps.pkl", 
 #                             "runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval",
@@ -156,3 +156,47 @@ cvar_with_predefined_levels("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
 # get_init_buffer_plot("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 100, 0.1, 20)
+
+# -------- exp c: ---------------
+# cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231",
+#                             "checkpoints/ckpt_12210000_steps.zip", "checkpoints/ckpt_vecnormalize_12210000_steps.pkl", 
+#                             "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/",
+#                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231",
+                            "checkpoints/ckpt_280950000_steps.zip", "checkpoints/ckpt_vecnormalize_280950000_steps.pkl", 
+                            "runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+
+cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853",
+                            "checkpoints/ckpt_39870000_steps.zip", "checkpoints/ckpt_vecnormalize_39870000_steps.pkl", 
+                            "runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)  
+
+cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
+                            "checkpoints/ckpt_38184000_steps.zip", "checkpoints/ckpt_vecnormalize_38184000_steps.pkl",
+                            "runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
+# -------- exp D: ---------------
+cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
+                            "checkpoints/ckpt_28110000_steps.zip", "checkpoints/ckpt_vecnormalize_28110000_steps.pkl",
+                            "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
+cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329",
+                            "checkpoints/easy/best_model.zip", "checkpoints/easy/best_vecnormalize_stats.pkl", 
+                            "runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
+cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623",
+                            "checkpoints/easy/best_model.zip", "easy/best_vecnormalize_stats.pkl",
+                            "runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
