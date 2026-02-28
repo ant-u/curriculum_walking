@@ -63,5 +63,11 @@ def create_succ_r_plot(buffer_log_path, save_path, color_1="steelblue"):
     plt.show()
 
 
-create_succ_r_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_a.pdf", "salmon")
-create_succ_r_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_b.pdf", "green")
+# create_succ_r_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_a.pdf", "salmon")
+# create_succ_r_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/buffer_succ_r_evolution_b.pdf", "green")
+
+# create_succ_r_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/plots/exp_c_buffer_succ_r_evol.pdf", "salmon")
+# create_succ_r_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/plots/exp_d_buffer_succ_r_evol.pdf", "green")
+
+create_succ_r_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/plots/exp_c_2_buffer_succ_r_evol.pdf", "salmon")
+create_succ_r_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/logs/buffer/buffer_logs.txt", "thesis_plots/experiments/plots/exp_d_2_buffer_succ_r_evol.pdf", "green")

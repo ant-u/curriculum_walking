@@ -47,7 +47,7 @@ def correct_buffer_plot(buffer_path, save_path):
 
     lines = [line1, line2, line3, line4, line5]
     labels = [l.get_label() for l in lines]
-    ax1.legend(lines, labels, loc="center left", fontsize=font_size_legend)
+    ax1.legend(lines, labels, loc="upper right", fontsize=font_size_legend)
     # plt.title(f'Buffer Evolution', fontsize=font_size_title) #, fontweight="bold")
 
     fig.tight_layout()
@@ -56,5 +56,11 @@ def correct_buffer_plot(buffer_path, save_path):
     plt.show()
 
 
-correct_buffer_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer", "thesis_plots/experiments/buffer_difficulty_ratios_exp_a.pdf")
-correct_buffer_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer", "thesis_plots/experiments/buffer_difficulty_ratios_exp_b.pdf")
+# correct_buffer_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/buffer", "thesis_plots/experiments/buffer_difficulty_ratios_exp_a.pdf")
+# correct_buffer_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/buffer", "thesis_plots/experiments/buffer_difficulty_ratios_exp_b.pdf")
+
+# correct_buffer_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/logs/buffer", "thesis_plots/experiments/plots/exp_c_buffer_diff_ratios.pdf")
+# correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/logs/buffer", "thesis_plots/experiments/plots/exp_d_buffer_diff_ratios.pdf")
+
+correct_buffer_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/logs/buffer", "thesis_plots/experiments/plots/exp_c_2_buffer_diff_ratios.pdf")
+correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/logs/buffer", "thesis_plots/experiments/plots/exp_d_2_buffer_diff_ratios.pdf")

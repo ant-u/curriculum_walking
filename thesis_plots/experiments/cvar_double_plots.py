@@ -69,7 +69,7 @@ def correct_cvar_plot(path, save_path):
     ax1.tick_params(axis="y", labelsize=font_size_axis_ticks) #labelcolor=color_reward
     ax1.tick_params(axis="x", labelsize=font_size_axis_ticks) #labelcolor=color_reward
     # ax1.tick_params(axis="y", labelcolor=color_reward)
-    ax1.set_ylim(bottom=-0.1, top=25)
+    ax1.set_ylim(bottom=-0.1)
     ax1.set_xlim(left=-0.1, right=1)
 
     color_ep = "coral"
@@ -94,9 +94,10 @@ def correct_cvar_plot(path, save_path):
     print(f"levels with non zero success: {len([lvl for lvl in levels if lvl.succ_r > 0])}")
 
 # correct_cvar_plot("runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl", "thesis_plots/base_policy/cvar_base_policy.pdf")
-correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a.pdf")
-correct_cvar_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_b.pdf")
+# correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a.pdf")
 # correct_cvar_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_b.pdf")
+# correct_cvar_plot("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/eval/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_b.pdf")
+# correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/2nd_try_160M/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a_160m.pdf")
 
-
-correct_cvar_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/eval/2nd_try_160M/cvar_buffer_dump.pkl", "thesis_plots/experiments/cvar_exp_a_160m.pdf")
+correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_c_lr5e-05_seed0_20260223-154150_ckpt_38184000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval/best_model.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_lr5e-05_seed0_20260223-154623_easy_best_model_42m_steps_cvar_evaluation.pdf")
