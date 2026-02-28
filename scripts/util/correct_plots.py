@@ -5,7 +5,7 @@ from scripts.util.plot import DoubleLinePlot, FiveLinePlot
 
 
 def main():
-    base_path = "runs/hyperparams-tests/humanoidenvcurr_ppo_lr1e-04_seed0_20260220-172512"
+    base_path = "runs/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-232323"
     logs_path = os.path.join(base_path, "logs")
 
     sub_folders = ["easy", "extrem", "gaps", "hard", "medium", "plain", "slabs", "stairs", "stumps"]
