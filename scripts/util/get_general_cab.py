@@ -105,7 +105,7 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150")
 
-make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
+# make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
 
@@ -132,3 +132,8 @@ make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-1
 #                    "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
 #                    "thesis_plots/experiments/plots/exp_c_d_alternatives_general_cap.pdf",
 #                    ["Experiment C (alt. conf.)", "Experiment D (alt. conf.)"])
+
+create_double_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618",
+                   "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350",
+                   "thesis_plots/experiments/plots/exp_e_f_general_cap.pdf",
+                   ["Experiment E", "Experiment F"])

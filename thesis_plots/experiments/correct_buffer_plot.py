@@ -62,5 +62,8 @@ def correct_buffer_plot(buffer_path, save_path):
 # correct_buffer_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/logs/buffer", "thesis_plots/experiments/plots/exp_c_buffer_diff_ratios.pdf")
 # correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/logs/buffer", "thesis_plots/experiments/plots/exp_d_buffer_diff_ratios.pdf")
 
-correct_buffer_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/logs/buffer", "thesis_plots/experiments/plots/exp_c_2_buffer_diff_ratios.pdf")
-correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/logs/buffer", "thesis_plots/experiments/plots/exp_d_2_buffer_diff_ratios.pdf")
+# correct_buffer_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/logs/buffer", "thesis_plots/experiments/plots/exp_c_2_buffer_diff_ratios.pdf")
+# correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/logs/buffer", "thesis_plots/experiments/plots/exp_d_2_buffer_diff_ratios.pdf")
+
+# correct_buffer_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/logs/buffer", "thesis_plots/experiments/plots/exp_e_buffer_diff_ratios.pdf")
+correct_buffer_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/logs/buffer", "thesis_plots/experiments/plots/exp_f_buffer_diff_ratios.pdf")
