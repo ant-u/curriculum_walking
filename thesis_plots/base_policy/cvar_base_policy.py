@@ -107,7 +107,8 @@ correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-
 correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_c_lr5e-05_seed0_20260223-154150_ckpt_38184000_cvar_evaluation.pdf")  # best one for c
 # ---- exp D: ----
 # correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_cvar_evaluation.pdf")
-correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_2_lr1e-04_seed0_20260224-100512_ckpt_28110000_cvar_evaluation.pdf")  # alternative for d
+# correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_28110000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_2_lr1e-04_seed0_20260224-100512_ckpt_28110000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_261450000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_2_lr1e-04_seed0_20260224-100512_ckpt_261450000_cvar_evaluation.pdf")  # alternative for d
 
 # correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329/eval/best_model_easy_cvar_evaluation.pdf")
 
