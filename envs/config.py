@@ -8,7 +8,7 @@ PPO_CONFIG = {
     "n_steps": 8192,
     "batch_size": 512,  # was 256
     "clip_range": 0.1,  # was 0.15
-    "ent_coef": 0.003,  # was 0.01
+    "ent_coef": 0.005,  # was 0.01
     "vf_coef": 0.5,  # was 1
     "gamma": 0.99,  # default
     "gae_lambda": 0.95,  # was 0.9
@@ -58,8 +58,8 @@ CURR_CONFIG = {
     "buffer_init_upper_cap": [0.45, 0.07, 0.07, 0.1, 0.1],
     "level_metric": "lrn",  # "lrn" (learnability, 1*(1-p), or "reg" based on PVL 
     "mutation_usage": False,  # True for ACCEL-like (with mutation), false for no mutation -> PLR-like
-    "mutation_edit_size": [0.0, 0.1],  # range for one param to be mutated
-    "mutation_number": 3,  # number of params that can be mutated at once
+    "mutation_edit_size": [-0.03, 0.03],  # range for one param to be mutated
+    "mutation_number": 2,  # number of params that can be mutated at once
     "replay_decision_distribution": [0.5, 0.5],  # [discover, replay], default 0.1 0.9
     "seed": None,  # Seed for CurrManager
     "selection_temp": 0.5,  # temp for selection of levels, high temp uniform sampling, low temp high likelyhood only for high regret levels 
