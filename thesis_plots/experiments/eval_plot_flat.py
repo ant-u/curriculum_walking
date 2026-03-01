@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 
-def create_eval_plot_flat(path, name):
+def create_eval_plot_flat(path, save_path):
     with open(path, "rb") as f: 
         data = pickle.load(f)
 
@@ -37,9 +37,12 @@ def create_eval_plot_flat(path, name):
     # ax1.xaxis.set_major_locator(FixedLocator(x))
     # ax1.xaxis.set_major_formatter(FixedFormatter([str(v) for v in x]))
     fig.tight_layout()
-    plt.savefig(f"thesis_plots/experiments/{name}.pdf")
+    plt.savefig(save_path)
     # plt.savefig("thesis/plots/training_progress_base_policy.svg")
     plt.show()
 
-create_eval_plot_flat("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/plain/eval_results.pkl", "eval_plot_flat_exp_A")
-create_eval_plot_flat("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/plain/eval_results.pkl", "eval_plot_flat_exp_B")
+# create_eval_plot_flat("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125/logs/plain/eval_results.pkl", "thesis_plots/experiments/eval_plot_flat_exp_A.pdf")
+# create_eval_plot_flat("runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206/logs/plain/eval_results.pkl", "thesis_plots/experiments/eval_plot_flat_exp_B.pdf")
+
+# create_eval_plot_flat("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/logs/easy/eval_results.pkl", "thesis_plots/experiments/plots/exp_f_easy_eval.pdf")
+create_eval_plot_flat("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/logs/medium/eval_results.pkl", "thesis_plots/experiments/plots/exp_f_medium_eval.pdf")
