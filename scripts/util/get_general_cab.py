@@ -103,9 +103,9 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-154549")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-232323")
 # make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-160853")
-make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150")
+# make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150")
 
-# make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
+make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
 
@@ -123,12 +123,12 @@ make_single_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-1
                 #    "thesis_plots/experiments/gen_capab_a_and_b.pdf",
                 #   ["Experiment A", "Experiment B"])
 
-create_double_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
-                   "runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623",
-                   "thesis_plots/experiments/plots/exp_c_d_general_cap.pdf",
-                   ["Experiment C", "Experiment D"])
+# create_double_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
+#                    "runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623",
+#                    "thesis_plots/experiments/plots/exp_c_d_general_cap.pdf",
+#                    ["Experiment C", "Experiment D"])
 
-create_double_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231",
-                   "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
-                   "thesis_plots/experiments/plots/exp_c_d_alternatives_general_cap.pdf",
-                   ["Experiment C (alt. conf.)", "Experiment D (alt. conf.)"])
+# create_double_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231",
+#                    "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
+#                    "thesis_plots/experiments/plots/exp_c_d_alternatives_general_cap.pdf",
+#                    ["Experiment C (alt. conf.)", "Experiment D (alt. conf.)"])
