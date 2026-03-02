@@ -17,7 +17,7 @@ PPO_CONFIG = {
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 300e6,
+    "timesteps": 100e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
@@ -29,7 +29,7 @@ ENV_CONFIG = {
     "max_steps": 0,  # 0 disables max steps
     "use_lidar": True,
     "render_lidar": True,  # NOTE: is disabled during training
-    "stabilize_lidar": True,  # keep point cloud always in same orientation, not adapted to toso orienteation
+    "stabilize_lidar": False,  # keep point cloud always in same orientation, not adapted to toso orienteation
     "use_levels": True,
     "geom_z_gap": 1e-3,  # default 1e-3 to not match 0 plane and ghost geoms
     "terminate_at_x_border": 60,  # 0 disables it, midd of end platform at 60
@@ -51,7 +51,7 @@ ENV_CONFIG = {
 }
 
 CURR_CONFIG = {
-    "use_curr": True,
+    "use_curr": False,
     "buffer_size": 200,
     "buffer_init_fill_ratio": 0.2,
     "buffer_init_lower_cap": [-0.05, 0, 0, 0, 0],  # obst, slab, stairs, stump, gap
@@ -86,40 +86,45 @@ CALLBACK_CONFIG = {
                 "name": "plain",
                 "params": [0,0,0,0,0],
                 "seed": 0
+            },
+            {
+                "name": "had_eval_level",
+                "params": [1, 0.19690, 0.12998, 0.36041, 0.99],
+                "seed": 6221207345909872665
             }
-            ,{
-                "name": "slabs",
-                "params": [1, 0.4, 0, 0, 0],
-                "seed": 42
-            },{
-                "name": "stairs",
-                "params": [1, 0, 0.4, 0, 0],
-                "seed": 874
-            },{
-                "name": "stumps",
-                "params": [1, 0, 0, 0.4, 0],
-                "seed": 21  # irrelevant
-            },{
-                "name": "gaps",
-                "params": [1, 0, 0, 0, 0.5],
-                "seed": 21  # irrelevant
-            },{
-                "name": "easy",
-                "params": [0.25, 0.2, 0.2, 0.2, 0.2],
-                "seed": 54090
-            },{
-                "name": "medium",
-                "params": [0.5, 0.4, 0.4, 0.4, 0.4],
-                "seed": 799
-            },{
-                "name": "hard",
-                "params": [0.75, 0.5, 0.5, 0.5, 0.5],
-                "seed": 180
-            },{
-                "name": "extrem",
-                "params": [0.9, 0.8, 0.8, 0.8, 0.8],
-                "seed": 52
-            }
+            # ,{
+            #     "name": "slabs",
+            #     "params": [1, 0.4, 0, 0, 0],
+            #     "seed": 42
+            # },{
+            #     "name": "stairs",
+            #     "params": [1, 0, 0.4, 0, 0],
+            #     "seed": 874
+            # },{
+            #     "name": "stumps",
+            #     "params": [1, 0, 0, 0.4, 0],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "gaps",
+            #     "params": [1, 0, 0, 0, 0.5],
+            #     "seed": 21  # irrelevant
+            # },{
+            #     "name": "easy",
+            #     "params": [0.25, 0.2, 0.2, 0.2, 0.2],
+            #     "seed": 54090
+            # },{
+            #     "name": "medium",
+            #     "params": [0.5, 0.4, 0.4, 0.4, 0.4],
+            #     "seed": 799
+            # },{
+            #     "name": "hard",
+            #     "params": [0.75, 0.5, 0.5, 0.5, 0.5],
+            #     "seed": 180
+            # },{
+            #     "name": "extrem",
+            #     "params": [0.9, 0.8, 0.8, 0.8, 0.8],
+            #     "seed": 52
+            # }
         ],
     },
     "plot_callback": {

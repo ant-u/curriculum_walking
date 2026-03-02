@@ -9,7 +9,7 @@ from scripts.train import PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG
 from envs.curriculum.level_generator import LevelGenerator
 
 
-def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500, export_gif: bool = False) -> list:
+def view_vec_env(run_dir: str, display_loop: int = 50, display_steps: int = 2500, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
     - display_loop gives how many resets are done.
     - display_steps gives how many steps per episode are rendered.
@@ -19,9 +19,9 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
-        base_path = os.path.join(run_dir, "checkpoints", "plain")
-    model = PPO.load(os.path.join(base_path, "best_model"))
-    stats_path = os.path.join(base_path, "best_vecnormalize_stats.pkl")
+        base_path = os.path.join(run_dir, "checkpoints")
+    model = PPO.load(os.path.join(base_path, "ckpt_297270000_steps.zip"))
+    stats_path = os.path.join(base_path, "ckpt_vecnormalize_297270000_steps.pkl")
 
     cam_config = {
         "trackbodyid": 1,
@@ -38,7 +38,7 @@ def view_vec_env(run_dir: str, display_loop: int = 10, display_steps: int = 1500
     level_elems = gen.create_level_elements(*params, seed)
     # level_elems = gen.create_level_elements(0.84765, 0.18758, 0.95449, 0.22743, 0.35667, 5287405870979402264)
     # level_elems = gen.create_level_elements(0.78038, 0.19690, 0.12998, 0.36041, 0.75572, 6221207345909872665)
-    # level_elems = gen.create_level_elements(1, 0.19690, 0.12998, 0.36041, 0.99, 6221207345909872665)
+    level_elems = gen.create_level_elements(1, 0.19690, 0.12998, 0.36041, 0.99, 6221207345909872665)
 
     level_des = gen.calculate_element_coords(level_elems)
 

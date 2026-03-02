@@ -4,6 +4,7 @@ import os, psutil
 import time
 from datetime import timedelta
 import time
+from envs.curriculum.level_generator import LevelGenerator
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
 from envs.vec_env import load_env, make_env
@@ -28,8 +29,12 @@ def main(RUN_DIR: str, train_on_path: str, message: str):
         model = load_PPO(PPO_CONFIG, env, train_on_path, RUN_DIR)
         assert env.action_space == model.action_space and \
                env.observation_space == model.observation_space
+    
+    gen = LevelGenerator()
+    level_elems = gen.create_level_elements(1, 0.19690, 0.12998, 0.36041, 0.99, 6221207345909872665)
+    level_des = gen.calculate_element_coords(level_elems)
+    env.env_method("set_level_template", level=level_des)
 
-    # env.env_method("set_env_level_slab", x_ratio=0.8, height=0.1)
     callbacks = get_all_callbacks(CALLBACK_CONFIG, ENV_CONFIG, CURR_CONFIG, RUN_DIR, train_on_path)
     
     start_time = time.monotonic()
