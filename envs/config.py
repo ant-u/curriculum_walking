@@ -6,18 +6,18 @@ PPO_CONFIG = {
     "device": "cpu",
     "learning_rate": 1e-4,  # was 1e-4
     "n_steps": 8192,
-    "batch_size": 512,  # was 256
-    "clip_range": 0.1,  # was 0.15
-    "ent_coef": 0.005,  # was 0.01
-    "vf_coef": 0.5,  # was 1
+    "batch_size": 256,  # was 256
+    "clip_range": 0.15,  # was 0.15
+    "ent_coef": 0.01,  # was 0.01
+    "vf_coef": 1,  # was 1
     "gamma": 0.99,  # default
-    "gae_lambda": 0.95,  # was 0.9
-    "max_grad_norm": 0.4,  # was 0.3
-    "n_epochs": 10,  # was 15
+    "gae_lambda": 0.9,  # was 0.9
+    "max_grad_norm": 0.3,  # was 0.3
+    "n_epochs": 15,  # was 15
     "normalize_advantage": True,
     "verbose": 1,
     "tensorboard_log": True,
-    "timesteps": 100e6,
+    "timesteps": 150e6,
     "seed": 0,
     "partition": "Krater",  # e.g. NvidiaAll or Krater
 }
