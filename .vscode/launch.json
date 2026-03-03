@@ -77,7 +77,14 @@
             "module": "scripts.util.get_general_cab",
             "cwd": "${workspaceFolder}",
             "args": ""
+        },
+        {
+            "name": "analyze_single_obst",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "scripts.util.analyze_single_obst",
+            "cwd": "${workspaceFolder}",
+            "args": ""
         }
-
     ]
 }
