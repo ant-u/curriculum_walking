@@ -31,6 +31,7 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
         "lookat": np.array((30.0, 0.0, 2.0)),
         "elevation": -10.0,
     }
+    env_config["healthy_z_range"] = [-10, 10]
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=True,
                           default_camera_config=cam_config)
     env.venv.envs[0].env.terminate_on_x = 15
@@ -82,4 +83,4 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
 
 
 # view_vec_env("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/single_obstacle_results.pkl")
-view_vec_env("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval/single_obstacle_results.pkl")
+view_vec_env("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval/single_obstacle_results_z_range.pkl")
