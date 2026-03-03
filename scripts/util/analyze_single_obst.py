@@ -18,9 +18,12 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
     if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
-        base_path = os.path.join(run_dir, "checkpoints")
-    model = PPO.load(os.path.join(base_path, "ckpt_297270000_steps.zip"))
-    stats_path = os.path.join(base_path, "ckpt_vecnormalize_297270000_steps.pkl")
+        # base_path = os.path.join(run_dir, "checkpoints")
+        base_path = os.path.join(run_dir, "checkpoints", "plain")
+    # model = PPO.load(os.path.join(base_path, "ckpt_297270000_steps.zip"))
+    model = PPO.load(os.path.join(base_path, "best_model.zip"))
+    # stats_path = os.path.join(base_path, "best_vecnormalize_297270000_steps.pkl")
+    stats_path = os.path.join(base_path, "best_vecnormalize_stats.pkl")
 
     cam_config = {
         "trackbodyid": 1,
@@ -40,7 +43,7 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
     obstacle_types = [ElementType.SLAB, ElementType.STAIRS, ElementType.STUMP, ElementType.GAP, ElementType.SLAB, ElementType.STAIRS]
     flips = [-10, -10, -10, -10, 10, 10]
     difficulties = np.arange(21) * 5 / 100
-    tries = 100
+    tries = 1
 
     for i, type in enumerate(obstacle_types):
         print(f"analyzing {type} with ({flips[i]})")
@@ -78,5 +81,5 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
         pickle.dump({"runs": runs, "diff": difficulties, "types": ["Slab", "Stairs", "Stump", "Gap", "neg Slab", "neg Stairs"]}, f)
 
 
-view_vec_env("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/single_obstacle_results.pkl")
 # view_vec_env("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/single_obstacle_results.pkl")
+view_vec_env("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval/single_obstacle_results.pkl")
