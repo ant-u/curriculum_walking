@@ -17,7 +17,7 @@ class EvalLevel(BufferLevel):
 
 
 
-def main(path, ppo_path, vec_env_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0, levels=None):
+def main(path, ppo_path, vec_env_path, N: int, n_envs: int = 10, seed: int = 0, levels=None):
     rng = np.random.default_rng(seed)
     PPO_config, env_config, callback_config = load_configs(path)
     env_config["terminate_at_x_border"] = 60
@@ -79,8 +79,8 @@ def transform_levels_to_des(levels: List[EvalLevel]):
     return descriptions
 
 
-def get_init_buffer_plot(path, ppo_path, vec_env_path, save_path, N: int, alpha: float, n_envs: int = 10, seed: int = 0):
-    levels = main(path, ppo_path, vec_env_path, N, alpha, n_envs, seed)
+def get_init_buffer_plot(path, ppo_path, vec_env_path, save_path, N: int, n_envs: int = 10, seed: int = 0):
+    levels = main(path, ppo_path, vec_env_path, N, n_envs, seed)
     succ_rates_isolated = np.array([level.succ_r for level in levels])
     x = []
     for i in range(0,N+1):
@@ -90,14 +90,14 @@ def get_init_buffer_plot(path, ppo_path, vec_env_path, save_path, N: int, alpha:
         y[i] = len(np.where(succ_rates_isolated == x_value)[0])
     plot = Plot(f"Initial Buffer Success rates distribution for {MIN_INIT} to {MAX_INIT}", "Success rate", "Frequency", "Inital buffer with base policy")
     plot.update_with_x(y, x)
-    plot.save(os.path.join(save_path, "init_buffer_succ3.svg"))
+    plot.save(os.path.join(save_path, "init_buffer_succ2.svg"))
 
-    with open(os.path.join(save_path, "init_buffer_level_dump3.pkl"), "wb") as f:
+    with open(os.path.join(save_path, "init_buffer_level_dump2.pkl"), "wb") as f:
         pickle.dump({'levels': levels, "x": x, "y": y, "min": MIN_INIT, "max": MAX_INIT}, f)
 
 
 def cvar_eval(path, ppo_path, vec_env_path, save_path, N: int, alphas: float, n_envs: int = 10, seed: int = 0, levels=None):
-    levels = main(path, ppo_path, vec_env_path, N, alphas, n_envs, seed, levels=levels)
+    levels = main(path, ppo_path, vec_env_path, N, n_envs, seed, levels=levels)
     prog_levels = levels.copy()
     levels.sort(key=lambda x: x.succ_r)
     prog_levels.sort(key=lambda x: x.progress)
@@ -137,7 +137,14 @@ def cvar_with_predefined_levels(path, ppo_path, vec_env_path, save_path, level_p
 MIN_INIT = [0,0,0,0,0]
 MAX_INIT = [1,1,1,1,1]
 # MAX_INIT = [0.5, 0.10, 0.10, 0.15, 0.15]
+
+# MIN_INIT = [-0.05, 0,0,0,0]
+# MAX_INIT = [0.45, 0.07, 0.07, 0.1, 0.1]
 # cvar_eval("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+get_init_buffer_plot("runs/base_lidar_gait_height_resistant", 
+                     "checkpoints/plain/best_model.zip", "checkpoints/plain/best_vecnormalize_stats.pkl",
+                     "runs/base_lidar_gait_height_resistant/eval",
+                     100, 10)
 
 # -------- exp A: ---------------
 # cvar_with_predefined_levels("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125",
@@ -158,7 +165,6 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
-# get_init_buffer_plot("runs/base_lidar_gait_height_resistant", "runs/base_lidar_gait_height_resistant/eval", 100, 0.1, 20)
 
 # -------- exp c: ---------------
 # cvar_with_predefined_levels("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231",
@@ -202,11 +208,11 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval",
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
-cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
-                            "checkpoints/ckpt_261450000_steps.zip", "checkpoints/ckpt_vecnormalize_261450000_steps.pkl",
-                            "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval",
-                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+# cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512",
+#                             "checkpoints/ckpt_261450000_steps.zip", "checkpoints/ckpt_vecnormalize_261450000_steps.pkl",
+#                             "runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval",
+#                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
 # cvar_with_predefined_levels("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329",
 #                             "checkpoints/easy/best_model.zip", "checkpoints/easy/best_vecnormalize_stats.pkl", 
