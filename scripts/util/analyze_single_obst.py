@@ -14,7 +14,7 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
     - display_steps gives how many steps per episode are rendered.
     """
     PPO_config, env_config, callback_config = load_configs(run_dir)
-    render_mode = "human"
+    render_mode = None
     if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
