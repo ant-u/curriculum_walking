@@ -43,7 +43,7 @@ def view_vec_env(run_dir: str, save_path, display_steps: int = 2500) -> list:
     obstacle_types = [ElementType.SLAB, ElementType.STAIRS, ElementType.STUMP, ElementType.GAP, ElementType.SLAB, ElementType.STAIRS]
     flips = [-10, -10, -10, -10, 10, 10]
     difficulties = np.arange(21) * 5 / 100
-    tries = 1
+    tries = 100
 
     for i, type in enumerate(obstacle_types):
         print(f"analyzing {type} with ({flips[i]})")
