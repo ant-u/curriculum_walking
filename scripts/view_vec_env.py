@@ -9,7 +9,7 @@ from scripts.train import PPO_CONFIG, ENV_CONFIG, CALLBACK_CONFIG
 from envs.curriculum.level_generator import LevelGenerator
 
 
-def view_vec_env(run_dir: str, display_loop: int = 50, display_steps: int = 2500, export_gif: bool = False) -> list:
+def view_vec_env(run_dir: str, display_loop: int = 100, display_steps: int = 2500, export_gif: bool = False) -> list:
     """View vectorized env. run_dir neeeds /checkpoints and /videos.
     - display_loop gives how many resets are done.
     - display_steps gives how many steps per episode are rendered.
@@ -19,9 +19,9 @@ def view_vec_env(run_dir: str, display_loop: int = 50, display_steps: int = 2500
     if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
-        base_path = os.path.join(run_dir, "checkpoints")
-    model = PPO.load(os.path.join(base_path, "ckpt_297270000_steps.zip"))
-    stats_path = os.path.join(base_path, "ckpt_vecnormalize_297270000_steps.pkl")
+        base_path = os.path.join(run_dir, "checkpoints", "plain")
+    model = PPO.load(os.path.join(base_path, "best_model.zip"))
+    stats_path = os.path.join(base_path, "best_vecnormalize_stats.pkl")
 
     cam_config = {
         "trackbodyid": 1,
@@ -32,7 +32,7 @@ def view_vec_env(run_dir: str, display_loop: int = 50, display_steps: int = 2500
     env = load_render_env(stats_path, env_config, render_mode, width=1800, height=900, terminate_when_unhealthy=True,
                           default_camera_config=cam_config)
     gen = LevelGenerator()
-    eval_env_number = 0
+    eval_env_number = 4
     params = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["params"]
     seed = CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["seed"]
     level_elems = gen.create_level_elements(*params, seed)
@@ -73,6 +73,7 @@ def view_vec_env(run_dir: str, display_loop: int = 50, display_steps: int = 2500
     print(np.mean(all_progress))
     print(f"mean success {len(np.where(np.array(all_progress) >= 1.0)[0])}")
     print(f"best run: {max(all_progress)}")
+    print(f"used level nr {eval_env_number}: {CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["name"]}")
     return frames
 
 

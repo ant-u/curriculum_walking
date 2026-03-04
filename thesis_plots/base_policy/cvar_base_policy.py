@@ -118,7 +118,7 @@ def correct_cvar_plot(path, save_path):
 # ---- exp E: ----
 # correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/best_model_cvar_evaluation.pdf")
 # correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_cvar_evaluation.pdf")
-correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_lr3e-05_seed0_20260223-161618_ckpt_19650000_cvar_evaluation.pdf") # best one for e
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_lr3e-05_seed0_20260223-161618_ckpt_19650000_cvar_evaluation.pdf") # best one for e
 
 # correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/best_model_cvar_evaluation.pdf")
 # correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/ckpt_37920000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353/eval/ckpt_37920000_cvar_evaluation.pdf")
@@ -126,10 +126,14 @@ correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-
 # ---- exp F: ----
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_192960000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_192960000_cvar_evaluation.pdf")
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_cvar_evaluation.pdf")
-correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_f_lr1e-04_seed0_20260224-120350_ckpt_297270000_cvar_evaluation.pdf") # best one for f
+# correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_f_lr1e-04_seed0_20260224-120350_ckpt_297270000_cvar_evaluation.pdf") # best one for f
 
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621/eval/best_model.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120621/eval/best_model_cvar_evaluation.pdf")
 
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval/ckpt_50610000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161918/eval/ckpt_50610000_cvar_evaluation.pdf")
 
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval/ckpt_49464000_steps.zip_cvar_buffer_dump.pkl", "runs/result_exp_f/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155601/eval/ckpt_49464000_cvar_evaluation.pdf")
+
+
+# ---- specialist policy: ----
+correct_cvar_plot("runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142113/eval/last_model.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/spec_policy_last_model_cvar_evaluation.pdf")
