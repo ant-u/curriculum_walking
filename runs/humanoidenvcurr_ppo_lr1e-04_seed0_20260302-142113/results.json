@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 10056.3152373,
+    "n_eval_episodes": 10,
+    "timesteps": 100000000.0,
+    "obs_shape": [
+        377
+    ],
+    "message": "specialist training on hard-ish level, see evaluation config. based on best base model. Statically set in train.py",
+    "running_time": "1 day, 7:11:14.288456",
+    "based_on": "runs/base_lidar_gait_height_resistant"
+}
