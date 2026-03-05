@@ -33,11 +33,11 @@ def correct_buffer_plot(buffer_path, save_path):
 
     colors = ["green", "olive", "orange", "red", "brown"]
 
-    line1, = ax1.plot(x, y_very_easy, color=colors[0], linewidth=2, label="0 - 0,01")
-    line2, = ax1.plot(x, y_easy, color=colors[1], linewidth=2, label="0,01 - 0,02")  #linestyle="--"
-    line3, = ax1.plot(x, y_mid, color=colors[2], linewidth=2, label="0,02 - 0,04")  #linestyle="--"
-    line4, = ax1.plot(x, y_hard, color=colors[3], linewidth=2, label="0,04 - 0,1")  #linestyle="--"
-    line5, = ax1.plot(x, y_extreme, color=colors[4], linewidth=2, label="0,1 - 1,0")  #linestyle="--"
+    line1, = ax1.plot(x, y_very_easy, color=colors[0], linewidth=2, label="0 - 0.01")
+    line2, = ax1.plot(x, y_easy, color=colors[1], linewidth=2, label="0.01 - 0.02")  #linestyle="--"
+    line3, = ax1.plot(x, y_mid, color=colors[2], linewidth=2, label="0.02 - 0.04")  #linestyle="--"
+    line4, = ax1.plot(x, y_hard, color=colors[3], linewidth=2, label="0.04 - 0.1")  #linestyle="--"
+    line5, = ax1.plot(x, y_extreme, color=colors[4], linewidth=2, label="0.1 - 1.0")  #linestyle="--"
 
     ax1.tick_params(axis="y", labelsize=font_size_axis_ticks) #labelcolor=color_reward
     ax1.tick_params(axis="x", labelsize=font_size_axis_ticks) #labelcolor=color_reward
