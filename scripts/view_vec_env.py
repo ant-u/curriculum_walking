@@ -19,7 +19,7 @@ def view_vec_env(run_dir: str, display_loop: int = 100, display_steps: int = 250
     if os.path.exists(os.path.join(run_dir, "checkpoints", "best_model.zip")):
         base_path = os.path.join(run_dir, "checkpoints")
     else:
-        base_path = os.path.join(run_dir, "checkpoints", "plain")
+        base_path = os.path.join(run_dir, "checkpoints", "general")
     model = PPO.load(os.path.join(base_path, "best_model.zip"))
     stats_path = os.path.join(base_path, "best_vecnormalize_stats.pkl")
 
