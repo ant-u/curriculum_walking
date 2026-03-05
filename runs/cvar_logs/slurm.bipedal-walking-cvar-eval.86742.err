@@ -1,0 +1,31 @@
+slurmstepd-krater14: error: Unable to create TMPDIR [/tmp/user/24505]: Permission denied
+slurmstepd-krater14: error: Setting TMPDIR to /tmp
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/u/utz/source/curriculum_walking/scripts/cvar_eval.py", line 296, in <module>
+    cvar_with_predefined_levels("runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142314",
+  File "/home/u/utz/source/curriculum_walking/scripts/cvar_eval.py", line 133, in cvar_with_predefined_levels
+    cvar_eval(path, ppo_path, vec_env_path, save_path, N, alphas, n_envs, seed, levels=levels)
+  File "/home/u/utz/source/curriculum_walking/scripts/cvar_eval.py", line 123, in cvar_eval
+    plot.save(os.path.join(save_path, f"{ppo_path.split("/")[-1]}_cvar_evaluation.svg"))
+  File "/home/u/utz/source/curriculum_walking/scripts/util/plot.py", line 39, in save
+    self.fig.savefig(path)
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/figure.py", line 3490, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/backend_bases.py", line 2186, in print_figure
+    result = print_method(
+             ^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/backend_bases.py", line 2042, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+                                                                 ^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/backends/backend_svg.py", line 1340, in print_svg
+    with cbook.open_file_cm(filename, "w", encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/cbook.py", line 560, in open_file_cm
+    fh, opened = to_filehandle(path_or_file, mode, True, encoding)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u/utz/source/curriculum_walking/.venv/lib/python3.12/site-packages/matplotlib/cbook.py", line 546, in to_filehandle
+    fh = open(fname, flag, encoding=encoding)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142314/eval/last_model.zip_cvar_evaluation.svg'
