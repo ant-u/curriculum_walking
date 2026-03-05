@@ -227,6 +227,12 @@ MAX_INIT = [1,1,1,1,1]
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
 # -------- exp E: ---------------
+cvar_with_predefined_levels("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659",
+                            "checkpoints/ckpt_291420000_steps.zip", "checkpoints/ckpt_vecnormalize_291420000_steps.pkl",
+                            "runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659/eval",
+                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+
 # cvar_with_predefined_levels("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618",
 #                             "checkpoints/ckpt_19650000_steps.zip", "checkpoints/ckpt_vecnormalize_19650000_steps.pkl",
 #                             "runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval",
@@ -279,8 +285,8 @@ MAX_INIT = [1,1,1,1,1]
 #                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
 #                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
 
-cvar_with_predefined_levels("runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142113",
-                            "checkpoints/last_model.zip", "checkpoints/last_vecnormalize_stats.pkl",
-                            "runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142113/eval",
-                            "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
-                            1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)
+# cvar_with_predefined_levels("runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142113",
+#                             "checkpoints/last_model.zip", "checkpoints/last_vecnormalize_stats.pkl",
+#                             "runs/specialist_agent/humanoidenvcurr_ppo_lr1e-04_seed0_20260302-142113/eval",
+#                             "runs/base_lidar_gait_height_resistant/eval/cvar_buffer_dump.pkl",
+#                             1000, [0.1, 0.5, 1, 2, 5, 10, 25, 50, 75, 100], 10)

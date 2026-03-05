@@ -59,8 +59,9 @@ def make_single_plot(base_path):
     print(f"succ_r timestep: {x[np.where(y_succ == max(y_succ))[0][0]]}")
     a = y_succ.copy()
     a.sort()
-    for b in range(1, 6):
-        print(x[np.where(y_succ == a[-b])[0][0]])
+    x_copy = np.array(x)
+    for b in range(1, 10):
+        print(x_copy[np.where(y_succ == a[-b])[0]])
 
 
 
@@ -109,6 +110,7 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
 
+make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659")
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618")
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353")
 
@@ -133,7 +135,7 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
 #                    "thesis_plots/experiments/plots/exp_c_d_alternatives_general_cap.pdf",
 #                    ["Experiment C (alt. conf.)", "Experiment D (alt. conf.)"])
 
-create_double_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618",
-                   "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350",
-                   "thesis_plots/experiments/plots/exp_e_f_general_cap.pdf",
-                   ["Experiment E", "Experiment F"])
+# create_double_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618",
+                #    "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350",
+                #    "thesis_plots/experiments/plots/exp_e_f_general_cap.pdf",
+                #    ["Experiment E", "Experiment F"])
