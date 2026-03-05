@@ -120,6 +120,7 @@ def cvar_eval(path, ppo_path, vec_env_path, save_path, N: int, alphas: float, n_
 
     plot = DoubleLogPlot(f"CVaR evaluation with N={N} and {n_envs} episodes for {ppo_path.split("/")[-1]}", "alpha", "Success rate", "Success rate", "Average Progress")
     plot.update_with_x(y_succ_r, y_prog, x)
+    os.makedirs(save_path, exist_ok=True)
     plot.save(os.path.join(save_path, f"{ppo_path.split("/")[-1]}_cvar_evaluation.svg"))
     with open(os.path.join(save_path, f"{ppo_path.split("/")[-1]}_cvar_buffer_dump.pkl"), "wb") as f:
         pickle.dump({'levels': levels, 'x': x, 'y_succ': y_succ_r, 'y_prog': y_prog}, f)
