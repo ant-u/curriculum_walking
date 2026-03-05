@@ -1,0 +1,11 @@
+{
+    "mean_reward_eval": 8172.7620678,
+    "n_eval_episodes": 10,
+    "timesteps": 300000000.0,
+    "obs_shape": [
+        377
+    ],
+    "message": "experiment set 3 (4), plr & lrn: height-resistant base policy, init upper 0.45, 0.07, 0.07, 0.1, 0.1 and lower at obst=-0.05 for flat terrains. lrn at 1e-4 and entropy coeff at 1e-3 to reduce exploration, hopefully higher success rates, rollout size of 2500 (eval), no falling punishment, selection temp cranked up, mutation symteric at 0.03, stabilized lidar, replay dec. dist is 0.5",
+    "running_time": "3 days, 18:20:06.581528",
+    "based_on": "runs/base_lidar_gait_height_resistant"
+}
