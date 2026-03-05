@@ -70,20 +70,18 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
     x2, y2, _ = create_general_cap_plot(base_path2)
 
     if len(y1) != len(y2):
-        longer_one = y1 if len(y1) > len(y2) else y2
-        longer_one_x = x1 if len(x1) > len(x2) else x2
-        shorter_one = y2 if longer_one is y1 else y1
-        difference = len(longer_one) - len(shorter_one)
-        longer_one = longer_one[:-difference]
-        longer_one_x = longer_one_x[:-difference]
-    else:
-        longer_one = y1
-        shorter_one = y2
-        longer_one_x = x1
+        if len(y1) > len(y2):
+            difference = len(y1) - len(y2)
+            y1 = y1[:-difference]
+            x1 = x1[:-difference]
+        else:
+            difference = len(y2) - len(y1)
+            y2 = y2[:-difference]
+            x2 = x2[:-difference]
 
-    x = np.array(longer_one_x) / 1_000_000
-    y_1_adapted = np.array(longer_one) * 100
-    y_2_adapted = np.array(shorter_one) * 100
+    x = np.array(x1) / 1_000_000
+    y_1_adapted = np.array(y1) * 100
+    y_2_adapted = np.array(y2) * 100
     plot = CleanDoublePlot(x, y_1_adapted, y_2_adapted, "", #"General Obstacle Capability"
                            line_names[0], line_names[1], "Training environment steps (in M)", "Progress (in %)",
                            x_lim=[0, 300], y_lim=[0, 26], legend_pos="upper right", color_1="salmon", color_2="green")
@@ -110,7 +108,7 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161329")
 # make_single_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623")
 
-make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659")
+# make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659")
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618")
 # make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-155353")
 
@@ -121,9 +119,9 @@ make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-1
 
 
 # create_double_plot("runs/result_exp_a/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165125", 
-                #    "runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206",
-                #    "thesis_plots/experiments/gen_capab_a_and_b.pdf",
-                #   ["Experiment A", "Experiment B"])
+#                    "runs/result_exp_b/humanoidenvcurr_ppo_lr1e-04_seed0_20260222-165206",
+#                    "thesis_plots/experiments/gen_capab_a_and_b.pdf",
+#                   ["Experiment A", "Experiment B"])
 
 # create_double_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150",
 #                    "runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623",
@@ -139,3 +137,8 @@ make_single_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-1
                 #    "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350",
                 #    "thesis_plots/experiments/plots/exp_e_f_general_cap.pdf",
                 #    ["Experiment E", "Experiment F"])
+
+create_double_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659",
+                   "runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350",
+                   "thesis_plots/experiments/plots/exp_e_f_general_cap.pdf",
+                   ["Experiment E", "Experiment F"])

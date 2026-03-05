@@ -66,4 +66,5 @@ def correct_buffer_plot(buffer_path, save_path):
 # correct_buffer_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/logs/buffer", "thesis_plots/experiments/plots/exp_d_2_buffer_diff_ratios.pdf")
 
 # correct_buffer_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/logs/buffer", "thesis_plots/experiments/plots/exp_e_buffer_diff_ratios.pdf")
-correct_buffer_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/logs/buffer", "thesis_plots/experiments/plots/exp_f_buffer_diff_ratios.pdf")
+correct_buffer_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659/logs/buffer", "thesis_plots/experiments/plots/exp_e_buffer_diff_ratios.pdf")
+# correct_buffer_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/logs/buffer", "thesis_plots/experiments/plots/exp_f_buffer_diff_ratios.pdf")
