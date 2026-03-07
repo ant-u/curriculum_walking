@@ -103,7 +103,10 @@ def correct_cvar_plot(path, save_path):
 # correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154150/eval/ckpt_38184000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_c_lr5e-05_seed0_20260223-154150_ckpt_38184000_cvar_evaluation.pdf")
 # correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr5e-05_seed0_20260223-154623/eval/best_model.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_lr5e-05_seed0_20260223-154623_easy_best_model_42m_steps_cvar_evaluation.pdf")
 
+correct_cvar_plot("runs/result_exp_c/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100231/eval/ckpt_280950000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_c_2_lr1e-04_seed0_20260224-100231_ckpt_280950000_cvar_evaluation.pdf")
+correct_cvar_plot("runs/result_exp_d/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-100512/eval/ckpt_261450000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_d_2_lr1e-04_seed0_20260224-100512_ckpt_261450000_cvar_evaluation.pdf")
+
 # correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr3e-05_seed0_20260223-161618/eval/ckpt_19650000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_lr3e-05_seed0_20260223-161618_ckpt_19650000_cvar_evaluation.pdf")  # old version, not used
 
-correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659/eval/ckpt_291420000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_2_lr1e-04_seed0_20260301-103659_ckpt_291420000_cvar_evaluation.pdf")
+# correct_cvar_plot("runs/result_exp_e/humanoidenvcurr_ppo_lr1e-04_seed0_20260301-103659/eval/ckpt_291420000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_e_2_lr1e-04_seed0_20260301-103659_ckpt_291420000_cvar_evaluation.pdf")
 # correct_cvar_plot("runs/result_exp_f/humanoidenvcurr_ppo_lr1e-04_seed0_20260224-120350/eval/ckpt_297270000_steps.zip_cvar_buffer_dump.pkl", "thesis_plots/experiments/plots/exp_f_lr1e-04_seed0_20260224-120350_ckpt_297270000_cvar_evaluation.pdf")
