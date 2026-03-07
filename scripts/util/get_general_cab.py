@@ -82,7 +82,15 @@ def create_double_plot(base_path1, base_path2, save_path, line_names):
     x = np.array(x1) / 1_000_000
     y_1_adapted = np.array(y1) * 100
     y_2_adapted = np.array(y2) * 100
-    plot = CleanDoublePlot(x, y_1_adapted, y_2_adapted, "", #"General Obstacle Capability"
+
+    n_means = 3
+    n = len(x) - len(x) % n_means
+    x_red = x[:n].reshape(-1, n_means).mean(axis=1)
+    y_1_adapted_red = y_1_adapted[:n].reshape(-1, n_means).mean(axis=1)
+    y_2_adapted_red = y_2_adapted[:n].reshape(-1, n_means).mean(axis=1)
+
+
+    plot = CleanDoublePlot(x_red, y_1_adapted_red, y_2_adapted_red, "", #"General Obstacle Capability"
                            line_names[0], line_names[1], "Training environment steps (in M)", "Progress (in %)",
                            x_lim=[0, 300], y_lim=[0, 26], legend_pos="upper right", color_1="salmon", color_2="green")
     print(f"y1 max: {max(y1)}")
