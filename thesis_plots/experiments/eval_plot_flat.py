@@ -10,20 +10,26 @@ def create_eval_plot_flat(path, save_path):
     x = np.array(data['time_steps']) / 1000000
     y_succ_r = np.array(data['succ_r']) * 100
     y_prog = np.array([np.mean(prog) for prog in data['total_runs']]) * 100
+
+    n_means = 5
+    n = len(x) - len(x) % n_means
+    x_red = x[:n].reshape(-1, n_means).mean(axis=1)
+    y_succ_r_red = y_succ_r[:n].reshape(-1, n_means).mean(axis=1)
+    y_prog_red = y_prog[:n].reshape(-1, n_means).mean(axis=1)
     
 
     fig, ax1 = plt.subplots(figsize=(6, 5))
     color_reward = "steelblue"
     ax1.set_xlabel("Training environment steps (in M)", fontsize=20)
     ax1.set_ylabel("Ratio (in %)", fontsize=20)  # color=color_reward
-    line1, = ax1.plot(x, y_prog, color=color_reward, linewidth=2, label="Mean Progress")
+    line1, = ax1.plot(x_red, y_prog_red, color=color_reward, linewidth=2, label="Mean Progress")
     ax1.tick_params(axis="y", labelsize=16) #labelcolor=color_reward
     ax1.tick_params(axis="x", labelsize=16) #labelcolor=color_reward
     ax1.set_ylim(bottom=-0.5, top=100.5)
     ax1.set_xlim(left=0, right=301)
 
     color_ep = "coral"
-    line2, = ax1.plot(x, y_succ_r, color=color_ep, linewidth=2, label="Mean Success Rate")  #linestyle="--"
+    line2, = ax1.plot(x_red, y_succ_r_red, color=color_ep, linewidth=2, label="Mean Success Rate")  #linestyle="--"
     # ax2.tick_params(axis="y", labelcolor=color_ep)
     # ax2.set_ylim(bottom=0, top=2100)
 
