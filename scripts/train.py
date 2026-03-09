@@ -1,22 +1,41 @@
+"""
+This is the file for training.
+main() is starting the training, everything else are helper functions for logging etc.
+
+Calling train.py is possible with:
+    - p (--path) for the path of a previously created directory for saving the training run (with configs etc.)
+      Needed especially for slurm system.
+    - t (--train) for path of pretrained policy to initialize the current one (continuing training). 
+      Path has to be for top-level directory of policy, and 'last_model' & 'last_vecnormalize_stats' are loaded from checkpoints
+    -m (--message) is for message string to be handed over. Only for documentation purpose.
+
+    Note, that calling train.py is always using the current config.py version automatically. 
+"""
+
 import argparse
 import json
 import os, psutil
 import time
 from datetime import timedelta
 import time
+import yaml
+
 from envs.curriculum.level_generator import LevelGenerator
 from scripts.util.callbacks import get_all_callbacks
 from scripts.util.algorithms import get_PPO, load_PPO
 from envs.vec_env import load_env, make_env
 from envs.config import PPO_CONFIG, ENV_CONFIG, CURR_CONFIG, CALLBACK_CONFIG
-import yaml
 
 
 
 
 def main(RUN_DIR: str, train_on_path: str, message: str):
-    """main function for training. run_dir is (new) folder for saving the trained model. 
-    train_on is path to already trained model for continuing training"""
+    """main function for training. 
+    - run_dir is (new) folder for saving the trained model. 
+    - train_on is path to already trained model for continuing training
+    - message is a simple string that is added to the 'results.json' file to add note to a training run
+    """
+
     print_cpu_info()
     dump_premature_summary(message, RUN_DIR)
     ENV_CONFIG["render_lidar"] = False  # For training, rendering is irelevant
@@ -93,6 +112,7 @@ def make_run_dir(ppo_cnfg, env_cnfg, curr_cnfg, callback_cnfg):
     return run_dir
 
 def represent_list(dumper, data):
+    """format config file"""
     if any(isinstance(item, dict) for item in data):
         return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=False)
     return dumper.represent_sequence('tag:yaml.org,2002:seq', data, flow_style=True)

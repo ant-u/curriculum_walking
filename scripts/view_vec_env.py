@@ -10,9 +10,9 @@ from envs.curriculum.level_generator import LevelGenerator
 
 
 def view_vec_env(run_dir: str, display_loop: int = 100, display_steps: int = 2500, export_gif: bool = False) -> list:
-    """View vectorized env. run_dir neeeds /checkpoints and /videos.
-    - display_loop gives how many resets are done.
-    - display_steps gives how many steps per episode are rendered.
+    """View vectorized env. run_dir neeeds /checkpoints.
+    - display_loop is how many resets are done.
+    - display_steps is how many steps per episode are rendered.
     """
     PPO_config, env_config, callback_config = load_configs(run_dir)
     render_mode = "human" if not export_gif else "rgb_array"
@@ -78,6 +78,7 @@ def view_vec_env(run_dir: str, display_loop: int = 100, display_steps: int = 250
 
 
 def load_configs(run_dir: str):
+    """load configs of the given training run."""
     path = os.path.join(run_dir, "configs", "config_used.yaml")
     with open(path, 'r') as f:
         doc = yaml.safe_load_all(f)
