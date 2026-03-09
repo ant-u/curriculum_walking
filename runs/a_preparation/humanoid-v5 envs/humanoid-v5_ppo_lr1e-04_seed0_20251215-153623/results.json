@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 7132.0078125,
-    "n_eval_episodes": 5,
-    "timesteps": 17000000.0,
-    "obs_shape": [
-        378
-    ],
-    "message": "testing with n_envs 10, and partition krater"
-}

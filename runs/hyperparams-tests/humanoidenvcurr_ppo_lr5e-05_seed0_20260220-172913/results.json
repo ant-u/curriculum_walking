@@ -1,3 +1,0 @@
-{
-    "message": "ready for regret-based try with lower learning rate. changes from previous trys included, new logging, adapted reward, buffer init etc."
-}

@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 4797.10009765625,
-    "n_eval_episodes": 5,
-    "timesteps": 25000000.0,
-    "obs_shape": [
-        378
-    ],
-    "message": "halfed hmap sensor data size, finding out if walking becomes more stable with smaller number of sensor points"
-}

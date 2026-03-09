@@ -1,9 +1,0 @@
-{
-    "mean_reward_eval": 5220.0087890625,
-    "n_eval_episodes": 5,
-    "timesteps": 25000000.0,
-    "obs_shape": [
-        348
-    ],
-    "message": "Testing capability without hmap sensor"
-}

@@ -1,3 +1,0 @@
-{
-    "message": "buffer init ratio to 0.5, max_diff to 0.2 for all params except obstacle, hoping init. more difficulty leads to faster progress"
-}
