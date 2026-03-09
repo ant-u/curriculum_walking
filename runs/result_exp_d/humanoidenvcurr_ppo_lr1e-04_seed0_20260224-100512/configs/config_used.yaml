@@ -43,7 +43,7 @@ ENV_CONFIG:
     use_relative_height: false
     x_forward: 4
     x_start: 0
-    xml_file: humanoid_plane.xml
+    xml_file: humanoid_curr.xml
     y_width: 1.5
 ---
 CURR_CONFIG:

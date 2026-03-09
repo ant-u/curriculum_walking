@@ -40,7 +40,7 @@ class HumanoidEnvCurr(HumanoidEnvBase):
         geom_h_z_gap = cnfg["geom_z_gap"]if hasattr(cnfg, "geom_z_gap") else 1e-3
         self.geom_handler = GeomHandler(geom_h_z_gap)
         self.current_level: LevelDescription = None
-        if path.endswith("humanoid_plane.xml"):
+        if path.endswith("humanoid_curr.xml"):
             if self.using_levels:
                 self.geom_handler.set_flat_level(self.model)
                 self.change_level_flag = False

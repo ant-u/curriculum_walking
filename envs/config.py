@@ -23,7 +23,7 @@ PPO_CONFIG = {
 }
 
 ENV_CONFIG = {
-    "xml_file": "humanoid_plane.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
+    "xml_file": "humanoid_curr.xml",  # NOTE: full name of a file in ./models. If empty / none, defaults are used
     "env_id": "HumanoidEnvCurr",  # "HumanoidEnvDefault", "HumanoidEnvBase", "HumanoidEnvCurr"
     "n_envs": 12,
     "max_steps": 0,  # 0 disables max steps
@@ -88,7 +88,7 @@ CALLBACK_CONFIG = {
                 "seed": 0
             }
             # ,{
-            #     "name": "had_eval_level",
+            #     "name": "had_eval_level",   # NOTE: specialist agent level, only used for spec. training
             #     "params": [1, 0.19690, 0.12998, 0.36041, 0.99],
             #     "seed": 6221207345909872665
             # }
