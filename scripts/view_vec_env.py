@@ -73,7 +73,8 @@ def view_vec_env(run_dir: str, display_loop: int = 100, display_steps: int = 250
     print(f"total progress: {all_progress}")
     print(np.mean(all_progress))
     print(f"mean success {len(np.where(np.array(all_progress) >= 1.0)[0])}")
-    print(f"best run: {max(all_progress)}")
+    if len(all_progress):
+        print(f"best run: {max(all_progress)}")
     print(f"used level nr {eval_env_number}: {CALLBACK_CONFIG["eval_env_conf"]["eval_levels"][eval_env_number]["name"]}")
     return frames
 
@@ -101,6 +102,8 @@ def load_configs(run_dir: str):
         
 def save_gif(run_dir: str, display_steps: int = 300):
     frames = view_vec_env(run_dir, display_loop=1, display_steps=display_steps, export_gif=True)
+    frames = np.array(frames)
+    frames = frames[::2]
     video_dir = os.path.join(run_dir, "videos")
     os.makedirs(video_dir, exist_ok=True)
     OUTPUT_GIF = os.path.join(video_dir, "gait_humanoid.gif")
