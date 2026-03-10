@@ -66,10 +66,10 @@ class BufferLevel():
 
 
 class CurriculumManager:
-    """"""
+    """main class for curriculum usage. includes level buffer, manages logic for evaluation, sampling and training."""
 
     def __init__(self, env, cnfg) -> None:
-        """buff size is general buffer size, buff_ratio is inital fill ratio of buffer."""
+        """env is the environment with which levels are used, conf the config file content."""
         self.envs: List[HumanoidEnvCurr] = [e.env for e in env.venv.envs]  # list of wrapped envs
         self.buff_size = cnfg["buffer_size"]
         self.buff_ratio = cnfg["buffer_init_fill_ratio"]
@@ -110,8 +110,6 @@ class CurriculumManager:
 
     def before_rollout(self) -> bool:
         """Decides whether training may start or only a value estimation rollout is done. True indicates training can start."""
-        # TODO: sometimes on default level to prevent catastrophic forgetting?
-        # TODO: is it good idea to always pick levels which have no regret over ones with regret? faster start maybe? or only evaluate all levels in beginning?
         self.replay_decision = bool(self.rng.choice([0,1], p=self.replay_dec_distrib))
         if self.muation_level:  # discover mutated replay level
             self.current_level = self._mutate_level(self.current_level)
